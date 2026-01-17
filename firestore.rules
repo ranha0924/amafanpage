@@ -1,0 +1,76 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 게시글 (posts)
+    match /posts/{postId} {
+      // 읽기: 누구나 가능
+      allow read: if true;
+
+      // 생성: 로그인한 사용자만
+      allow create: if request.auth != null;
+
+      // 수정: 작성자 본인이거나, 좋아요/댓글 수만 변경하는 경우
+      allow update: if request.auth != null &&
+        (
+          // 작성자 본인
+          request.auth.uid == resource.data.authorId ||
+          // 관리자
+          request.auth.token.email == 'ranha.park@gmail.com' ||
+          // 좋아요 수 또는 댓글 수만 변경하는 경우 (다른 사용자가 좋아요/댓글 달 때)
+          (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount']) ||
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount']) ||
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount', 'commentCount'])
+          )
+        );
+
+      // 삭제: 작성자 본인 또는 관리자만
+      allow delete: if request.auth != null &&
+        (request.auth.uid == resource.data.authorId ||
+         request.auth.token.email == 'ranha.park@gmail.com');
+
+      // 댓글 (comments) - 게시글의 서브컬렉션
+      match /comments/{commentId} {
+        // 읽기: 누구나 가능
+        allow read: if true;
+
+        // 생성: 로그인한 사용자만
+        allow create: if request.auth != null;
+
+        // 수정: 작성자 본인만
+        allow update: if request.auth != null &&
+          request.auth.uid == resource.data.authorId;
+
+        // 삭제: 작성자 본인 또는 관리자만
+        allow delete: if request.auth != null &&
+          (request.auth.uid == resource.data.authorId ||
+           request.auth.token.email == 'ranha.park@gmail.com');
+      }
+    }
+
+    // 좋아요 (likes)
+    match /likes/{likeId} {
+      // 읽기: 누구나 가능
+      allow read: if true;
+
+      // 생성: 로그인한 사용자가 자신의 좋아요만 생성 가능
+      allow create: if request.auth != null &&
+        request.auth.uid == request.resource.data.userId;
+
+      // 삭제: 자신의 좋아요만 삭제 가능
+      allow delete: if request.auth != null &&
+        request.auth.uid == resource.data.userId;
+    }
+
+    // 신고 (reports)
+    match /reports/{reportId} {
+      // 생성: 로그인한 사용자만
+      allow create: if request.auth != null;
+
+      // 읽기: 관리자만
+      allow read: if request.auth != null &&
+        request.auth.token.email == 'ranha.park@gmail.com';
+    }
+  }
+}

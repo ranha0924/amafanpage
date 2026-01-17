@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race Prediction - Aston Martin F1 Fan Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/ranking.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">ASTON MARTIN</span>
+                    <span class="logo-sub">ARAMCO F1 TEAM</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈페이지</a></li>
+                <li><a href="fortune.html">경기 타로</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="ranking.html" class="active">순위 예측</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer"></div>
+        </nav>
+    </header>
+
+    <section class="ranking-hero">
+        <div class="ranking-hero-content">
+            <h1>RACE PREDICTION</h1>
+            <p class="ranking-subtitle">드라이버들의 다음 레이스 순위를 예측해보세요!</p>
+            <p class="ranking-warning">* 본 예측은 재미를 위한 것이며 실제 결과와 무관합니다 *</p>
+        </div>
+    </section>
+
+    <!-- 2026 시즌 분석 섹션 -->
+    <section class="analysis-section">
+        <div class="analysis-container">
+            <h2 class="analysis-title">2026 SEASON OUTLOOK</h2>
+            <p class="analysis-subtitle">왜 애스턴마틴이 2026년에 더 강해질까요?</p>
+
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-icon">🏎️</div>
+                    <h3>에이드리언 뉴이 합류</h3>
+                    <p>F1 역사상 가장 성공적인 디자이너가 2025년 합류. 레드불에서 수많은 챔피언십 우승 머신을 설계한 뉴이의 영향력이 2026년 머신에 본격 반영됩니다.</p>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-icon">⚡</div>
+                    <h3>혼다 워크스 파트너십</h3>
+                    <p>2026년부터 혼다와 워크스 파트너십 체결. 새로운 엔진 레귤레이션에 맞춘 전용 파워유닛으로 고객팀이 아닌 팩토리팀의 지위를 얻습니다.</p>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-icon">🏭</div>
+                    <h3>실버스톤 신 캠퍼스</h3>
+                    <p>최첨단 시설에 5억 파운드 이상 투자. 풍동, 시뮬레이터, 제조 시설 모두 F1 최고 수준으로 업그레이드되었습니다.</p>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-icon">📋</div>
+                    <h3>2026 레귤레이션 변경</h3>
+                    <p>새로운 기술 규정은 모든 팀에게 새 출발점. 충분한 자금력과 최고의 인재를 보유한 애스턴마틴에게 유리한 환경입니다.</p>
+                </div>
+            </div>
+
+            <div class="probability-section">
+                <h3>예측 확률 분포</h3>
+                <div class="probability-drivers">
+                    <div class="probability-driver">
+                        <h4>🇪🇸 알론소 #14</h4>
+                        <div class="probability-bars">
+                            <div class="prob-row">
+                                <span class="prob-label">P1-P3 포디움</span>
+                                <div class="prob-bar"><div class="prob-fill podium" style="width: 15%"></div></div>
+                                <span class="prob-value">15%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P4-P6 상위권</span>
+                                <div class="prob-bar"><div class="prob-fill top" style="width: 30%"></div></div>
+                                <span class="prob-value">30%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P7-P10 포인트</span>
+                                <div class="prob-bar"><div class="prob-fill mid" style="width: 30%"></div></div>
+                                <span class="prob-value">30%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P11-P15</span>
+                                <div class="prob-bar"><div class="prob-fill low" style="width: 18%"></div></div>
+                                <span class="prob-value">18%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P16-P22</span>
+                                <div class="prob-bar"><div class="prob-fill back" style="width: 7%"></div></div>
+                                <span class="prob-value">7%</span>
+                            </div>
+                        </div>
+                        <p class="driver-analysis">2회 월드 챔피언의 경험 + 뉴이 머신 조합. 44세지만 여전히 최고의 레이스 크래프트를 보유.</p>
+                    </div>
+                    <div class="probability-driver">
+                        <h4>🇨🇦 스트롤 #18</h4>
+                        <div class="probability-bars">
+                            <div class="prob-row">
+                                <span class="prob-label">P1-P3 포디움</span>
+                                <div class="prob-bar"><div class="prob-fill podium" style="width: 8%"></div></div>
+                                <span class="prob-value">8%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P4-P6 상위권</span>
+                                <div class="prob-bar"><div class="prob-fill top" style="width: 20%"></div></div>
+                                <span class="prob-value">20%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P7-P10 포인트</span>
+                                <div class="prob-bar"><div class="prob-fill mid" style="width: 35%"></div></div>
+                                <span class="prob-value">35%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P11-P15</span>
+                                <div class="prob-bar"><div class="prob-fill low" style="width: 27%"></div></div>
+                                <span class="prob-value">27%</span>
+                            </div>
+                            <div class="prob-row">
+                                <span class="prob-label">P16-P22</span>
+                                <div class="prob-bar"><div class="prob-fill back" style="width: 10%"></div></div>
+                                <span class="prob-value">10%</span>
+                            </div>
+                        </div>
+                        <p class="driver-analysis">2020 터키 GP 폴 포지션이 증명하듯 좋은 차에서 빛나는 드라이버. 일관성 향상이 관건.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="race-info-section">
+        <div class="race-info-box">
+            <p class="next-race-label">NEXT RACE</p>
+            <h3 class="next-race-title" id="nextRaceName">호주 그랑프리</h3>
+            <p class="next-race-circuit" id="nextRaceCircuit">앨버트 파크 서킷 · 멜버른</p>
+        </div>
+    </section>
+
+    <section class="slot-machine-section">
+        <h2 class="section-title">SLOT MACHINE</h2>
+
+        <div class="slot-container">
+            <!-- 알론소 슬롯 -->
+            <div class="driver-slot" id="alonsoSlot">
+                <div class="driver-slot-header">
+                    <div class="driver-slot-image">
+                        <img src="images/alonso.avif" alt="Fernando Alonso">
+                    </div>
+                    <div class="driver-slot-info">
+                        <span class="driver-slot-number">14</span>
+                        <h3>페르난도 알론소</h3>
+                        <p>Fernando Alonso</p>
+                    </div>
+                </div>
+                <div class="slot-reel-container">
+                    <div class="slot-reel" id="alonsoReel">
+                        <div class="slot-number">1</div>
+                    </div>
+                </div>
+                <div class="slot-result-position" id="alonsoPosition"></div>
+            </div>
+
+            <!-- 스트롤 슬롯 -->
+            <div class="driver-slot" id="strollSlot">
+                <div class="driver-slot-header">
+                    <div class="driver-slot-image">
+                        <img src="images/lance.avif" alt="Lance Stroll">
+                    </div>
+                    <div class="driver-slot-info">
+                        <span class="driver-slot-number">18</span>
+                        <h3>랜스 스트롤</h3>
+                        <p>Lance Stroll</p>
+                    </div>
+                </div>
+                <div class="slot-reel-container">
+                    <div class="slot-reel" id="strollReel">
+                        <div class="slot-number">1</div>
+                    </div>
+                </div>
+                <div class="slot-result-position" id="strollPosition"></div>
+            </div>
+        </div>
+
+        <button class="spin-button" id="spinButton" onclick="startSpin()">
+            <span class="spin-icon">🎰</span>
+            <span>SPIN!</span>
+        </button>
+
+        <div class="already-spun-message" id="alreadySpunMessage">
+            <p>오늘의 예측을 이미 확인하셨습니다!</p>
+            <p class="next-spin-info">다음 예측은 내일 가능합니다.</p>
+        </div>
+    </section>
+
+    <section class="result-section" id="resultSection">
+        <div class="result-container">
+            <h2 class="result-title">PREDICTION RESULT</h2>
+
+            <div class="result-cards">
+                <div class="result-card alonso-result" id="alonsoResult">
+                    <div class="result-driver-name">
+                        <span class="result-number">14</span>
+                        알론소
+                    </div>
+                    <div class="result-position" id="alonsoFinalPosition">P1</div>
+                    <p class="result-comment" id="alonsoComment"></p>
+                </div>
+
+                <div class="result-card stroll-result" id="strollResult">
+                    <div class="result-driver-name">
+                        <span class="result-number">18</span>
+                        스트롤
+                    </div>
+                    <div class="result-position" id="strollFinalPosition">P1</div>
+                    <p class="result-comment" id="strollComment"></p>
+                </div>
+            </div>
+
+            <div class="team-summary" id="teamSummary">
+                <p id="teamSummaryText"></p>
+            </div>
+
+            <!-- 공유 버튼 -->
+            <div class="share-section">
+                <button class="share-button" id="shareButton" onclick="sharePrediction()">
+                    <span class="share-icon">🔗</span>
+                    <span>오늘의 예측 공유하기</span>
+                </button>
+                <p class="share-status" id="shareStatus"></p>
+            </div>
+
+            <!-- 투표 섹션 -->
+            <div class="vote-section">
+                <h3 class="vote-title">이 예측이 맞을까요?</h3>
+                <p class="vote-subtitle">각 드라이버의 예측 순위에 대한 의견을 투표해주세요!</p>
+
+                <div class="vote-cards">
+                    <!-- 알론소 투표 -->
+                    <div class="vote-card" id="alonsoVoteCard">
+                        <div class="vote-driver-info">
+                            <span class="vote-driver-number">14</span>
+                            <span class="vote-driver-name">알론소</span>
+                            <span class="vote-predicted-pos" id="alonsoVotePredicted">P?</span>
+                        </div>
+                        <div class="vote-buttons">
+                            <button class="vote-btn higher" onclick="castVote('alonso', 'higher')">
+                                <span class="vote-icon">⬆️</span>
+                                <span>더 높을 것</span>
+                            </button>
+                            <button class="vote-btn correct" onclick="castVote('alonso', 'correct')">
+                                <span class="vote-icon">✅</span>
+                                <span>딱 맞을 것</span>
+                            </button>
+                            <button class="vote-btn lower" onclick="castVote('alonso', 'lower')">
+                                <span class="vote-icon">⬇️</span>
+                                <span>더 낮을 것</span>
+                            </button>
+                        </div>
+                        <div class="vote-results" id="alonsoVoteResults">
+                            <div class="vote-result-bar">
+                                <div class="vote-bar-fill higher" id="alonsoHigherBar" style="width: 0%"></div>
+                                <div class="vote-bar-fill correct" id="alonsoCorrectBar" style="width: 0%"></div>
+                                <div class="vote-bar-fill lower" id="alonsoLowerBar" style="width: 0%"></div>
+                            </div>
+                            <div class="vote-percentages">
+                                <span class="vote-pct higher"><span id="alonsoHigherPct">0</span>% 더 높음</span>
+                                <span class="vote-pct correct"><span id="alonsoCorrectPct">0</span>% 적중</span>
+                                <span class="vote-pct lower"><span id="alonsoLowerPct">0</span>% 더 낮음</span>
+                            </div>
+                            <p class="total-votes">총 <span id="alonsoTotalVotes">0</span>명 투표</p>
+                        </div>
+                        <p class="user-vote-status" id="alonsoVoteStatus"></p>
+                    </div>
+
+                    <!-- 스트롤 투표 -->
+                    <div class="vote-card" id="strollVoteCard">
+                        <div class="vote-driver-info">
+                            <span class="vote-driver-number">18</span>
+                            <span class="vote-driver-name">스트롤</span>
+                            <span class="vote-predicted-pos" id="strollVotePredicted">P?</span>
+                        </div>
+                        <div class="vote-buttons">
+                            <button class="vote-btn higher" onclick="castVote('stroll', 'higher')">
+                                <span class="vote-icon">⬆️</span>
+                                <span>더 높을 것</span>
+                            </button>
+                            <button class="vote-btn correct" onclick="castVote('stroll', 'correct')">
+                                <span class="vote-icon">✅</span>
+                                <span>딱 맞을 것</span>
+                            </button>
+                            <button class="vote-btn lower" onclick="castVote('stroll', 'lower')">
+                                <span class="vote-icon">⬇️</span>
+                                <span>더 낮을 것</span>
+                            </button>
+                        </div>
+                        <div class="vote-results" id="strollVoteResults">
+                            <div class="vote-result-bar">
+                                <div class="vote-bar-fill higher" id="strollHigherBar" style="width: 0%"></div>
+                                <div class="vote-bar-fill correct" id="strollCorrectBar" style="width: 0%"></div>
+                                <div class="vote-bar-fill lower" id="strollLowerBar" style="width: 0%"></div>
+                            </div>
+                            <div class="vote-percentages">
+                                <span class="vote-pct higher"><span id="strollHigherPct">0</span>% 더 높음</span>
+                                <span class="vote-pct correct"><span id="strollCorrectPct">0</span>% 적중</span>
+                                <span class="vote-pct lower"><span id="strollLowerPct">0</span>% 더 낮음</span>
+                            </div>
+                            <p class="total-votes">총 <span id="strollTotalVotes">0</span>명 투표</p>
+                        </div>
+                        <p class="user-vote-status" id="strollVoteStatus"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confettiCanvas"></canvas>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">ASTON MARTIN</span>
+                <span class="logo-sub">ARAMCO F1 TEAM</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.astonmartinf1.com" target="_blank">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank">유튜브</a>
+            </div>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images © Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">2026 Aston Martin Fan Page. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ranking.js"></script>
+</body>
+</html>
