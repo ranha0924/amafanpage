@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - AMR FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, #0a0a0a 0%, #111 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0, 111, 98, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .error-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(100px, 20vw, 180px);
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(135deg, var(--primary-green) 0%, #00a88f 50%, var(--primary-green) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 0 60px rgba(0, 111, 98, 0.3);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(0, 111, 98, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(0, 111, 98, 0.5));
+            }
+        }
+
+        .error-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .error-message {
+            font-size: 16px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .error-btn-primary {
+            background: linear-gradient(135deg, var(--primary-green) 0%, #005a50 100%);
+            color: #fff;
+            border: none;
+        }
+
+        .error-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 111, 98, 0.4);
+        }
+
+        .error-btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .error-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .error-decoration {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #444;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .error-decoration::before,
+        .error-decoration::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #444);
+        }
+
+        .error-decoration::after {
+            background: linear-gradient(90deg, #444, transparent);
+        }
+
+        .racing-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                var(--primary-green) 20%,
+                var(--primary-green) 80%,
+                transparent 100%
+            );
+            opacity: 0.5;
+        }
+
+        @media (max-width: 480px) {
+            .error-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .error-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                요청하신 페이지를 찾을 수 없습니다.<br>
+                주소가 올바른지 확인하거나, 아래 버튼을 눌러 이동하세요.
+            </p>
+            <div class="error-actions">
+                <a href="index.html" class="error-btn error-btn-primary">
+                    <span>&#8962;</span>
+                    홈으로
+                </a>
+                <button onclick="history.back()" class="error-btn error-btn-secondary">
+                    <span>&#8592;</span>
+                    이전 페이지
+                </button>
+            </div>
+        </div>
+
+        <div class="error-decoration">
+            AMR FANS
+        </div>
+
+        <div class="racing-line"></div>
+    </div>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

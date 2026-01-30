@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Paddock - Aston Martin F1 Fan Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+    <link rel="stylesheet" href="css/paddock.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+</head>
+<body>
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html" class="active" aria-current="page">홈페이지</a></li>
+            <li><a href="fortune.html">운명의 서킷</a></li>
+            <li><a href="history.html">역사</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="nav" aria-label="메인 네비게이션">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" aria-current="page">홈페이지</a></li>
+                <li><a href="fortune.html">운명의 서킷</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="paddock-main">
+        <div class="paddock-container">
+            <!-- 게시판 헤더 -->
+            <div class="board-header">
+                <h1 class="board-title">THE PADDOCK</h1>
+                <div class="board-actions">
+                    <select id="sortSelect" class="sort-select">
+                        <option value="latest">최신순</option>
+                        <option value="likes">공감순</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 검색 및 필터 영역 -->
+            <div class="paddock-toolbar">
+                <div class="filter-tags">
+                    <button class="tag-filter active" data-tag="all">전체</button>
+                    <button class="tag-filter" data-tag="질문">#질문</button>
+                    <button class="tag-filter" data-tag="응원">#응원</button>
+                    <button class="tag-filter" data-tag="분석">#분석</button>
+                    <button class="tag-filter" data-tag="자유">#자유</button>
+                    <button class="tag-filter" data-tag="다른팀">#다른팀</button>
+                </div>
+                <div class="toolbar-right">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="검색..." aria-label="게시글 검색" />
+                        <button id="searchBtn" class="search-btn" aria-label="검색">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button id="writePostBtn" class="write-post-btn">글쓰기</button>
+                </div>
+            </div>
+
+            <!-- 게시글 테이블 -->
+            <div class="posts-table-container">
+                <table class="posts-table">
+                    <thead>
+                        <tr>
+                            <th class="col-likes">공감</th>
+                            <th class="col-title">제목</th>
+                            <th class="col-author">작성자</th>
+                            <th class="col-date">작성일</th>
+                        </tr>
+                    </thead>
+                    <tbody id="postsList">
+                        <!-- 게시글이 여기에 동적으로 로드됩니다 -->
+                    </tbody>
+                </table>
+
+                <div id="loadingPosts" class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div id="noPostsMessage" class="no-posts-message" style="display: none;">
+                    <p>게시글이 없습니다.</p>
+                </div>
+            </div>
+
+            <!-- 더 보기 버튼 -->
+            <div class="pagination">
+                <button id="loadMoreBtn" class="load-more-btn" style="display: none;">
+                    더 보기
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 글쓰기 모달 -->
+    <div class="modal" id="writeModal">
+        <div class="modal-overlay" onclick="closeWriteModal()"></div>
+        <div class="modal-content write-modal-content">
+            <button class="modal-close" onclick="closeWriteModal()">&times;</button>
+            <h2 class="modal-title">새 글 작성</h2>
+
+            <form id="postForm" class="post-form">
+                <div class="form-group">
+                    <label for="postTag">태그 선택</label>
+                    <div class="tag-select">
+                        <label class="tag-option">
+                            <input type="radio" name="postTag" value="질문">
+                            <span class="tag-label tag-question">#질문</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="postTag" value="응원">
+                            <span class="tag-label tag-cheer">#응원</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="postTag" value="분석">
+                            <span class="tag-label tag-analysis">#분석</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="postTag" value="자유" checked>
+                            <span class="tag-label tag-free">#자유</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="postTag" value="다른팀">
+                            <span class="tag-label tag-other">#다른팀</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="postTitle">제목</label>
+                    <input type="text" id="postTitle" name="postTitle" maxlength="100" placeholder="제목을 입력하세요" required>
+                    <span class="char-count"><span id="titleCharCount">0</span>/100</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="postContent">내용</label>
+                    <textarea id="postContent" name="postContent" maxlength="5000" placeholder="내용을 입력하세요" required></textarea>
+                    <span class="char-count"><span id="contentCharCount">0</span>/5000</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeWriteModal()">취소</button>
+                    <button type="submit" class="btn-submit" id="submitPostBtn">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 게시글 상세 보기 모달 -->
+    <div class="modal" id="postDetailModal">
+        <div class="modal-overlay" onclick="closePostDetailModal()"></div>
+        <div class="modal-content post-detail-modal-content">
+            <button class="modal-close" onclick="closePostDetailModal()">&times;</button>
+
+            <div class="post-detail" id="postDetail">
+                <!-- 게시글 상세 내용이 동적으로 로드됩니다 -->
+            </div>
+
+            <!-- 댓글 섹션 -->
+            <div class="comments-section" id="commentsSection">
+                <h3 class="comments-title">
+                    댓글 <span id="commentCount">0</span>
+                </h3>
+                <div class="comments-list" id="commentsList">
+                    <!-- 댓글이 여기에 동적으로 로드됩니다 -->
+                </div>
+                <div class="comment-form-container" id="commentFormContainer">
+                    <form id="commentForm" class="comment-form">
+                        <textarea id="commentContent" placeholder="댓글을 입력하세요..." maxlength="500" required></textarea>
+                        <button type="submit" class="comment-submit-btn">등록</button>
+                    </form>
+                </div>
+                <div class="login-required-message" id="commentLoginRequired" style="display: none;">
+                    <p>댓글을 작성하려면 로그인이 필요합니다.</p>
+                    <button class="login-btn-small" onclick="signInWithGoogle()">Google로 로그인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 수정 모달 -->
+    <div class="modal" id="editModal">
+        <div class="modal-overlay" onclick="closeEditModal()"></div>
+        <div class="modal-content write-modal-content">
+            <button class="modal-close" onclick="closeEditModal()">&times;</button>
+            <h2 class="modal-title">글 수정</h2>
+
+            <form id="editForm" class="post-form">
+                <input type="hidden" id="editPostId">
+
+                <div class="form-group">
+                    <label>태그 선택</label>
+                    <div class="tag-select">
+                        <label class="tag-option">
+                            <input type="radio" name="editTag" value="질문">
+                            <span class="tag-label tag-question">#질문</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="editTag" value="응원">
+                            <span class="tag-label tag-cheer">#응원</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="editTag" value="분석">
+                            <span class="tag-label tag-analysis">#분석</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="editTag" value="자유">
+                            <span class="tag-label tag-free">#자유</span>
+                        </label>
+                        <label class="tag-option">
+                            <input type="radio" name="editTag" value="다른팀">
+                            <span class="tag-label tag-other">#다른팀</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="editTitle">제목</label>
+                    <input type="text" id="editTitle" name="editTitle" maxlength="100" required>
+                    <span class="char-count"><span id="editTitleCharCount">0</span>/100</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="editContent">내용</label>
+                    <textarea id="editContent" name="editContent" maxlength="5000" required></textarea>
+                    <span class="char-count"><span id="editContentCharCount">0</span>/5000</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeEditModal()">취소</button>
+                    <button type="submit" class="btn-submit">수정</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 로그인 필요 모달 -->
+    <div class="modal" id="loginRequiredModal">
+        <div class="modal-overlay" onclick="closeLoginRequiredModal()"></div>
+        <div class="modal-content login-required-content">
+            <h2 class="modal-title">로그인 필요</h2>
+            <p class="login-message">글을 작성하려면 로그인이 필요합니다.</p>
+            <div class="login-actions">
+                <button class="btn-cancel" onclick="closeLoginRequiredModal()">취소</button>
+                <button class="login-btn" onclick="signInWithGoogle(); closeLoginRequiredModal();">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Google로 로그인
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 삭제 확인 모달 -->
+    <div class="modal" id="deleteConfirmModal">
+        <div class="modal-overlay" onclick="closeDeleteConfirmModal()"></div>
+        <div class="modal-content delete-confirm-content">
+            <h2 class="modal-title">삭제 확인</h2>
+            <p class="delete-message" id="deleteConfirmMessage">정말로 삭제하시겠습니까?</p>
+            <div class="delete-actions">
+                <button class="btn-cancel" onclick="closeDeleteConfirmModal()">취소</button>
+                <button class="btn-delete" id="confirmDeleteBtn">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 신고 모달 -->
+    <div class="modal" id="reportModal">
+        <div class="modal-overlay" onclick="closeReportModal()"></div>
+        <div class="modal-content report-modal-content">
+            <button class="modal-close" onclick="closeReportModal()">&times;</button>
+            <h2 class="modal-title">신고하기</h2>
+            <p class="report-description">부적절한 콘텐츠를 신고해주세요.</p>
+
+            <form id="reportForm" class="report-form">
+                <input type="hidden" id="reportPostId">
+                <input type="hidden" id="reportType" value="post">
+
+                <div class="form-group">
+                    <label>신고 사유</label>
+                    <div class="report-reasons">
+                        <label class="report-option">
+                            <input type="radio" name="reportReason" value="선정적인 내용" required>
+                            <span>선정적인 내용</span>
+                        </label>
+                        <label class="report-option">
+                            <input type="radio" name="reportReason" value="폭력적/잔인한 내용">
+                            <span>폭력적/잔인한 내용</span>
+                        </label>
+                        <label class="report-option">
+                            <input type="radio" name="reportReason" value="욕설/비방">
+                            <span>욕설/비방</span>
+                        </label>
+                        <label class="report-option">
+                            <input type="radio" name="reportReason" value="스팸/광고">
+                            <span>스팸/광고</span>
+                        </label>
+                        <label class="report-option">
+                            <input type="radio" name="reportReason" value="기타">
+                            <span>기타</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reportDetail">상세 내용 (선택)</label>
+                    <textarea id="reportDetail" placeholder="추가 내용..." maxlength="500"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeReportModal()">취소</button>
+                    <button type="submit" class="btn-report">신고하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 신고 완료 모달 -->
+    <div class="modal" id="reportSuccessModal">
+        <div class="modal-overlay" onclick="closeReportSuccessModal()"></div>
+        <div class="modal-content report-success-content">
+            <div class="success-icon">✓</div>
+            <h2 class="modal-title">신고 접수 완료</h2>
+            <p>신고가 접수되었습니다.</p>
+            <button class="btn-confirm" onclick="closeReportSuccessModal()">확인</button>
+        </div>
+    </div>
+
+    <!-- 태그 선택 경고 모달 -->
+    <div class="modal" id="tagWarningModal">
+        <div class="modal-overlay" onclick="closeTagWarningModal()"></div>
+        <div class="modal-content tag-warning-content">
+            <h2 class="warning-title">태그를 선택해주세요</h2>
+            <p class="warning-message">게시글 작성 시 태그 선택은 필수입니다.</p>
+            <button class="btn-confirm" onclick="closeTagWarningModal()">확인</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">ASTON MARTIN</span>
+                <span class="logo-sub">ARAMCO F1 TEAM</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank" rel="noopener noreferrer">유튜브</a>
+            </div>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images © Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">2026 Aston Martin Fan Page. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/paddock.js"></script>
+</body>
+</html>

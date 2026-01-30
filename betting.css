@@ -1,0 +1,4472 @@
+/* ========================================
+   Podium Betting Page - Aston Martin Edition
+   Professional betting site design
+   ======================================== */
+
+:root {
+    /* Aston Martin Colors */
+    --am-green: #006f62;
+    --am-green-dark: #00574d;
+    --am-green-light: #008575;
+    --am-lime: #c4ff00;
+    --am-lime-dark: #a8d900;
+
+    /* UI Colors */
+    --bg-dark: #0d0d0d;
+    --bg-card: #181818;
+    --bg-card-alt: #1e1e1e;
+    --bg-hover: #252525;
+    --border-color: #2a2a2a;
+    --border-light: #333;
+    --text-primary: #f0f0f0;
+    --text-secondary: #999;
+    --text-muted: #666;
+
+    /* Status Colors */
+    --color-gold: #ffd700;
+    --color-silver: #c0c0c0;
+    --color-bronze: #cd7f32;
+    --color-red: #e53935;
+    --color-yellow: #ffc107;
+}
+
+/* 히어로 섹션 */
+.betting-hero {
+    background: linear-gradient(180deg, var(--bg-dark) 0%, #0a0a0a 100%);
+    padding: 100px 20px 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--am-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.betting-hero-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.betting-hero-content h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--am-lime);
+    margin-bottom: 8px;
+    letter-spacing: 4px;
+    text-align: center;
+}
+
+.betting-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* 가상 포인트 고지 배너 */
+.virtual-token-notice {
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-left: 3px solid #ffc107;
+    padding: 12px 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    text-align: center;
+}
+
+.virtual-token-notice p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+    line-height: 1.5;
+}
+
+.virtual-token-notice strong {
+    color: #ffc107;
+}
+
+.virtual-token-notice a {
+    color: var(--am-lime);
+    text-decoration: underline;
+    margin-left: 8px;
+}
+
+.virtual-token-notice a:hover {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .virtual-token-notice {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+    }
+}
+
+/* 다음 레이스 섹션 */
+.next-race-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px;
+}
+
+.next-race-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--am-green);
+    border-radius: 4px;
+}
+
+.race-badge {
+    background: var(--am-green);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.race-info {
+    flex: 1;
+}
+
+.next-race-card .race-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.next-race-card .race-circuit {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin: 3px 0 0;
+}
+
+.race-countdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0, 111, 98, 0.15);
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.countdown-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+.countdown-time {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--am-lime);
+}
+
+.countdown-time.closed {
+    color: var(--color-red);
+}
+
+/* ========================================
+   메인 베팅 섹션
+   ======================================== */
+
+.betting-main-section {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.betting-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 20px;
+    align-items: start;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ========================================
+   배당률 패널
+   ======================================== */
+
+.odds-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.odds-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.odds-panel-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.odds-tabs {
+    display: flex;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.odds-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 14px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+
+.odds-tab:hover {
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.02);
+}
+
+.odds-tab.active {
+    color: var(--am-lime);
+    border-bottom-color: var(--am-lime);
+    background: rgba(196, 255, 0, 0.03);
+}
+
+.tab-count {
+    background: rgba(255,255,255,0.08);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+}
+
+.odds-tab.active .tab-count {
+    background: rgba(196, 255, 0, 0.15);
+    color: var(--am-lime);
+}
+
+/* 도움말 버튼 */
+.help-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin: auto 12px auto 0;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.help-btn:hover {
+    background: var(--am-green);
+    border-color: var(--am-green);
+    color: #fff;
+}
+
+/* 정렬 옵션 */
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-card-alt);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sort-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+.sort-btn {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.sort-btn:hover {
+    border-color: var(--am-green);
+    color: var(--text-primary);
+}
+
+.sort-btn.active {
+    background: var(--am-green);
+    border-color: var(--am-green);
+    color: #fff;
+}
+
+.odds-list-container {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.odds-list-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.odds-list-container::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+.odds-list-container::-webkit-scrollbar-thumb {
+    background: var(--am-green);
+    border-radius: 3px;
+}
+
+.odds-list {
+    display: none;
+}
+
+.odds-list.active {
+    display: block;
+}
+
+/* 드라이버/컨스트럭터 공통 아이템 스타일 */
+.odds-item,
+.constructor-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.odds-item:hover,
+.constructor-item:hover {
+    background: var(--bg-hover);
+}
+
+.odds-item:last-child,
+.constructor-item:last-child {
+    border-bottom: none;
+}
+
+.odds-rank,
+.constructor-rank {
+    width: 28px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.odds-driver-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.odds-driver-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 28px;
+}
+
+.odds-driver-name {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.odds-value,
+.constructor-odds {
+    background: var(--am-green);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 55px;
+    text-align: center;
+    transition: background 0.15s;
+}
+
+.odds-item:hover .odds-value,
+.constructor-item:hover .constructor-odds {
+    background: var(--am-green-light);
+}
+
+.odds-value.hot {
+    background: var(--color-red);
+}
+
+/* 컨스트럭터 아이템 */
+.constructor-color-bar {
+    width: 3px;
+    height: 32px;
+    border-radius: 2px;
+    margin-right: 12px;
+}
+
+.constructor-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.constructor-name {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.constructor-drivers {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* ========================================
+   베팅 슬립 패널 (오른쪽)
+   ======================================== */
+
+.podium-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bet-slip-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: var(--am-green);
+    color: #fff;
+}
+
+.bet-slip-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.balance-display {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.balance-display .balance-amount {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+.balance-display .balance-unit {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.7);
+}
+
+/* 선택 영역 */
+.bet-selections {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.selection-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.selection-row:hover {
+    border-color: var(--am-green);
+    background: var(--bg-hover);
+}
+
+.selection-row.selected {
+    border-color: var(--am-lime);
+    background: rgba(196, 255, 0, 0.05);
+}
+
+.selection-position {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 10px;
+    border-radius: 3px;
+    min-width: 36px;
+    text-align: center;
+}
+
+.selection-position.p1 {
+    background: var(--color-gold);
+    color: #000;
+}
+
+.selection-position.p2 {
+    background: var(--color-silver);
+    color: #000;
+}
+
+.selection-position.p3 {
+    background: var(--color-bronze);
+    color: #fff;
+}
+
+.selection-driver {
+    flex: 1;
+    min-width: 0;
+}
+
+.select-placeholder {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.selected-driver-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selected-driver-info .driver-number {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.selected-driver-info .driver-name {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.selection-odds {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--am-lime);
+    min-width: 45px;
+    text-align: right;
+}
+
+/* 베팅 입력 섹션 */
+.stake-section {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bet-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.bet-input-position {
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 3px;
+    min-width: 28px;
+    text-align: center;
+}
+
+.bet-input-position.p1 {
+    background: var(--color-gold);
+    color: #000;
+}
+
+.bet-input-position.p2 {
+    background: var(--color-silver);
+    color: #000;
+}
+
+.bet-input-position.p3 {
+    background: var(--color-bronze);
+    color: #fff;
+}
+
+.bet-input-driver {
+    flex: 1;
+    font-size: 0.75rem;
+    color: var(--text-primary);
+}
+
+.bet-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bet-input-wrapper:focus-within {
+    border-color: var(--am-lime);
+}
+
+.bet-input-wrapper input {
+    width: 60px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    padding: 8px 10px;
+    text-align: right;
+    outline: none;
+}
+
+.bet-input-wrapper input::-webkit-outer-spin-button,
+.bet-input-wrapper input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.bet-input-unit {
+    padding: 0 10px;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    background: rgba(0,0,0,0.3);
+}
+
+.bet-input-odds {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--am-lime);
+    min-width: 45px;
+    text-align: right;
+}
+
+/* 빠른 금액 버튼 */
+.quick-amount-section {
+    padding: 10px 12px;
+}
+
+.quick-amounts-row {
+    display: flex;
+    gap: 6px;
+}
+
+.quick-amt-btn {
+    flex: 1;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    padding: 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.quick-amt-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--am-green);
+    color: var(--text-primary);
+}
+
+.quick-amt-btn.all {
+    background: rgba(196, 255, 0, 0.1);
+    border-color: var(--am-lime);
+    color: var(--am-lime);
+}
+
+/* 베팅 요약 */
+.bet-slip-summary {
+    padding: 12px;
+    background: var(--bg-dark);
+    border-top: 1px solid var(--border-color);
+}
+
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.summary-line.total {
+    padding-top: 10px;
+    margin-top: 6px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+/* 베팅 버튼 */
+.place-bet-btn {
+    width: calc(100% - 24px);
+    margin: 12px;
+    background: linear-gradient(180deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    border: none;
+    color: #fff;
+    padding: 14px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.place-bet-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, var(--am-green-light) 0%, var(--am-green) 100%);
+}
+
+.place-bet-btn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.betting-notice {
+    text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    padding: 0 12px 12px;
+    margin: 0;
+}
+
+/* ========================================
+   내 베팅 패널
+   ======================================== */
+
+.my-bets-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.my-bets-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding: 14px 16px;
+    margin: 0;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.bets-list {
+    padding: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.no-bets {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 30px 20px;
+    font-size: 0.8rem;
+}
+
+.bet-item {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.bet-item:last-child {
+    margin-bottom: 0;
+}
+
+.bet-item.status-won {
+    border-left: 3px solid var(--am-green);
+}
+
+.bet-item.status-lost {
+    border-left: 3px solid var(--color-red);
+    opacity: 0.7;
+}
+
+.bet-race {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.bet-race .race-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+}
+
+.bet-status {
+    padding: 3px 10px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bet-status.status-pending {
+    background: rgba(255, 193, 7, 0.15);
+    color: var(--color-yellow);
+}
+
+.bet-status.status-won {
+    background: rgba(0, 111, 98, 0.15);
+    color: var(--am-green-light);
+}
+
+.bet-status.status-lost {
+    background: rgba(229, 57, 53, 0.15);
+    color: var(--color-red);
+}
+
+.bet-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.bet-position {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+}
+
+.pos-badge {
+    background: var(--am-green);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.bet-position .driver-name {
+    flex: 1;
+    color: var(--text-primary);
+}
+
+.bet-position .bet-amount {
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+
+.bet-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.bet-total .win-amount {
+    color: var(--am-lime);
+    font-weight: 600;
+}
+
+.cancel-bet-btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 8px;
+    background: transparent;
+    border: 1px solid var(--color-red);
+    color: var(--color-red);
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.cancel-bet-btn:hover {
+    background: rgba(229, 57, 53, 0.1);
+}
+
+/* ========================================
+   드라이버 피커 모달
+   ======================================== */
+
+.driver-picker-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+}
+
+.driver-picker-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.picker-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.picker-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-card);
+    border: 1px solid var(--am-green);
+    border-radius: 6px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--am-green);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.picker-header h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.picker-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.picker-close:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+.picker-teams {
+    padding: 16px;
+}
+
+.picker-team {
+    margin-bottom: 20px;
+}
+
+.picker-team:last-child {
+    margin-bottom: 0;
+}
+
+.picker-team-header {
+    padding: 10px 14px;
+    background: var(--bg-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border-left: 3px solid;
+}
+
+.picker-drivers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.picker-driver-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: left;
+}
+
+.picker-driver-btn:hover:not(.disabled) {
+    border-color: var(--am-green);
+    background: var(--bg-hover);
+}
+
+.picker-driver-btn.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.picker-driver-btn .driver-num {
+    font-size: 0.85rem;
+    font-weight: 700;
+    min-width: 28px;
+}
+
+.picker-driver-btn .driver-name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+}
+
+.picker-driver-btn .driver-odds {
+    background: var(--am-green);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.picker-driver-btn .driver-odds.hot {
+    background: var(--color-red);
+}
+
+/* ========================================
+   알림/확인 모달
+   ======================================== */
+
+.alert-modal,
+.confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s;
+}
+
+.alert-modal.active,
+.confirm-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.alert-modal-overlay,
+.confirm-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.alert-modal-content,
+.confirm-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-card);
+    border: 1px solid var(--am-green);
+    border-radius: 6px;
+    padding: 30px;
+    min-width: 300px;
+    max-width: 400px;
+    text-align: center;
+}
+
+.alert-modal-icon,
+.confirm-modal-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.alert-modal-icon.success { color: var(--am-green-light); }
+.alert-modal-icon.error { color: var(--color-red); }
+.alert-modal-icon.warning { color: var(--color-yellow); }
+.alert-modal-icon.info { color: #2196F3; }
+
+.alert-modal-title,
+.confirm-modal-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.alert-modal-message,
+.confirm-modal-message {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    white-space: pre-line;
+}
+
+.alert-modal-btn {
+    background: var(--am-green);
+    border: none;
+    color: #fff;
+    padding: 12px 40px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.alert-modal-btn:hover {
+    background: var(--am-green-light);
+}
+
+.confirm-modal-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.confirm-modal-btn {
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.confirm-modal-btn.cancel {
+    background: transparent;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+}
+
+.confirm-modal-btn.cancel:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+}
+
+.confirm-modal-btn.confirm {
+    background: var(--am-green);
+    border: none;
+    color: #fff;
+}
+
+.confirm-modal-btn.confirm:hover {
+    background: var(--am-green-light);
+}
+
+/* ========================================
+   튜토리얼 모달
+   ======================================== */
+
+.tutorial-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 25000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s;
+}
+
+.tutorial-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tutorial-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.tutorial-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--bg-card);
+    border: 1px solid var(--am-green);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    background: var(--am-green);
+    position: sticky;
+    top: 0;
+}
+
+.tutorial-header h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.tutorial-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.7);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.15s;
+}
+
+.tutorial-close:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+.tutorial-body {
+    padding: 20px;
+}
+
+.tutorial-step {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    background: var(--am-green);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin: 0 0 6px;
+}
+
+.step-content p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.tutorial-tip {
+    background: rgba(196, 255, 0, 0.1);
+    border: 1px solid rgba(196, 255, 0, 0.3);
+    border-radius: 6px;
+    padding: 12px 15px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.tutorial-tip strong {
+    color: var(--am-lime);
+}
+
+.tutorial-tip.warning {
+    background: rgba(255, 170, 0, 0.1);
+    border-color: rgba(255, 170, 0, 0.3);
+}
+
+.tutorial-tip.warning strong {
+    color: #ffaa00;
+}
+
+.tutorial-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--bg-dark);
+    border-top: 1px solid var(--border-color);
+}
+
+.dont-show-again {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.dont-show-again input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--am-green);
+}
+
+.tutorial-start-btn {
+    background: var(--am-green);
+    border: none;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.tutorial-start-btn:hover {
+    background: var(--am-green-light);
+}
+
+/* ========================================
+   베팅 타입 탭 시스템 - Pill 버튼 스타일
+   ======================================== */
+
+.betting-type-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.betting-type-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.betting-type-tab::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: 0;
+}
+
+.betting-type-tab > * {
+    position: relative;
+    z-index: 1;
+}
+
+.betting-type-tab:hover {
+    color: var(--text-primary);
+    border-color: var(--am-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 111, 98, 0.2);
+}
+
+.betting-type-tab.active {
+    color: #fff;
+    border-color: var(--am-green);
+    box-shadow: 0 4px 16px rgba(0, 111, 98, 0.3);
+}
+
+.betting-type-tab.active::before {
+    opacity: 1;
+}
+
+.betting-type-tab .tab-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.betting-type-tab .tab-text {
+    white-space: nowrap;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+/* 베팅 섹션 표시/숨김 */
+.betting-section {
+    display: none;
+}
+
+.betting-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   1:1 드라이버 베팅 스타일 - 프로페셔널 베팅 사이트 스타일
+   ======================================== */
+
+.h2h-main-section {
+    max-width: 1300px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+/* 2컬럼 레이아웃: 왼쪽(메인) - 오른쪽(순위/매치업) */
+.h2h-layout-2col {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* 메인 패널 */
+.h2h-main-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 패널 헤더 (잔액 + 도움말) */
+.h2h-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.h2h-balance-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.h2h-balance-display .balance-label {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.h2h-balance-display .balance-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+.h2h-balance-display .balance-unit {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.h2h-help-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 111, 98, 0.15);
+    border: 1px solid var(--am-green);
+    color: var(--am-green);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.h2h-help-btn:hover {
+    background: var(--am-green);
+    color: #fff;
+}
+
+/* 사이드 패널 */
+.h2h-side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 100px;
+}
+
+/* ========================================
+   VS 카드 컴팩트 - 새로운 심플 스타일
+   ======================================== */
+
+.vs-card-compact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.vs-slot {
+    flex: 1;
+    background: var(--bg-card-alt);
+    border: 2px dashed var(--border-light);
+    border-radius: 10px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.vs-slot:hover {
+    border-color: var(--am-green);
+    background: rgba(0, 111, 98, 0.1);
+}
+
+.vs-slot.selected {
+    border-style: solid;
+    border-color: var(--am-green);
+    background: rgba(0, 111, 98, 0.15);
+}
+
+.vs-slot-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.vs-slot-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.vs-slot-placeholder {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* 선택된 드라이버 표시 */
+.vs-slot .vs-driver-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.vs-slot .driver-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+
+.vs-slot .driver-name {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.vs-slot .driver-team {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.vs-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--am-green);
+    padding: 8px 12px;
+    background: rgba(0, 111, 98, 0.1);
+    border-radius: 8px;
+}
+
+/* ========================================
+   베팅 카드 스타일
+   ======================================== */
+
+.h2h-bet-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 배당률 선택 버튼 */
+.h2h-odds-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.odds-select-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 12px;
+    background: var(--bg-card-alt);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.odds-select-btn:hover {
+    border-color: var(--am-green);
+    background: rgba(0, 111, 98, 0.1);
+}
+
+.odds-select-btn.selected {
+    border-color: var(--am-lime);
+    background: rgba(196, 255, 0, 0.1);
+}
+
+.odds-select-btn .odds-driver {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.odds-select-btn .odds-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+/* 금액 입력 */
+.h2h-stake-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.stake-input-group {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.stake-input-group input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.stake-input-group input:focus {
+    outline: none;
+}
+
+.stake-input-group input::placeholder {
+    color: var(--text-muted);
+}
+
+.stake-input-group .stake-unit {
+    padding: 12px 16px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.stake-quick-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.stake-quick-btns button {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stake-quick-btns button:hover {
+    border-color: var(--am-green);
+    color: var(--am-green);
+}
+
+.stake-quick-btns .max-btn {
+    background: rgba(0, 111, 98, 0.15);
+    border-color: var(--am-green);
+    color: var(--am-green);
+}
+
+/* 베팅 푸터 */
+.h2h-bet-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.bet-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.bet-summary .summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.bet-summary .summary-item span:first-child {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.bet-summary .summary-item span:last-child {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.bet-summary .summary-item.highlight span:last-child {
+    color: var(--am-lime);
+    font-size: 1.1rem;
+}
+
+.h2h-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.h2h-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 111, 98, 0.4);
+}
+
+.h2h-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ========================================
+   사이드 패널 카드
+   ======================================== */
+
+.standings-card,
+.matchups-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.standings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: rgba(0, 111, 98, 0.1);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.standings-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.standings-source {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.section-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 12px 16px;
+    margin: 0;
+    background: rgba(0, 111, 98, 0.1);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* 내 베팅 내역 */
+.h2h-my-bets {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.h2h-my-bets .h2h-bets-list {
+    padding: 12px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* ========================================
+   VS 카드 - 프리미엄 대결 카드 스타일 (기존 호환)
+   ======================================== */
+
+.vs-card {
+    display: flex;
+    align-items: stretch;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+    border: 1px solid rgba(0, 111, 98, 0.3);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 280px;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.vs-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--am-green) 50%, transparent 100%);
+}
+
+.vs-driver-slot {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    background: transparent;
+}
+
+.vs-driver-slot::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0, 111, 98, 0) 0%, rgba(0, 111, 98, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.vs-driver-slot:hover::before {
+    opacity: 1;
+}
+
+.vs-driver-slot:first-child {
+    background: linear-gradient(135deg, rgba(229, 57, 53, 0.08) 0%, transparent 60%);
+}
+
+.vs-driver-slot:last-child {
+    background: linear-gradient(225deg, rgba(33, 150, 243, 0.08) 0%, transparent 60%);
+}
+
+.vs-driver-slot.selected {
+    background: linear-gradient(180deg, rgba(0, 111, 98, 0.15) 0%, rgba(0, 111, 98, 0.05) 100%);
+}
+
+.vs-driver-slot.selected::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background: var(--am-lime);
+    border-radius: 3px 3px 0 0;
+}
+
+.vs-driver-placeholder {
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.vs-driver-slot:hover .vs-driver-placeholder {
+    border-color: var(--am-green);
+    background: rgba(0, 111, 98, 0.1);
+}
+
+.vs-select-text {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.vs-select-hint {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* 선택된 드라이버 표시 - 프리미엄 스타일 */
+.vs-selected-driver {
+    text-align: center;
+    position: relative;
+}
+
+.vs-driver-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 12px;
+    text-shadow: 0 0 30px currentColor;
+    position: relative;
+}
+
+.vs-driver-number::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: currentColor;
+    opacity: 0.5;
+}
+
+.vs-driver-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+}
+
+.vs-driver-team {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.vs-driver-rank {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, rgba(196, 255, 0, 0.2) 0%, rgba(196, 255, 0, 0.1) 100%);
+    color: var(--am-lime);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(196, 255, 0, 0.3);
+}
+
+.vs-driver-rank-points {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.vs-rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.vs-points-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(196, 255, 0, 0.2) 0%, rgba(196, 255, 0, 0.1) 100%);
+    color: var(--am-lime);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(196, 255, 0, 0.3);
+}
+
+/* VS 중앙 - 화려한 대결 표시 */
+.vs-center {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg,
+        rgba(0, 111, 98, 0.8) 0%,
+        rgba(0, 87, 77, 0.9) 50%,
+        rgba(0, 111, 98, 0.8) 100%);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.vs-center::before,
+.vs-center::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, transparent 0%, var(--am-lime) 50%, transparent 100%);
+}
+
+.vs-center::before { left: 0; }
+.vs-center::after { right: 0; }
+
+.vs-text {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--am-lime);
+    border-radius: 50%;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--am-lime);
+    background: rgba(0, 0, 0, 0.7);
+    position: relative;
+    z-index: 2;
+    animation: vsGlow 2s ease-in-out infinite;
+    box-shadow:
+        0 0 20px rgba(196, 255, 0, 0.4),
+        inset 0 0 20px rgba(196, 255, 0, 0.1);
+}
+
+.vs-glow {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(196, 255, 0, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: vsPulse 2s ease-in-out infinite;
+}
+
+@keyframes vsGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 20px rgba(196, 255, 0, 0.4),
+            inset 0 0 20px rgba(196, 255, 0, 0.1);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow:
+            0 0 40px rgba(196, 255, 0, 0.6),
+            inset 0 0 30px rgba(196, 255, 0, 0.2);
+        transform: scale(1.08);
+    }
+}
+
+@keyframes vsPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.3);
+    }
+}
+
+/* ========================================
+   1:1 베팅 패널 - 프리미엄 베팅 슬립
+   ======================================== */
+
+.h2h-betting-panel {
+    background: linear-gradient(180deg, #1a1a1a 0%, #141414 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.h2h-betting-panel::before {
+    content: '';
+    display: block;
+    height: 4px;
+    background: linear-gradient(90deg, var(--am-green) 0%, var(--am-lime) 50%, var(--am-green) 100%);
+}
+
+/* 배당률 표시 - 프리미엄 오즈 카드 */
+.h2h-odds-display {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.h2h-odds-item {
+    flex: 1;
+    text-align: center;
+    padding: 20px 16px;
+    background: linear-gradient(180deg, #1e1e1e 0%, #161616 100%);
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.h2h-odds-item:first-child {
+    border-right: 1px solid var(--border-color);
+}
+
+.h2h-odds-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.h2h-odds-item:hover {
+    background: linear-gradient(180deg, #252525 0%, #1e1e1e 100%);
+}
+
+.h2h-odds-item.selected {
+    background: linear-gradient(180deg, rgba(0, 111, 98, 0.2) 0%, rgba(0, 111, 98, 0.1) 100%);
+}
+
+.h2h-odds-item.selected::after {
+    background: var(--am-lime);
+}
+
+.h2h-driver-name {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.h2h-odds-value {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    background: var(--am-green);
+    padding: 8px 20px;
+    border-radius: 6px;
+    min-width: 90px;
+    transition: all 0.3s ease;
+}
+
+.h2h-odds-item:hover .h2h-odds-value {
+    background: var(--am-green-light);
+    transform: scale(1.05);
+}
+
+.h2h-odds-item.selected .h2h-odds-value {
+    background: var(--am-lime);
+    color: #000;
+    box-shadow: 0 0 20px rgba(196, 255, 0, 0.4);
+}
+
+.h2h-odds-divider {
+    display: none;
+}
+
+/* 승자 선택 - 숨김 (오즈 카드에 통합) */
+.h2h-winner-selection {
+    display: none;
+}
+
+/* 금액 입력 섹션 */
+.h2h-amount-section {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.h2h-balance {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.h2h-balance span:first-child {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.h2h-balance-amount {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    color: var(--am-lime);
+    font-weight: 700;
+}
+
+.h2h-balance-unit {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-left: 4px;
+}
+
+.h2h-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #0d0d0d;
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+.h2h-input-wrapper:focus-within {
+    border-color: var(--am-lime);
+    box-shadow: 0 0 0 3px rgba(196, 255, 0, 0.1);
+}
+
+.h2h-input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 16px 20px;
+    outline: none;
+}
+
+.h2h-input-wrapper input::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.h2h-input-unit {
+    padding: 16px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.h2h-quick-amounts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.h2h-quick-btn {
+    padding: 12px 8px;
+    background: linear-gradient(180deg, #252525 0%, #1a1a1a 100%);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.h2h-quick-btn:hover {
+    background: linear-gradient(180deg, #333 0%, #252525 100%);
+    border-color: var(--am-green);
+    transform: translateY(-2px);
+}
+
+.h2h-quick-btn.max {
+    background: linear-gradient(180deg, rgba(196, 255, 0, 0.2) 0%, rgba(196, 255, 0, 0.1) 100%);
+    border-color: var(--am-lime);
+    color: var(--am-lime);
+}
+
+.h2h-quick-btn.max:hover {
+    background: linear-gradient(180deg, rgba(196, 255, 0, 0.3) 0%, rgba(196, 255, 0, 0.15) 100%);
+}
+
+/* 베팅 요약 */
+.h2h-summary {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    margin: 0;
+    border-radius: 0;
+}
+
+.h2h-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.h2h-summary-row span:last-child {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.h2h-summary-row.total {
+    padding-top: 16px;
+    margin-top: 12px;
+    border-top: 1px solid var(--border-color);
+    font-size: 1.2rem;
+}
+
+.h2h-summary-row.total span:last-child {
+    color: var(--am-lime);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+}
+
+/* 베팅 버튼 */
+.h2h-place-bet-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(180deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    border: none;
+    border-radius: 0 0 12px 12px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.h2h-place-bet-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.h2h-place-bet-btn:hover:not(:disabled)::before {
+    left: 100%;
+}
+
+.h2h-place-bet-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, var(--am-green-light) 0%, var(--am-green) 100%);
+    box-shadow: 0 4px 20px rgba(0, 111, 98, 0.4);
+}
+
+.h2h-place-bet-btn:disabled {
+    background: linear-gradient(180deg, #333 0%, #222 100%);
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   드라이버 순위 패널 - F1 API 실시간 데이터
+   ======================================== */
+
+.driver-standings-panel {
+    background: linear-gradient(180deg,
+        rgba(26, 26, 26, 0.95) 0%,
+        rgba(20, 20, 20, 0.98) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.driver-standings-panel .panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    background: linear-gradient(180deg,
+        rgba(0, 111, 98, 0.2) 0%,
+        rgba(0, 111, 98, 0.05) 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.standings-update-time {
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 10px;
+}
+
+.standings-list {
+    padding: 12px;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.standings-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.standings-list::-webkit-scrollbar-thumb {
+    background: var(--am-green);
+    border-radius: 4px;
+}
+
+.standings-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-top-color: var(--am-lime);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.standings-error {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 30px 20px;
+    font-size: 0.85rem;
+}
+
+.standing-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: linear-gradient(180deg, #1e1e1e 0%, #181818 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.standing-item:last-child {
+    margin-bottom: 0;
+}
+
+.standing-item:hover {
+    border-color: var(--am-green);
+    background: linear-gradient(180deg, #252525 0%, #1e1e1e 100%);
+    transform: translateX(4px);
+}
+
+.standing-item.rank-1 {
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.12) 0%,
+        rgba(26, 26, 26, 0.95) 40%);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.standing-item.rank-2 {
+    background: linear-gradient(135deg,
+        rgba(192, 192, 192, 0.1) 0%,
+        rgba(26, 26, 26, 0.95) 40%);
+    border-color: rgba(192, 192, 192, 0.3);
+}
+
+.standing-item.rank-3 {
+    background: linear-gradient(135deg,
+        rgba(205, 127, 50, 0.1) 0%,
+        rgba(26, 26, 26, 0.95) 40%);
+    border-color: rgba(205, 127, 50, 0.3);
+}
+
+.standing-rank {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+}
+
+.standing-item.rank-1 .standing-rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+    color: #000;
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.standing-item.rank-2 .standing-rank {
+    background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
+    color: #000;
+}
+
+.standing-item.rank-3 .standing-rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #a05d20 100%);
+    color: #fff;
+}
+
+.standing-driver-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.standing-driver-name {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding-left: 10px;
+    border-left: 3px solid var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.standing-team {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+    padding-left: 10px;
+}
+
+.standing-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.standing-points {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+.standing-points-label {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   인기 매치업 패널 - 프리미엄 랭킹 스타일
+   ======================================== */
+
+.popular-matchups-panel {
+    background: linear-gradient(180deg, #1a1a1a 0%, #141414 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, rgba(0, 111, 98, 0.15) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.panel-icon {
+    font-size: 1.3rem;
+    animation: fireGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes fireGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+.panel-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.matchups-list {
+    padding: 16px;
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.matchups-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.matchups-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.matchups-list::-webkit-scrollbar-thumb {
+    background: var(--am-green);
+    border-radius: 4px;
+}
+
+.no-matchups {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 20px;
+    font-size: 0.85rem;
+}
+
+.matchup-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, #1e1e1e 0%, #181818 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.matchup-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.matchup-item:last-child {
+    margin-bottom: 0;
+}
+
+.matchup-item:hover {
+    border-color: var(--am-green);
+    background: linear-gradient(180deg, #252525 0%, #1e1e1e 100%);
+    transform: translateX(4px);
+}
+
+.matchup-item:hover::before {
+    background: var(--am-green);
+}
+
+.matchup-rank {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #000;
+    background: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.matchup-item:nth-child(1) .matchup-rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+    box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+}
+
+.matchup-item:nth-child(2) .matchup-rank {
+    background: linear-gradient(135deg, #e0e0e0 0%, #b0b0b0 100%);
+    box-shadow: 0 2px 10px rgba(192, 192, 192, 0.4);
+}
+
+.matchup-item:nth-child(3) .matchup-rank {
+    background: linear-gradient(135deg, #cd7f32 0%, #a05d20 100%);
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(205, 127, 50, 0.4);
+}
+
+.matchup-drivers {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.9rem;
+}
+
+.matchup-driver-a,
+.matchup-driver-b {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.matchup-vs {
+    color: var(--am-lime);
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(196, 255, 0, 0.15);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.matchup-count {
+    font-size: 0.75rem;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   내 1:1 베팅 내역 - 프리미엄 히스토리
+   ======================================== */
+
+.my-h2h-bets-panel {
+    background: linear-gradient(180deg, #1a1a1a 0%, #141414 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.my-h2h-bets-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    padding: 16px 20px;
+    margin: 0;
+    background: linear-gradient(180deg, #1e1e1e 0%, #181818 100%);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.my-h2h-bets-title::before {
+    content: '\1F4CB';
+    font-size: 1.1rem;
+}
+
+.h2h-bets-list {
+    padding: 16px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+.h2h-bets-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.h2h-bets-list::-webkit-scrollbar-thumb {
+    background: var(--am-green);
+    border-radius: 4px;
+}
+
+.h2h-bet-item {
+    background: linear-gradient(180deg, #1e1e1e 0%, #181818 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.h2h-bet-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--color-yellow);
+}
+
+.h2h-bet-item:last-child {
+    margin-bottom: 0;
+}
+
+.h2h-bet-item:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
+
+.h2h-bet-item.status-won::before {
+    background: linear-gradient(180deg, var(--am-lime) 0%, var(--am-green) 100%);
+}
+
+.h2h-bet-item.status-won {
+    border-color: rgba(0, 111, 98, 0.3);
+}
+
+.h2h-bet-item.status-lost::before {
+    background: linear-gradient(180deg, var(--color-red) 0%, #a02020 100%);
+}
+
+.h2h-bet-item.status-lost {
+    opacity: 0.6;
+    border-color: rgba(229, 57, 53, 0.3);
+}
+
+.h2h-bet-item.status-void::before {
+    background: linear-gradient(180deg, #888 0%, #555 100%);
+}
+
+.h2h-bet-item.status-void {
+    opacity: 0.5;
+    border-color: rgba(136, 136, 136, 0.3);
+}
+
+.bet-status.status-void {
+    background: rgba(136, 136, 136, 0.15);
+    color: #888;
+}
+
+.h2h-bet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.h2h-bet-race {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.h2h-bet-matchup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 14px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+
+.h2h-matchup-driver {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.h2h-matchup-driver.predicted {
+    color: var(--am-lime);
+    font-weight: 700;
+    position: relative;
+}
+
+.h2h-matchup-driver.predicted::after {
+    content: '\2713';
+    margin-left: 6px;
+    font-size: 0.8rem;
+}
+
+.h2h-matchup-vs {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+.h2h-bet-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.h2h-bet-win {
+    color: var(--am-lime);
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.h2h-cancel-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    background: transparent;
+    border: 2px solid rgba(229, 57, 53, 0.5);
+    color: var(--color-red);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.h2h-cancel-btn:hover {
+    background: rgba(229, 57, 53, 0.15);
+    border-color: var(--color-red);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   배당률 애니메이션 & 글래스모피즘
+   ======================================== */
+
+/* 배당률 펄스 애니메이션 */
+@keyframes oddsPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.odds-pulse {
+    animation: oddsPulse 0.6s ease-out;
+}
+
+/* 배당률 글로우 효과 */
+.odds-glow-low {
+    box-shadow: 0 0 15px rgba(229, 57, 53, 0.5) !important;
+    border-color: rgba(229, 57, 53, 0.5) !important;
+}
+
+.odds-glow-high {
+    box-shadow: 0 0 20px rgba(196, 255, 0, 0.6) !important;
+    border-color: var(--am-lime) !important;
+    animation: highOddsGlow 1.5s ease-in-out infinite;
+}
+
+.odds-glow-normal {
+    box-shadow: 0 0 10px rgba(0, 111, 98, 0.4) !important;
+}
+
+@keyframes highOddsGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(196, 255, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(196, 255, 0, 0.7);
+    }
+}
+
+/* 배당률 아이템 상태별 스타일 */
+.h2h-odds-item.low-odds .h2h-odds-value {
+    background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
+    box-shadow: 0 0 15px rgba(229, 57, 53, 0.4);
+}
+
+.h2h-odds-item.high-odds .h2h-odds-value {
+    background: linear-gradient(135deg, var(--am-lime) 0%, #8bc34a 100%);
+    color: #000;
+    animation: highValuePulse 2s ease-in-out infinite;
+}
+
+@keyframes highValuePulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(196, 255, 0, 0.5);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(196, 255, 0, 0.8);
+        transform: scale(1.03);
+    }
+}
+
+/* 글래스모피즘 베팅 패널 */
+.h2h-betting-panel {
+    background: linear-gradient(135deg,
+        rgba(26, 26, 26, 0.95) 0%,
+        rgba(20, 20, 20, 0.98) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 111, 98, 0.3);
+}
+
+/* 글래스모피즘 VS 카드 */
+.vs-card {
+    background: linear-gradient(135deg,
+        rgba(26, 26, 26, 0.9) 0%,
+        rgba(13, 13, 13, 0.95) 50%,
+        rgba(26, 26, 26, 0.9) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* 낮은 배당률 경고 */
+.low-odds-warning {
+    display: none;
+    background: linear-gradient(135deg,
+        rgba(229, 57, 53, 0.15) 0%,
+        rgba(183, 28, 28, 0.1) 100%);
+    border: 1px solid rgba(229, 57, 53, 0.4);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 16px 20px 0;
+}
+
+.low-odds-warning-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.low-odds-warning .warning-icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.low-odds-warning .warning-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.low-odds-warning .warning-text strong {
+    color: #ff6b6b;
+}
+
+/* 매치업 메시지 */
+.h2h-matchup-message {
+    display: none;
+    padding: 14px 20px;
+    margin: 16px 0;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+    white-space: pre-line;
+}
+
+.h2h-matchup-message.info {
+    background: linear-gradient(135deg,
+        rgba(196, 255, 0, 0.12) 0%,
+        rgba(0, 111, 98, 0.1) 100%);
+    border: 1px solid rgba(196, 255, 0, 0.3);
+    color: var(--am-lime);
+}
+
+/* 드라이버 선택 버튼 순위 배지 */
+.driver-rank-badge {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: auto;
+    margin-right: 8px;
+}
+
+/* 높은/낮은 배당률 표시 */
+.picker-driver-btn .driver-odds.low-odds {
+    background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
+    color: #fff;
+}
+
+.picker-driver-btn .driver-odds.high-odds {
+    background: linear-gradient(135deg, var(--am-lime) 0%, #8bc34a 100%);
+    color: #000;
+    font-weight: 800;
+}
+
+/* 인기 매치업 통계 스타일 */
+.matchup-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.matchup-amount {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+.matchup-count {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    background: transparent;
+    padding: 0;
+}
+
+/* 인기 매치업 글래스모피즘 */
+.popular-matchups-panel {
+    background: linear-gradient(180deg,
+        rgba(26, 26, 26, 0.95) 0%,
+        rgba(20, 20, 20, 0.98) 100%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.panel-header {
+    background: linear-gradient(180deg,
+        rgba(0, 111, 98, 0.2) 0%,
+        rgba(0, 111, 98, 0.05) 100%);
+    backdrop-filter: blur(5px);
+}
+
+/* ========================================
+   1:1 드라이버 선택 모달 - 프리미엄 스타일
+   ======================================== */
+
+.h2h-driver-picker-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.h2h-driver-picker-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.h2h-driver-picker-modal .picker-overlay {
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
+}
+
+.h2h-driver-picker-modal .picker-content {
+    border: 1px solid var(--am-green);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 111, 98, 0.2);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.h2h-driver-picker-modal .picker-header {
+    background: linear-gradient(180deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+}
+
+.h2h-driver-picker-modal .picker-team-header {
+    background: linear-gradient(180deg, #1e1e1e 0%, #181818 100%);
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+.h2h-driver-picker-modal .picker-driver-btn {
+    background: linear-gradient(180deg, #1e1e1e 0%, #161616 100%);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.h2h-driver-picker-modal .picker-driver-btn:hover:not(.disabled) {
+    background: linear-gradient(180deg, #2a2a2a 0%, #1e1e1e 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.h2h-driver-picker-modal .picker-driver-btn .driver-odds {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+}
+
+.h2h-driver-picker-modal .picker-driver-btn .driver-odds.disabled-reason {
+    font-family: inherit;
+    font-size: 0.65rem;
+    background: rgba(229, 57, 53, 0.2);
+    color: var(--color-red);
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.h2h-driver-picker-modal .picker-driver-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #111;
+}
+
+/* ========================================
+   반응형 디자인
+   ======================================== */
+
+/* 2컬럼 레이아웃 반응형 - 태블릿 (900px 이하) */
+@media (max-width: 900px) {
+    .h2h-layout-2col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .h2h-side-panel {
+        position: relative;
+        top: 0;
+        order: 2;
+    }
+
+    .h2h-main-panel {
+        order: 1;
+    }
+
+    .standings-list {
+        max-height: 300px;
+    }
+}
+
+/* 컴팩트 VS 카드 반응형 */
+@media (max-width: 600px) {
+    .vs-card-compact {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .vs-badge {
+        padding: 6px 16px;
+    }
+
+    .vs-slot {
+        padding: 16px 12px;
+    }
+
+    .h2h-odds-row {
+        gap: 8px;
+    }
+
+    .odds-select-btn {
+        padding: 12px 8px;
+    }
+
+    .stake-quick-btns {
+        flex-wrap: wrap;
+    }
+
+    .stake-quick-btns button {
+        flex: 1 1 calc(50% - 4px);
+    }
+
+    .bet-summary {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .bet-summary .summary-item {
+        flex: 1 1 calc(33% - 8px);
+    }
+}
+
+@media (max-width: 992px) {
+    .betting-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .left-panel {
+        order: 2;
+    }
+
+    .podium-panel {
+        order: 1;
+    }
+
+    .odds-list-container {
+        max-height: 350px;
+    }
+
+    /* 1:1 베팅 반응형 - 기존 2컬럼 레이아웃 */
+    .h2h-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .h2h-right-panel {
+        order: 2;
+    }
+
+    .h2h-left-panel {
+        order: 1;
+    }
+
+    /* 3컬럼 → 단일 컬럼 전환 */
+    .h2h-layout-3col {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .h2h-left-panel {
+        grid-column: 1;
+        grid-row: 3;
+        order: 3;
+    }
+
+    .h2h-center-panel {
+        grid-column: 1;
+        grid-row: 1;
+        order: 1;
+    }
+
+    .h2h-right-panel {
+        grid-column: 1;
+        grid-row: 2;
+        order: 2;
+    }
+
+    .standings-list {
+        max-height: 350px;
+    }
+
+    .vs-driver-number {
+        font-size: 2.5rem;
+    }
+
+    .h2h-odds-display {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 768px) {
+    .betting-hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .next-race-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .race-countdown {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .picker-drivers {
+        grid-template-columns: 1fr;
+    }
+
+    .confirm-modal-buttons {
+        flex-direction: column;
+    }
+
+    .confirm-modal-btn {
+        width: 100%;
+    }
+
+    /* 베팅 타입 탭 반응형 */
+    .betting-type-tabs {
+        max-width: 100%;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .betting-type-tab {
+        padding: 10px 18px;
+        font-size: 0.8rem;
+    }
+
+    .betting-type-tab .tab-icon {
+        font-size: 1rem;
+    }
+
+    /* VS 카드 반응형 */
+    .vs-card {
+        flex-direction: column;
+        min-height: auto;
+        border-radius: 12px;
+    }
+
+    .vs-driver-slot {
+        padding: 30px 20px;
+    }
+
+    .vs-driver-slot:first-child {
+        background: linear-gradient(180deg, rgba(229, 57, 53, 0.08) 0%, transparent 100%);
+    }
+
+    .vs-driver-slot:last-child {
+        background: linear-gradient(0deg, rgba(33, 150, 243, 0.08) 0%, transparent 100%);
+    }
+
+    .vs-center {
+        width: 100%;
+        height: 70px;
+        flex-direction: row;
+    }
+
+    .vs-center::before,
+    .vs-center::after {
+        top: 0;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, var(--am-lime) 50%, transparent 100%);
+    }
+
+    .vs-center::before { top: 0; }
+    .vs-center::after { bottom: 0; top: auto; }
+
+    .vs-driver-number {
+        font-size: 2.5rem;
+    }
+
+    /* 베팅 패널 반응형 */
+    .h2h-odds-display {
+        flex-direction: column;
+    }
+
+    .h2h-odds-item:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .matchup-drivers {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .matchup-vs {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .betting-hero {
+        padding: 80px 15px 25px;
+    }
+
+    .betting-hero-content h1 {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+    }
+
+    .next-race-section,
+    .betting-main-section {
+        padding: 0 12px;
+    }
+
+    .bet-slip-header {
+        padding: 12px 14px;
+    }
+
+    .selection-row {
+        padding: 10px;
+    }
+
+    .quick-amounts-row {
+        flex-wrap: wrap;
+    }
+
+    .quick-amt-btn {
+        flex: 1 1 45%;
+    }
+
+    .alert-modal-content,
+    .confirm-modal-content {
+        min-width: auto;
+        width: 90%;
+        padding: 25px 20px;
+    }
+
+    /* 1:1 베팅 모바일 */
+    .h2h-main-section {
+        padding: 0 12px;
+    }
+
+    .betting-type-tabs {
+        gap: 8px;
+        padding: 12px;
+    }
+
+    .betting-type-tab {
+        padding: 10px 14px;
+        font-size: 0.75rem;
+    }
+
+    .betting-type-tab .tab-icon {
+        font-size: 0.95rem;
+    }
+
+    .betting-type-tab .tab-text {
+        font-size: 0.75rem;
+    }
+
+    .vs-card {
+        border-radius: 10px;
+    }
+
+    .vs-driver-slot {
+        padding: 24px 16px;
+    }
+
+    .vs-driver-number {
+        font-size: 2rem;
+    }
+
+    .vs-driver-name {
+        font-size: 1rem;
+    }
+
+    .vs-center {
+        height: 60px;
+    }
+
+    .vs-text {
+        width: 55px;
+        height: 55px;
+        font-size: 1.1rem;
+    }
+
+    .h2h-quick-amounts {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .h2h-quick-btn {
+        padding: 10px;
+    }
+
+    .h2h-odds-value {
+        font-size: 1.3rem;
+        padding: 6px 14px;
+    }
+
+    .h2h-input-wrapper input {
+        font-size: 1.2rem;
+        padding: 14px 16px;
+    }
+
+    .h2h-summary-row.total {
+        font-size: 1rem;
+    }
+
+    .h2h-place-bet-btn {
+        padding: 16px;
+        font-size: 1rem;
+    }
+
+    .matchup-item {
+        padding: 12px;
+    }
+
+    .matchup-drivers {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+    }
+
+    .matchup-driver-a,
+    .matchup-driver-b {
+        font-size: 0.85rem;
+    }
+
+    .h2h-bet-matchup {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .popular-matchups-panel,
+    .my-h2h-bets-panel,
+    .driver-standings-panel {
+        border-radius: 10px;
+    }
+
+    .standing-item {
+        padding: 10px 12px;
+    }
+
+    .standing-driver-name {
+        font-size: 0.85rem;
+    }
+
+    .standing-points {
+        font-size: 0.95rem;
+    }
+
+    .standings-list {
+        max-height: 300px;
+    }
+
+    .vs-driver-rank-points {
+        gap: 6px;
+    }
+
+    .vs-rank-badge,
+    .vs-points-badge {
+        padding: 4px 10px;
+        font-size: 0.7rem;
+    }
+}
+
+/* ========================================
+   리더보드 섹션 스타일
+   ======================================== */
+
+#leaderboardSection {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 리더보드 헤더 */
+.leaderboard-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.leaderboard-header h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--am-lime);
+    margin: 0 0 8px 0;
+    letter-spacing: 2px;
+}
+
+.leaderboard-header .subtitle {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* 필터 탭 */
+.leaderboard-filters {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.leaderboard-filter-tab {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.leaderboard-filter-tab:hover {
+    border-color: var(--am-green);
+    color: var(--text-primary);
+}
+
+.leaderboard-filter-tab.active {
+    background: linear-gradient(135deg, var(--am-green) 0%, var(--am-green-dark) 100%);
+    border-color: var(--am-green);
+    color: #fff;
+}
+
+/* 리더보드 콘텐츠 */
+#leaderboardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 로딩 상태 */
+.leaderboard-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 16px;
+    color: var(--text-secondary);
+}
+
+.leaderboard-loading .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top-color: var(--am-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 빈 상태 */
+.leaderboard-empty,
+.leaderboard-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.leaderboard-empty .empty-icon,
+.leaderboard-error .error-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.leaderboard-empty p,
+.leaderboard-error p {
+    color: var(--text-secondary);
+    margin: 0 0 8px 0;
+}
+
+.leaderboard-empty .empty-hint {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.retry-btn {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--am-green);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.retry-btn:hover {
+    background: var(--am-green-light);
+}
+
+/* ========================================
+   포디움 (상위 3명)
+   ======================================== */
+
+.leaderboard-podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(0, 111, 98, 0.1) 0%, transparent 100%);
+    border-radius: 16px;
+}
+
+.podium-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    min-width: 140px;
+    transition: all 0.3s ease;
+}
+
+.podium-slot.empty {
+    opacity: 0.3;
+}
+
+.podium-slot.is-me {
+    border-color: var(--am-lime);
+    box-shadow: 0 0 20px rgba(196, 255, 0, 0.15);
+}
+
+/* 1등 - 골드 */
+.podium-slot.gold {
+    order: 2;
+    padding-bottom: 40px;
+    min-height: 220px;
+    background: linear-gradient(180deg, rgba(255, 215, 0, 0.1) 0%, var(--bg-card) 30%);
+    border-color: rgba(255, 215, 0, 0.3);
+}
+
+.podium-slot.gold .podium-badge {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb800 100%);
+    color: #000;
+}
+
+/* 2등 - 실버 */
+.podium-slot.silver {
+    order: 1;
+    min-height: 180px;
+    background: linear-gradient(180deg, rgba(192, 192, 192, 0.08) 0%, var(--bg-card) 30%);
+    border-color: rgba(192, 192, 192, 0.3);
+}
+
+.podium-slot.silver .podium-badge {
+    background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 100%);
+    color: #000;
+}
+
+/* 3등 - 브론즈 */
+.podium-slot.bronze {
+    order: 3;
+    min-height: 160px;
+    background: linear-gradient(180deg, rgba(205, 127, 50, 0.08) 0%, var(--bg-card) 30%);
+    border-color: rgba(205, 127, 50, 0.3);
+}
+
+.podium-slot.bronze .podium-badge {
+    background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%);
+    color: #fff;
+}
+
+/* 포디움 아바타 */
+.podium-avatar {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 12px;
+}
+
+.podium-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+.podium-avatar .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-card-alt);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+.podium-badge {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 포디움 이름 */
+.podium-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.podium-name .me-badge {
+    color: var(--am-lime);
+    font-size: 0.75rem;
+}
+
+/* 포디움 스탯 */
+.podium-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.podium-stat .stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.podium-stat .stat-value.positive {
+    color: var(--am-lime);
+}
+
+.podium-stat .stat-value.negative {
+    color: var(--color-red);
+}
+
+.podium-stat .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.podium-sub-stats {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   리더보드 리스트 (4위 이하)
+   ======================================== */
+
+.leaderboard-list {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.15s;
+}
+
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-item:hover {
+    background: var(--bg-hover);
+}
+
+.leaderboard-item.is-me {
+    background: rgba(196, 255, 0, 0.05);
+    border-left: 3px solid var(--am-lime);
+}
+
+.item-rank {
+    width: 32px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.item-avatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.item-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.item-avatar .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.item-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.item-name .me-badge {
+    color: var(--am-lime);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.item-record {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.item-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.item-stat .stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.item-stat.positive .stat-value {
+    color: var(--am-lime);
+}
+
+.item-stat.negative .stat-value {
+    color: var(--color-red);
+}
+
+.item-stat .stat-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+/* ========================================
+   내 순위 카드
+   ======================================== */
+
+.my-rank-card {
+    position: sticky;
+    bottom: 20px;
+    background: var(--bg-card);
+    border: 2px solid var(--am-green);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.my-rank-card.guest,
+.my-rank-card.no-data {
+    border-color: var(--border-color);
+}
+
+.my-rank-card.in-list {
+    padding: 12px 16px;
+}
+
+.my-rank-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.my-rank-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.my-rank-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--am-lime);
+}
+
+.my-rank-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-color);
+}
+
+.my-rank-avatar {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.my-rank-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--am-green);
+}
+
+.my-rank-avatar .avatar-fallback {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-card-alt);
+    border: 2px solid var(--am-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.my-rank-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.my-rank-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.my-rank-record {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.my-rank-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.my-rank-stat .stat-value {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.my-rank-stat.positive .stat-value {
+    color: var(--am-lime);
+}
+
+.my-rank-stat.negative .stat-value {
+    color: var(--color-red);
+}
+
+.my-rank-stat .stat-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+}
+
+/* 게스트/데이터 없음 상태 */
+.my-rank-card .my-rank-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    gap: 8px;
+}
+
+.guest-icon,
+.no-data-icon {
+    font-size: 2rem;
+}
+
+.guest-text,
+.no-data-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.no-data-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* ========================================
+   리더보드 반응형
+   ======================================== */
+
+@media (max-width: 768px) {
+    #leaderboardSection {
+        padding: 16px;
+    }
+
+    .leaderboard-header h2 {
+        font-size: 1.4rem;
+    }
+
+    .leaderboard-filters {
+        gap: 6px;
+    }
+
+    .leaderboard-filter-tab {
+        padding: 8px 14px;
+        font-size: 0.8rem;
+    }
+
+    /* 포디움 */
+    .leaderboard-podium {
+        gap: 10px;
+        padding: 16px 12px;
+    }
+
+    .podium-slot {
+        min-width: 100px;
+        padding: 16px 12px;
+    }
+
+    .podium-slot.gold {
+        padding-bottom: 30px;
+        min-height: 180px;
+    }
+
+    .podium-slot.silver {
+        min-height: 150px;
+    }
+
+    .podium-slot.bronze {
+        min-height: 130px;
+    }
+
+    .podium-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .podium-name {
+        font-size: 0.8rem;
+    }
+
+    .podium-stat .stat-value {
+        font-size: 1rem;
+    }
+
+    .podium-sub-stats {
+        font-size: 0.7rem;
+    }
+
+    /* 리스트 */
+    .leaderboard-item {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .item-rank {
+        width: 28px;
+        font-size: 0.8rem;
+    }
+
+    .item-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .item-name {
+        font-size: 0.85rem;
+    }
+
+    .item-stat .stat-value {
+        font-size: 0.9rem;
+    }
+
+    /* 내 순위 카드 */
+    .my-rank-card {
+        padding: 14px;
+    }
+
+    .my-rank-value {
+        font-size: 1.1rem;
+    }
+
+    .my-rank-avatar {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .leaderboard-podium {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .podium-slot {
+        order: unset !important;
+        min-width: 100%;
+        max-width: 280px;
+        min-height: auto !important;
+        padding: 16px !important;
+        flex-direction: row;
+        gap: 16px;
+    }
+
+    .podium-avatar {
+        margin-bottom: 0;
+    }
+
+    .podium-slot .podium-name,
+    .podium-slot .podium-stat,
+    .podium-slot .podium-sub-stats {
+        text-align: left;
+    }
+
+    .podium-slot > div:not(.podium-avatar) {
+        flex: 1;
+    }
+}

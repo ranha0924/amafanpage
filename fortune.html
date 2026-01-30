@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운명의 서킷 - Aston Martin F1 Fan Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+    <link rel="stylesheet" href="css/fortune.css">
+</head>
+<body>
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html" class="active" aria-current="page">홈페이지</a></li>
+            <li><a href="fortune.html">운명의 서킷</a></li>
+            <li><a href="history.html">역사</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="nav" aria-label="메인 네비게이션">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" aria-current="page">홈페이지</a></li>
+                <li><a href="fortune.html">운명의 서킷</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="fortune-hero">
+        <div class="fortune-hero-content">
+            <h1>RACE TAROT</h1>
+            <p class="fortune-subtitle">드라이버를 선택하고 별자리 분석과 레이스 타로를 확인하세요</p>
+        </div>
+    </section>
+
+    <section class="fortune-selection">
+        <h2 class="section-title">SELECT DRIVER</h2>
+        <div class="driver-select-container">
+            <div class="driver-select-card" onclick="showDriverOptions('leo')">
+                <div class="driver-select-number">14</div>
+                <div class="driver-select-image">
+                    <img src="images/alonso.avif" alt="Fernando Alonso">
+                </div>
+                <div class="driver-select-info">
+                    <h3>페르난도 알론소</h3>
+                    <p>Fernando Alonso</p>
+                    <span class="driver-zodiac-badge">♌ 사자자리</span>
+                </div>
+            </div>
+
+            <div class="driver-select-card" onclick="showDriverOptions('scorpio')">
+                <div class="driver-select-number">18</div>
+                <div class="driver-select-image">
+                    <img src="images/lance.avif" alt="Lance Stroll">
+                </div>
+                <div class="driver-select-info">
+                    <h3>랜스 스트롤</h3>
+                    <p>Lance Stroll</p>
+                    <span class="driver-zodiac-badge">♏ 전갈자리</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 드라이버 옵션 모달 -->
+    <div class="driver-options-modal" id="driverOptionsModal">
+        <div class="driver-options-overlay" onclick="closeDriverOptions()"></div>
+        <div class="driver-options-content">
+            <button class="driver-options-close" onclick="closeDriverOptions()">&times;</button>
+            <div class="driver-options-header">
+                <span class="driver-options-number" id="optionsDriverNumber">14</span>
+                <div class="driver-options-name">
+                    <h3 id="optionsDriverName">페르난도 알론소</h3>
+                    <p id="optionsDriverZodiac">♌ 사자자리</p>
+                </div>
+            </div>
+            <div class="driver-options-buttons">
+                <button class="driver-option-btn zodiac-btn" onclick="showZodiacSection()">
+                    <span class="option-icon">⭐</span>
+                    <span class="option-text">별자리 성격 보기</span>
+                    <span class="option-desc">드라이버의 별자리 특성 분석</span>
+                </button>
+                <button class="driver-option-btn tarot-btn" id="tarotOptionBtn" onclick="showTarotSection()">
+                    <span class="option-icon">🃏</span>
+                    <span class="option-text" id="tarotOptionText">운명의 서킷 보기</span>
+                    <span class="option-desc" id="tarotOptionDesc">레이스 운세 카드 뽑기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알론소 별자리 섹션 -->
+    <section class="fortune-content zodiac-section" id="zodiac-leo">
+        <div class="fortune-driver-header">
+            <h2>#14 페르난도 알론소</h2>
+            <p>Fernando Alonso · Leo ♌</p>
+        </div>
+
+        <div class="fortune-vertical-layout">
+            <div class="fortune-box zodiac-box">
+                <div class="fortune-box-header">
+                    <span class="fortune-icon">♌</span>
+                    <h3>별자리 성격 분석</h3>
+                </div>
+                <div class="zodiac-content">
+                    <div class="zodiac-title">
+                        <span class="zodiac-symbol-large">🦁</span>
+                        <div>
+                            <h4>사자자리</h4>
+                            <p>Leo · 7월 23일 ~ 8월 22일</p>
+                        </div>
+                    </div>
+                    <div class="zodiac-traits">
+                        <span class="trait">리더십</span>
+                        <span class="trait">자신감</span>
+                        <span class="trait">열정적</span>
+                        <span class="trait">카리스마</span>
+                    </div>
+                    <p class="zodiac-description">
+                        사자자리 특유의 강렬한 자신감과 리더십을 바탕으로, 알론소는 레이스에서 누구도 넘볼 수 없는 카리스마를 발휘합니다.
+                        절대 포기하지 않는 투지와 승부욕은 그를 F1 역사상 가장 뛰어난 드라이버 중 한 명으로 만들었습니다.
+                    </p>
+                    <div class="zodiac-stats">
+                        <div class="zodiac-stat">
+                            <span class="stat-label">원소</span>
+                            <span class="stat-value">불 (Fire)</span>
+                        </div>
+                        <div class="zodiac-stat">
+                            <span class="stat-label">행성</span>
+                            <span class="stat-value">태양 (Sun)</span>
+                        </div>
+                        <div class="zodiac-stat">
+                            <span class="stat-label">색상</span>
+                            <span class="stat-value">금색, 주황색</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    </div>
+    </section>
+
+    <!-- 알론소 타로 섹션 -->
+    <section class="fortune-content tarot-section" id="tarot-leo">
+        <div class="fortune-driver-header">
+            <h2>#14 페르난도 알론소</h2>
+            <p>Fernando Alonso · Leo ♌</p>
+        </div>
+
+        <div class="fortune-vertical-layout">
+            <!-- 24시간 유효 문구 -->
+            <div class="tarot-validity-notice" id="validityNotice-leo">
+                <div class="validity-icon">🏁</div>
+                <div class="validity-text">
+                    <span class="validity-race" id="validityRace-leo"></span>
+                    <span class="validity-countdown" id="validityCountdown-leo"></span>
+                </div>
+                <div class="validity-warning">이 운세는 해당 경기에만 유효합니다</div>
+            </div>
+
+            <!-- 타로 메인 영역 -->
+            <div class="tarot-main-area">
+                <!-- 셔플 덱 -->
+                <div class="tarot-shuffle-container" id="shuffleContainer-leo">
+                    <div class="tarot-shuffle-deck" id="shuffleDeck-leo">
+                        <div class="shuffle-card" data-position="0">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="1">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="2">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="3">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="4">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                    </div>
+                    <button class="shuffle-start-btn" id="shuffleBtn-leo">카드 섞기</button>
+                    <p class="shuffle-instruction" id="shuffleInstruction-leo">버튼을 눌러 카드를 섞으세요</p>
+                </div>
+
+                <!-- 선택된 카드 표시 영역 -->
+                <div class="tarot-selected-card" id="selectedCard-leo" style="display: none;">
+                    <div class="tarot-card">
+                        <div class="tarot-card-inner">
+                            <div class="tarot-card-back">
+                                <div class="card-back-pattern">
+                                    <div class="card-back-logo">✦</div>
+                                </div>
+                            </div>
+                            <div class="tarot-card-front">
+                                <div class="tarot-card-symbol" id="tarotSymbol-leo"></div>
+                                <div class="tarot-card-name" id="tarotCardName-leo"></div>
+                                <div class="tarot-card-name-en" id="tarotCardNameEn-leo"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 타로 결과 -->
+                <div class="tarot-reading" id="tarotReading-leo">
+                    <div class="tarot-f1-meaning">
+                        <h4>레이스 운세</h4>
+                        <p id="tarotF1Meaning-leo"></p>
+                    </div>
+                    <div class="tarot-situation">
+                        <h4>경기 상황 예측</h4>
+                        <p id="tarotSituation-leo"></p>
+                    </div>
+                    <div class="tarot-driver-advice">
+                        <h4>드라이버 조언</h4>
+                        <p id="tarotDriverAdvice-leo"></p>
+                    </div>
+                    <div class="tarot-pit-strategy">
+                        <h4>전략 포인트</h4>
+                        <p id="tarotPitStrategy-leo"></p>
+                    </div>
+                    <div class="tarot-keywords" id="tarotKeywords-leo">
+                        <span class="tarot-keyword" id="keyword1-leo"></span>
+                        <span class="tarot-keyword" id="keyword2-leo"></span>
+                        <span class="tarot-keyword" id="keyword3-leo"></span>
+                    </div>
+                </div>
+
+                <!-- 운세 종료 안내 -->
+                <div class="tarot-fixed-notice" id="fixedNotice-leo" style="display: none;">
+                    <p>오늘의 운세는 여기까지입니다</p>
+                    <p class="next-day-notice">내일 다시 확인해주세요!</p>
+                </div>
+            </div>
+
+                    </div>
+    </section>
+
+    <!-- 스트롤 별자리 섹션 -->
+    <section class="fortune-content zodiac-section" id="zodiac-scorpio">
+        <div class="fortune-driver-header">
+            <h2>#18 랜스 스트롤</h2>
+            <p>Lance Stroll · Scorpio ♏</p>
+        </div>
+
+        <div class="fortune-vertical-layout">
+            <div class="fortune-box zodiac-box">
+                <div class="fortune-box-header">
+                    <span class="fortune-icon">♏</span>
+                    <h3>별자리 성격 분석</h3>
+                </div>
+                <div class="zodiac-content">
+                    <div class="zodiac-title">
+                        <span class="zodiac-symbol-large">🦂</span>
+                        <div>
+                            <h4>전갈자리</h4>
+                            <p>Scorpio · 10월 23일 ~ 11월 21일</p>
+                        </div>
+                    </div>
+                    <div class="zodiac-traits">
+                        <span class="trait">집중력</span>
+                        <span class="trait">끈기</span>
+                        <span class="trait">직관적</span>
+                        <span class="trait">결단력</span>
+                    </div>
+                    <p class="zodiac-description">
+                        전갈자리의 강한 집중력과 끈기로, 스트롤은 어려운 상황에서도 침착하게 레이스를 완주합니다.
+                        비가 오는 악조건에서 빛을 발하는 그의 직관력은 터키 GP 폴 포지션으로 증명되었습니다.
+                    </p>
+                    <div class="zodiac-stats">
+                        <div class="zodiac-stat">
+                            <span class="stat-label">원소</span>
+                            <span class="stat-value">물 (Water)</span>
+                        </div>
+                        <div class="zodiac-stat">
+                            <span class="stat-label">행성</span>
+                            <span class="stat-value">명왕성 (Pluto)</span>
+                        </div>
+                        <div class="zodiac-stat">
+                            <span class="stat-label">색상</span>
+                            <span class="stat-value">검정, 빨강</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    </div>
+    </section>
+
+    <!-- 스트롤 타로 섹션 -->
+    <section class="fortune-content tarot-section" id="tarot-scorpio">
+        <div class="fortune-driver-header">
+            <h2>#18 랜스 스트롤</h2>
+            <p>Lance Stroll · Scorpio ♏</p>
+        </div>
+
+        <div class="fortune-vertical-layout">
+            <!-- 24시간 유효 문구 -->
+            <div class="tarot-validity-notice" id="validityNotice-scorpio">
+                <div class="validity-icon">🏁</div>
+                <div class="validity-text">
+                    <span class="validity-race" id="validityRace-scorpio"></span>
+                    <span class="validity-countdown" id="validityCountdown-scorpio"></span>
+                </div>
+                <div class="validity-warning">이 운세는 해당 경기에만 유효합니다</div>
+            </div>
+
+            <!-- 타로 메인 영역 -->
+            <div class="tarot-main-area">
+                <!-- 셔플 덱 -->
+                <div class="tarot-shuffle-container" id="shuffleContainer-scorpio">
+                    <div class="tarot-shuffle-deck" id="shuffleDeck-scorpio">
+                        <div class="shuffle-card" data-position="0">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="1">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="2">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="3">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                        <div class="shuffle-card" data-position="4">
+                            <div class="shuffle-card-back"></div>
+                        </div>
+                    </div>
+                    <button class="shuffle-start-btn" id="shuffleBtn-scorpio">카드 섞기</button>
+                    <p class="shuffle-instruction" id="shuffleInstruction-scorpio">버튼을 눌러 카드를 섞으세요</p>
+                </div>
+
+                <!-- 선택된 카드 표시 영역 -->
+                <div class="tarot-selected-card" id="selectedCard-scorpio" style="display: none;">
+                    <div class="tarot-card">
+                        <div class="tarot-card-inner">
+                            <div class="tarot-card-back">
+                                <div class="card-back-pattern">
+                                    <div class="card-back-logo">✦</div>
+                                </div>
+                            </div>
+                            <div class="tarot-card-front">
+                                <div class="tarot-card-symbol" id="tarotSymbol-scorpio"></div>
+                                <div class="tarot-card-name" id="tarotCardName-scorpio"></div>
+                                <div class="tarot-card-name-en" id="tarotCardNameEn-scorpio"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 타로 결과 -->
+                <div class="tarot-reading" id="tarotReading-scorpio">
+                    <div class="tarot-f1-meaning">
+                        <h4>레이스 운세</h4>
+                        <p id="tarotF1Meaning-scorpio"></p>
+                    </div>
+                    <div class="tarot-situation">
+                        <h4>경기 상황 예측</h4>
+                        <p id="tarotSituation-scorpio"></p>
+                    </div>
+                    <div class="tarot-driver-advice">
+                        <h4>드라이버 조언</h4>
+                        <p id="tarotDriverAdvice-scorpio"></p>
+                    </div>
+                    <div class="tarot-pit-strategy">
+                        <h4>전략 포인트</h4>
+                        <p id="tarotPitStrategy-scorpio"></p>
+                    </div>
+                    <div class="tarot-keywords" id="tarotKeywords-scorpio">
+                        <span class="tarot-keyword" id="keyword1-scorpio"></span>
+                        <span class="tarot-keyword" id="keyword2-scorpio"></span>
+                        <span class="tarot-keyword" id="keyword3-scorpio"></span>
+                    </div>
+                </div>
+
+                <!-- 운세 종료 안내 -->
+                <div class="tarot-fixed-notice" id="fixedNotice-scorpio" style="display: none;">
+                    <p>오늘의 운세는 여기까지입니다</p>
+                    <p class="next-day-notice">내일 다시 확인해주세요!</p>
+                </div>
+            </div>
+
+                    </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">ASTON MARTIN</span>
+                <span class="logo-sub">ARAMCO F1 TEAM</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.astonmartinf1.com" target="_blank">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank">유튜브</a>
+            </div>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images © Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">2026 Aston Martin Fan Page. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/tarotData.js"></script>
+    <script src="js/fortune.js"></script>
+</body>
+</html>

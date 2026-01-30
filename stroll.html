@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lance Stroll #18 - AMR FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary-green:#006f62;--accent-lime:#c4ff00;--white:#ffffff;--dark:#1a1a1a;--gray:#333333;--light-gray:#cccccc}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:var(--dark);color:var(--white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px 30px}
+        .nav{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--accent-lime)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--light-gray)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(90deg,var(--primary-green),#00897b);color:var(--white);border:none;padding:8px 16px;border-radius:20px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--accent-lime);object-fit:cover}
+        .user-name{color:var(--white);font-weight:500;font-size:0.8rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--light-gray);border:1px solid var(--light-gray);padding:5px 12px;border-radius:15px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--accent-lime)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/driver.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- Side Menu -->
+   <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html" class="active" aria-current="page">홈페이지</a></li>
+            <li><a href="fortune.html">운명의 서킷</a></li>
+            <li><a href="history.html">역사</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="nav" aria-label="메인 네비게이션">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" aria-current="page">홈페이지</a></li>
+                <li><a href="fortune.html">운명의 서킷</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Driver Hero -->
+    <section class="driver-hero">
+        <div class="driver-hero-content">
+            <div class="driver-hero-image">
+                <img src="images/lance.avif" alt="Lance Stroll" class="driver-hero-photo">
+            </div>
+            <div class="driver-hero-info">
+                <div class="driver-hero-number">18</div>
+                <h1 class="driver-hero-name">랜스 스트롤</h1>
+                <p class="driver-hero-name-en">Lance Stroll</p>
+                <div class="driver-hero-flag">
+                    <img src="https://flagcdn.com/w40/ca.png" alt="Canada">
+                    <span>캐나다</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile Section -->
+    <section class="driver-profile-section">
+        <h2 class="section-title">DRIVER PROFILE</h2>
+        <div class="profile-grid">
+            <div class="profile-card">
+                <h3 class="profile-card-title">기본 정보</h3>
+                <div class="profile-item">
+                    <span class="profile-label">레이싱 넘버</span>
+                    <span class="profile-value">#18</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">국적</span>
+                    <span class="profile-value">캐나다</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">생년월일</span>
+                    <span class="profile-value">1998년 10월 29일</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">출생지</span>
+                    <span class="profile-value">몬트리올, 캐나다</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">F1 데뷔</span>
+                    <span class="profile-value">2017년</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">현재 팀</span>
+                    <span class="profile-value">Aston Martin</span>
+                </div>
+            </div>
+            <div class="profile-card">
+                <h3 class="profile-card-title">팀 히스토리</h3>
+                <div class="profile-item">
+                    <span class="profile-label">2017-2018</span>
+                    <span class="profile-value">Williams</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">2019-2020</span>
+                    <span class="profile-value">Racing Point</span>
+                </div>
+                <div class="profile-item">
+                    <span class="profile-label">2021-현재</span>
+                    <span class="profile-value">Aston Martin</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="driver-stats-section">
+        <h2 class="section-title">CAREER STATISTICS</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-number">3</div>
+                <div class="stat-card-label">포디움</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-number">1</div>
+                <div class="stat-card-label">폴 포지션</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-number">270+</div>
+                <div class="stat-card-label">커리어 포인트</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-number">150+</div>
+                <div class="stat-card-label">그랑프리 출전</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-number">3</div>
+                <div class="stat-card-label">최고 순위</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-number">1</div>
+                <div class="stat-card-label">패스티스트 랩</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TMI Section -->
+    <section class="driver-tmi-section">
+        <h2 class="section-title">DRIVER TMI</h2>
+        <div class="tmi-grid">
+            <div class="tmi-card">
+                <div class="tmi-icon">♏</div>
+                <div class="tmi-label">별자리</div>
+                <div class="tmi-value">전갈자리 (Scorpio)</div>
+            </div>
+            <div class="tmi-card">
+                <div class="tmi-icon">⚽</div>
+                <div class="tmi-label">취미</div>
+                <div class="tmi-value">축구, 음악</div>
+            </div>
+            <div class="tmi-card">
+                <div class="tmi-icon">🎸</div>
+                <div class="tmi-label">특기</div>
+                <div class="tmi-value">기타 연주, 드럼</div>
+            </div>
+            <div class="tmi-card">
+                <div class="tmi-icon">👨‍👧</div>
+                <div class="tmi-label">아버지</div>
+                <div class="tmi-value">로렌스 스트롤 (팀 오너)</div>
+            </div>
+            <div class="tmi-card">
+                <div class="tmi-icon">🏎️</div>
+                <div class="tmi-label">F3 챔피언</div>
+                <div class="tmi-value">2016 유럽 F3 챔피언</div>
+            </div>
+            <div class="tmi-card">
+                <div class="tmi-icon">🎂</div>
+                <div class="tmi-label">데뷔 나이</div>
+                <div class="tmi-value">18세 (2017년)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quotes Section -->
+    <section class="driver-quotes-section">
+        <h2 class="section-title">MEMORABLE QUOTES</h2>
+        <div class="quotes-container">
+            <div class="quote-card">
+                <p class="quote-text">"Yeah. My mediums feel like a hundred lap old!"</p>
+                <p class="quote-context">- 타이어 마모에 대한 팀 무선</p>
+            </div>
+            <div class="quote-card">
+                <p class="quote-text">"I love racing in the wet. It's a great equalizer."</p>
+                <p class="quote-context">- 빗속 레이스에 대한 인터뷰</p>
+            </div>
+            <div class="quote-card">
+                <p class="quote-text">"The first lap is always chaotic, you just have to survive and make good decisions."</p>
+                <p class="quote-context">- 스타트 전략에 대하여</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="driver-timeline-section">
+        <h2 class="section-title">CAREER TIMELINE</h2>
+        <div class="career-timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2016</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">유럽 F3 챔피언</h4>
+                    <p class="timeline-description">프레마 파워팀에서 유럽 F3 챔피언십 우승. 시즌 14승을 기록하며 압도적인 실력을 과시.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2017</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">F1 데뷔 & 첫 포디움</h4>
+                    <p class="timeline-description">윌리엄스에서 18세의 나이로 F1 데뷔. 아제르바이잔 GP에서 첫 포디움(3위)을 기록하며 역대 최연소 포디움 기록 달성.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2019</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">레이싱 포인트 이적</h4>
+                    <p class="timeline-description">아버지 로렌스 스트롤이 인수한 레이싱 포인트(구 포스 인디아)로 이적.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">첫 폴 포지션</h4>
+                    <p class="timeline-description">터키 GP 예선에서 첫 폴 포지션 획득. 빗속에서 펼쳐진 예선에서 놀라운 퍼포먼스를 선보임.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2021</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">애스턴마틴 시대 개막</h4>
+                    <p class="timeline-description">팀 리브랜딩과 함께 애스턴마틴 F1 팀의 드라이버로 새 출발. 알론소와 함께 팀의 성장을 이끔.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">
+                    <h4 class="timeline-title">팀 최고 시즌 기여</h4>
+                    <p class="timeline-description">알론소와 함께 애스턴마틴 역사상 최고 시즌에 기여. 여러 차례 포인트 획득으로 팀 순위 상승에 일조.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Merchandise Section -->
+    <section class="driver-merch-section">
+        <h2 class="section-title">STROLL MERCHANDISE</h2>
+        <div class="merch-cta">
+            <p>랜스 스트롤의 공식 굿즈를 만나보세요. 드라이버 캡, 팀웨어 등 다양한 상품이 준비되어 있습니다.</p>
+            <a href="https://shop.astonmartinf1.com/us/en/collections/lance-stroll" target="_blank" class="merch-btn">공식 스토어 바로가기</a>
+        </div>
+    </section>
+
+    <!-- Back Link -->
+    <section style="padding: 40px 50px; text-align: center;">
+        <a href="index.html" class="back-link">
+            <span>←</span> 홈으로 돌아가기
+        </a>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.astonmartinf1.com" target="_blank">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank">유튜브</a>
+            </div>
+            <div class="footer-links footer-legal">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </div>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images © Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">2026 AMR FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

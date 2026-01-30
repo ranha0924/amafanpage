@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>베팅 - AMR FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary-green:#006f62;--accent-lime:#c4ff00;--white:#ffffff;--dark:#1a1a1a;--gray:#333333;--light-gray:#cccccc}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:var(--dark);color:var(--white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px 30px}
+        .nav{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--accent-lime)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--light-gray)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(90deg,var(--primary-green),#00897b);color:var(--white);border:none;padding:8px 16px;border-radius:20px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--accent-lime);object-fit:cover}
+        .user-name{color:var(--white);font-weight:500;font-size:0.8rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--light-gray);border:1px solid var(--light-gray);padding:5px 12px;border-radius:15px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--accent-lime)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/betting.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html">홈페이지</a></li>
+            <li><a href="fortune.html">운명의 서킷</a></li>
+            <li><a href="history.html">역사</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="betting.html" class="active">베팅</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">AMR</span>
+                    <span class="logo-sub">FANS</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈페이지</a></li>
+                <li><a href="fortune.html">운명의 서킷</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 히어로 섹션 -->
+    <section class="betting-hero">
+        <div class="betting-hero-content">
+            <h1>BETTING</h1>
+            <p class="betting-subtitle">다음 레이스의 결과를 예측하세요</p>
+        </div>
+    </section>
+
+    <!-- 가상 포인트 고지 배너 -->
+    <div class="virtual-token-notice">
+        <p><strong>AMR 코인은 금전적 가치가 없는 가상 포인트입니다.</strong> 본 예측 게임은 실제 도박이 아니며, 현금 환전이 불가능합니다. <a href="terms.html">이용약관</a></p>
+    </div>
+
+    <!-- 베팅 타입 탭 -->
+    <section class="betting-type-tabs">
+        <button class="betting-type-tab active" data-type="podium" onclick="switchBettingType('podium')">
+            <span class="tab-icon">&#127942;</span>
+            <span class="tab-text">포디움 베팅</span>
+        </button>
+        <button class="betting-type-tab" data-type="h2h" onclick="switchBettingType('h2h')">
+            <span class="tab-icon">&#9876;</span>
+            <span class="tab-text">1:1 드라이버 베팅</span>
+        </button>
+    </section>
+
+    <!-- 포디움 베팅 섹션 -->
+    <div id="podiumBettingSection" class="betting-section active">
+
+    <!-- 다음 레이스 정보 -->
+    <section class="next-race-section">
+        <div class="next-race-card">
+            <div class="race-badge">NEXT</div>
+            <div class="race-info">
+                <h2 class="race-name" id="bettingRaceName">로딩 중...</h2>
+                <p class="race-circuit" id="bettingRaceCircuit"></p>
+            </div>
+            <div class="race-countdown" id="bettingCountdown">
+                <span class="countdown-label">마감</span>
+                <span class="countdown-time" id="bettingTimeLeft">--:--:--</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 메인 베팅 섹션 (2컬럼 레이아웃) -->
+    <section class="betting-main-section">
+        <div class="betting-layout">
+            <!-- 왼쪽: 배당률 패널 + 베팅 내역 -->
+            <div class="left-panel">
+                <div class="odds-panel">
+                    <div class="odds-panel-header">
+                        <span class="odds-panel-title">드라이버 배당률</span>
+                        <button class="help-btn" onclick="showTutorial()" title="사용법">?</button>
+                    </div>
+                    <div class="sort-options" id="sortOptions">
+                        <span class="sort-label">정렬:</span>
+                        <button class="sort-btn active" data-sort="odds-asc" onclick="sortDrivers('odds-asc')">우승확률순</button>
+                        <button class="sort-btn" data-sort="odds-desc" onclick="sortDrivers('odds-desc')">고배당순</button>
+                        <button class="sort-btn" data-sort="number" onclick="sortDrivers('number')">번호순</button>
+                    </div>
+                    <div class="odds-list-container">
+                        <div class="odds-list active" id="driverOddsList"></div>
+                    </div>
+                </div>
+
+                <!-- 내 베팅 섹션 -->
+                <div class="my-bets-panel">
+                    <h3 class="my-bets-title">베팅 내역</h3>
+                    <div class="bets-list" id="myBetsList">
+                        <p class="no-bets">베팅 내역이 없습니다</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽: 베팅 슬립 -->
+            <div class="podium-panel">
+                <div class="bet-slip-header">
+                    <span class="bet-slip-title">BET SLIP</span>
+                    <div class="balance-display">
+                        <span class="balance-amount" id="currentBalance">0</span>
+                        <span class="balance-unit">AMR</span>
+                    </div>
+                </div>
+
+                <!-- 선택 영역 -->
+                <div class="bet-selections">
+                    <div class="selection-row" id="selectionRow1" onclick="openDriverPicker(1)">
+                        <div class="selection-position p1">1st</div>
+                        <div class="selection-driver" id="selectionDriver1">
+                            <span class="select-placeholder">드라이버 선택</span>
+                        </div>
+                        <div class="selection-odds" id="selectionOdds1">-</div>
+                    </div>
+                    <div class="selection-row" id="selectionRow2" onclick="openDriverPicker(2)">
+                        <div class="selection-position p2">2nd</div>
+                        <div class="selection-driver" id="selectionDriver2">
+                            <span class="select-placeholder">드라이버 선택</span>
+                        </div>
+                        <div class="selection-odds" id="selectionOdds2">-</div>
+                    </div>
+                    <div class="selection-row" id="selectionRow3" onclick="openDriverPicker(3)">
+                        <div class="selection-position p3">3rd</div>
+                        <div class="selection-driver" id="selectionDriver3">
+                            <span class="select-placeholder">드라이버 선택</span>
+                        </div>
+                        <div class="selection-odds" id="selectionOdds3">-</div>
+                    </div>
+                </div>
+
+                <!-- 베팅 입력 영역 -->
+                <div class="stake-section" id="bettingInputSection"></div>
+
+                <!-- 빠른 금액 버튼 -->
+                <div class="quick-amount-section" id="quickAmountSection" style="display: none;">
+                    <div class="quick-amounts-row">
+                        <button class="quick-amt-btn" onclick="addQuickAmount(10)">+10</button>
+                        <button class="quick-amt-btn" onclick="addQuickAmount(50)">+50</button>
+                        <button class="quick-amt-btn" onclick="addQuickAmount(100)">+100</button>
+                        <button class="quick-amt-btn all" onclick="addQuickAmount('all')">MAX</button>
+                    </div>
+                </div>
+
+                <!-- 베팅 요약 -->
+                <div class="bet-slip-summary">
+                    <div class="summary-line">
+                        <span>총 베팅</span>
+                        <span id="totalBetAmount">0 AMR</span>
+                    </div>
+                    <div class="summary-line total">
+                        <span>예상 당첨</span>
+                        <span id="totalPotentialWin">0 AMR</span>
+                    </div>
+                </div>
+
+                <!-- 베팅 버튼 -->
+                <button class="place-bet-btn" id="placeBetBtn" onclick="placeBet()">
+                    베팅하기
+                </button>
+
+                <p class="betting-notice">* 배당률은 마감 시점에 확정됩니다</p>
+            </div>
+        </div>
+    </section>
+
+    </div><!-- End of podiumBettingSection -->
+
+    <!-- 1:1 드라이버 베팅 섹션 -->
+    <div id="h2hBettingSection" class="betting-section">
+
+        <!-- 다음 레이스 정보 (1:1 베팅용) -->
+        <section class="next-race-section">
+            <div class="next-race-card">
+                <div class="race-badge">NEXT</div>
+                <div class="race-info">
+                    <h2 class="race-name" id="h2hRaceName">로딩 중...</h2>
+                    <p class="race-circuit" id="h2hRaceCircuit"></p>
+                </div>
+                <div class="race-countdown" id="h2hCountdown">
+                    <span class="countdown-label">마감</span>
+                    <span class="countdown-time" id="h2hTimeLeft">--:--:--</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1:1 베팅 메인 레이아웃 (2컬럼) -->
+        <section class="h2h-main-section">
+            <div class="h2h-layout-2col">
+                <!-- 왼쪽: 메인 베팅 영역 -->
+                <div class="h2h-main-panel">
+                    <!-- 헤더 (잔액 + 도움말) -->
+                    <div class="h2h-panel-header">
+                        <div class="h2h-balance-display">
+                            <span class="balance-label">보유</span>
+                            <span class="balance-value" id="h2hCurrentBalance">0</span>
+                            <span class="balance-unit">AMR</span>
+                        </div>
+                        <button class="help-btn h2h-help-btn" onclick="showH2HTutorial()" title="사용법">?</button>
+                    </div>
+
+                    <!-- VS 카드 -->
+                    <div class="vs-card-compact">
+                        <div class="vs-slot" id="vsDriverA" onclick="openH2HDriverPicker('A')">
+                            <div class="vs-slot-content">
+                                <span class="vs-slot-label">드라이버 A</span>
+                                <span class="vs-slot-placeholder">선택</span>
+                            </div>
+                        </div>
+                        <div class="vs-badge">VS</div>
+                        <div class="vs-slot" id="vsDriverB" onclick="openH2HDriverPicker('B')">
+                            <div class="vs-slot-content">
+                                <span class="vs-slot-label">드라이버 B</span>
+                                <span class="vs-slot-placeholder">선택</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 베팅 패널 -->
+                    <div class="h2h-bet-card" id="h2hBettingPanel" style="display: none;">
+                        <!-- 배당률 선택 -->
+                        <div class="h2h-odds-row">
+                            <button class="odds-select-btn" id="oddsItemA" onclick="selectH2HWinner('A')">
+                                <span class="odds-driver" id="oddsDriverA">-</span>
+                                <span class="odds-value" id="oddsValueA">-</span>
+                            </button>
+                            <button class="odds-select-btn" id="oddsItemB" onclick="selectH2HWinner('B')">
+                                <span class="odds-driver" id="oddsDriverB">-</span>
+                                <span class="odds-value" id="oddsValueB">-</span>
+                            </button>
+                        </div>
+
+                        <!-- 금액 입력 -->
+                        <div class="h2h-stake-row">
+                            <div class="stake-input-group">
+                                <input type="number" id="h2hBetAmount" min="1" max="1000" placeholder="금액">
+                                <span class="stake-unit">AMR</span>
+                            </div>
+                            <div class="stake-quick-btns">
+                                <button onclick="addH2HQuickAmount(10)">+10</button>
+                                <button onclick="addH2HQuickAmount(50)">+50</button>
+                                <button onclick="addH2HQuickAmount(100)">+100</button>
+                                <button class="max-btn" onclick="addH2HQuickAmount('max')">MAX</button>
+                            </div>
+                        </div>
+
+                        <!-- 요약 및 베팅 -->
+                        <div class="h2h-bet-footer">
+                            <div class="bet-summary">
+                                <div class="summary-item">
+                                    <span>베팅</span>
+                                    <span id="h2hBetDisplay">0 AMR</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>배당</span>
+                                    <span id="h2hOddsDisplay">-</span>
+                                </div>
+                                <div class="summary-item highlight">
+                                    <span>예상 당첨</span>
+                                    <span id="h2hPotentialWin">0 AMR</span>
+                                </div>
+                            </div>
+                            <button class="h2h-submit-btn" id="h2hPlaceBetBtn" onclick="placeH2HBet()">
+                                베팅하기
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 숨김: 승자 버튼 (JS 호환용) -->
+                    <div style="display:none;">
+                        <button id="winnerBtnA"></button>
+                        <button id="winnerBtnB"></button>
+                        <span id="winnerNameA"></span>
+                        <span id="winnerNameB"></span>
+                    </div>
+
+                    <!-- 내 베팅 내역 -->
+                    <div class="h2h-my-bets">
+                        <h4 class="section-title">내 베팅 내역</h4>
+                        <div class="h2h-bets-list" id="myH2HBetsList">
+                            <p class="no-bets">베팅 내역이 없습니다</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 오른쪽: 드라이버 순위 -->
+                <div class="h2h-side-panel">
+                    <div class="standings-card">
+                        <div class="standings-header">
+                            <span class="standings-title">🏆 드라이버 순위</span>
+                            <span class="standings-source" id="standingsUpdateTime"></span>
+                        </div>
+                        <div class="standings-list" id="driverStandingsList">
+                            <div class="standings-loading">
+                                <span class="loading-spinner"></span>
+                                <span>로딩 중...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 인기 매치업 -->
+                    <div class="matchups-card">
+                        <h4 class="section-title">🔥 인기 매치업</h4>
+                        <div class="matchups-list" id="popularMatchupsList">
+                            <p class="no-matchups">로딩 중...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div><!-- End of h2hBettingSection -->
+
+
+    <!-- 1:1 드라이버 선택 모달 -->
+    <div class="h2h-driver-picker-modal" id="h2hDriverPickerModal">
+        <div class="picker-overlay" onclick="closeH2HDriverPicker()"></div>
+        <div class="picker-content">
+            <div class="picker-header">
+                <h3 id="h2hPickerTitle">드라이버 선택</h3>
+                <button class="picker-close" onclick="closeH2HDriverPicker()">&times;</button>
+            </div>
+            <div class="picker-teams" id="h2hPickerTeams"></div>
+        </div>
+    </div>
+
+    <!-- 알림 모달 -->
+    <div class="alert-modal" id="alertModal">
+        <div class="alert-modal-overlay" onclick="closeAlertModal()"></div>
+        <div class="alert-modal-content">
+            <div class="alert-modal-icon" id="alertModalIcon"></div>
+            <h3 class="alert-modal-title" id="alertModalTitle">알림</h3>
+            <p class="alert-modal-message" id="alertModalMessage"></p>
+            <button class="alert-modal-btn" onclick="closeAlertModal()">확인</button>
+        </div>
+    </div>
+
+    <!-- 확인 모달 -->
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-modal-overlay"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-modal-icon"></div>
+            <h3 class="confirm-modal-title" id="confirmModalTitle">확인</h3>
+            <p class="confirm-modal-message" id="confirmModalMessage"></p>
+            <div class="confirm-modal-buttons">
+                <button class="confirm-modal-btn cancel" id="confirmCancelBtn">취소</button>
+                <button class="confirm-modal-btn confirm" id="confirmOkBtn">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 드라이버 선택 모달 -->
+    <div class="driver-picker-modal" id="driverPickerModal">
+        <div class="picker-overlay" onclick="closeDriverPicker()"></div>
+        <div class="picker-content">
+            <div class="picker-header">
+                <h3>드라이버 선택</h3>
+                <button class="picker-close" onclick="closeDriverPicker()">&times;</button>
+            </div>
+            <div class="picker-teams" id="pickerTeams"></div>
+        </div>
+    </div>
+
+    <!-- 사용법 모달 -->
+    <div class="tutorial-modal" id="tutorialModal">
+        <div class="tutorial-overlay" onclick="closeTutorial()"></div>
+        <div class="tutorial-content">
+            <div class="tutorial-header">
+                <h3>포디움 베팅 사용법</h3>
+                <button class="tutorial-close" onclick="closeTutorial()">&times;</button>
+            </div>
+            <div class="tutorial-body">
+                <div class="tutorial-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>드라이버 선택</h4>
+                        <p>왼쪽 랭킹에서 드라이버를 클릭하거나, 오른쪽 BET SLIP에서 1st/2nd/3rd를 클릭하여 포디움 순위를 예측하세요.</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>베팅 금액 입력</h4>
+                        <p>각 포지션에 베팅할 AMR 코인 금액을 입력하세요. 빠른 입력 버튼으로 쉽게 추가할 수 있습니다.</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>배당률 이해하기</h4>
+                        <p><strong>낮은 배당률</strong> = 많은 사람이 베팅 = 우승 가능성 높음<br>
+                        <strong>높은 배당률</strong> = 적은 사람이 베팅 = 대박 가능성!</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>베팅 확정</h4>
+                        <p>베팅하기 버튼을 눌러 확정하세요. 베팅 후 1시간 이내에는 취소할 수 있습니다.</p>
+                    </div>
+                </div>
+                <div class="tutorial-tip">
+                    <strong>💡 TIP:</strong> 배당률은 실시간으로 변동되며, 레이스 마감 시점의 배당률이 최종 적용됩니다.
+                </div>
+                <div class="tutorial-tip warning">
+                    <strong>⚠️ 베팅 제한:</strong> 배당률 1.10x 미만인 경우, 최대 50 AMR까지만 베팅할 수 있습니다.
+                </div>
+            </div>
+            <div class="tutorial-footer">
+                <label class="dont-show-again">
+                    <input type="checkbox" id="dontShowAgain">
+                    <span>다시 보지 않기</span>
+                </label>
+                <button class="tutorial-start-btn" onclick="closeTutorial()">시작하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1:1 베팅 사용법 모달 -->
+    <div class="tutorial-modal" id="h2hTutorialModal">
+        <div class="tutorial-overlay" onclick="closeH2HTutorial()"></div>
+        <div class="tutorial-content">
+            <div class="tutorial-header">
+                <h3>1:1 드라이버 베팅 사용법</h3>
+                <button class="tutorial-close" onclick="closeH2HTutorial()">&times;</button>
+            </div>
+            <div class="tutorial-body">
+                <div class="tutorial-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>드라이버 선택</h4>
+                        <p>왼쪽 순위 패널에서 드라이버를 클릭하거나, VS 카드에서 드라이버 A와 B를 선택하세요.</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>승자 예측</h4>
+                        <p>두 드라이버 중 레이스에서 더 높은 순위로 완주할 드라이버를 선택하세요.</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>배당률 이해하기</h4>
+                        <p><strong>낮은 배당률</strong> = 많은 사람이 베팅 = 우승 가능성 높음<br>
+                        <strong>높은 배당률</strong> = 적은 사람이 베팅 = 대박 가능성!</p>
+                    </div>
+                </div>
+                <div class="tutorial-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>금액 입력 및 베팅</h4>
+                        <p>베팅할 AMR 코인 금액을 입력하고 베팅하기 버튼을 누르세요. 베팅 후 1시간 이내에는 취소할 수 있습니다.</p>
+                    </div>
+                </div>
+                <div class="tutorial-tip">
+                    <strong>💡 TIP:</strong> 배당률은 실시간으로 변동되며, 베팅 시점의 배당률이 최종 적용됩니다.
+                </div>
+                <div class="tutorial-tip warning">
+                    <strong>⚠️ 베팅 제한:</strong> 배당률 1.10x 미만인 경우, 최대 50 AMR까지만 베팅할 수 있습니다.
+                </div>
+            </div>
+            <div class="tutorial-footer">
+                <label class="dont-show-again">
+                    <input type="checkbox" id="h2hDontShowAgain">
+                    <span>다시 보지 않기</span>
+                </label>
+                <button class="tutorial-start-btn" onclick="closeH2HTutorial()">시작하기</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.astonmartinf1.com" target="_blank">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank">유튜브</a>
+            </div>
+            <div class="footer-links footer-legal">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </div>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">2026 AMR FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/bettingData.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/f1api.js"></script>
+    <script src="js/podiumBet.js"></script>
+    <script src="js/headToHeadBet.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

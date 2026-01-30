@@ -1,0 +1,435 @@
+/* ========================================
+   AMR Coin System Styles
+   ======================================== */
+
+/* 코인 표시 (헤더) */
+.token-display {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.token-balance {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.token-balance:hover {
+    transform: translateY(-2px);
+}
+
+.token-icon {
+    font-size: 1rem;
+}
+
+/* 코인 이미지 아이콘 (헤더) */
+.token-icon-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    margin-right: -10px;
+}
+
+.token-amount {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-lime);
+}
+
+.token-label {
+    font-size: 0.85rem;
+    color: var(--light-gray);
+    font-weight: 600;
+}
+
+/* 코인 획득 알림 */
+.token-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s ease;
+}
+
+.token-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.token-notif-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #006f62 0%, #004d40 100%);
+    border: 2px solid var(--accent-lime);
+    border-radius: 12px;
+    padding: 15px 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    animation: tokenPulse 0.5s ease;
+}
+
+@keyframes tokenPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.token-notif-icon {
+    font-size: 1.5rem;
+}
+
+/* 코인 이미지 아이콘 (알림) */
+.token-notif-icon-img {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+}
+
+.token-notif-text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent-lime);
+}
+
+.token-notif-reason {
+    font-size: 0.85rem;
+    color: var(--light-gray);
+}
+
+/* 코인 모달 */
+.token-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.token-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.token-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.token-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: linear-gradient(180deg, #1e1e1e 0%, #121212 100%);
+    border: 1px solid var(--primary-green);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    max-height: 85vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.token-modal.active .token-modal-content {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.token-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: var(--light-gray);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+}
+
+.token-modal-close:hover {
+    color: var(--accent-lime);
+}
+
+.token-modal-title {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--accent-lime);
+    margin-bottom: 25px;
+}
+
+/* 대형 코인 잔액 표시 */
+.token-balance-large {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(196, 255, 0, 0.1) 0%, rgba(0, 111, 98, 0.15) 100%);
+    border: 2px solid var(--primary-green);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.token-icon-large {
+    font-size: 2.5rem;
+}
+
+/* 코인 이미지 아이콘 (모달 대형) */
+.token-icon-large-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+}
+
+.token-amount-large {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-lime);
+}
+
+.token-label-large {
+    font-size: 1rem;
+    color: var(--light-gray);
+    align-self: flex-end;
+    margin-bottom: 8px;
+}
+
+/* 코인 통계 */
+.token-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.token-stat {
+    background: rgba(0, 111, 98, 0.15);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--light-gray);
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+/* 코인 획득 방법 */
+.token-earn-methods {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.token-earn-methods h3 {
+    font-size: 1rem;
+    color: var(--accent-lime);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(196, 255, 0, 0.2);
+}
+
+.token-earn-methods ul {
+    list-style: none;
+}
+
+.token-earn-methods li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    color: var(--light-gray);
+}
+
+.token-earn-methods li:last-child {
+    border-bottom: none;
+}
+
+.earn-icon {
+    margin-right: 10px;
+}
+
+.earn-amount {
+    color: var(--accent-lime);
+    font-weight: 600;
+}
+
+/* 코인 모달 액션 버튼 */
+.token-modal-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.token-action-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    color: var(--white);
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid var(--accent-lime);
+}
+
+.token-action-btn:hover {
+    background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(196, 255, 0, 0.3);
+}
+
+/* 응원 에너지 배너 */
+.race-energy-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+    border: 2px solid var(--accent-lime);
+    border-radius: 15px;
+    padding: 20px 25px;
+    z-index: 9000;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    animation: energyPulse 2s infinite;
+    display: none;
+}
+
+.race-energy-banner.active {
+    display: block;
+}
+
+@keyframes energyPulse {
+    0%, 100% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); }
+    50% { box-shadow: 0 8px 30px rgba(196, 255, 0, 0.3); }
+}
+
+.energy-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.energy-icon {
+    font-size: 2rem;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.energy-info h4 {
+    font-size: 0.9rem;
+    color: var(--accent-lime);
+    margin-bottom: 5px;
+}
+
+.energy-timer {
+    font-size: 0.85rem;
+    color: var(--light-gray);
+}
+
+.energy-claim-btn {
+    background: var(--accent-lime);
+    color: var(--dark);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.energy-claim-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.energy-claim-btn:disabled {
+    background: #555;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .token-balance {
+        padding: 5px 10px;
+    }
+
+    .token-amount {
+        font-size: 0.8rem;
+    }
+
+    .token-label {
+        font-size: 0.6rem;
+    }
+
+    .token-notification {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+    }
+
+    .token-notif-content {
+        padding: 12px 15px;
+    }
+
+    .token-modal-content {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .token-balance-large {
+        padding: 20px;
+    }
+
+    .token-amount-large {
+        font-size: 2rem;
+    }
+
+    .token-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .race-energy-banner {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        padding: 15px;
+    }
+
+    .energy-banner-content {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+}

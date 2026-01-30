@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="애스턴마틴 아람코 F1 팀 팬페이지 - 최신 뉴스, 드라이버 정보, 레이스 일정 및 다양한 팬 콘텐츠">
+    <meta name="keywords" content="애스턴마틴, F1, 포뮬러1, 알론소, 스트롤, Aston Martin, Formula 1">
+    <meta name="author" content="AMR FANS">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="AMR FANS">
+    <meta property="og:description" content="애스턴마틴 아람코 F1 팀 팬페이지">
+    <meta property="og:type" content="website">
+
+    <title>AMR FANS</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--primary-green:#006f62;--accent-lime:#c4ff00;--white:#ffffff;--dark:#1a1a1a;--gray:#333333;--light-gray:#cccccc}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background-color:var(--dark);color:var(--white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px 30px}
+        .nav{display:flex;justify-content:space-between;align-items:center;max-width:1400px;margin:0 auto}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--accent-lime)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--light-gray)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:linear-gradient(90deg,var(--primary-green),#00897b);color:var(--white);border:none;padding:8px 16px;border-radius:20px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;border:2px solid var(--accent-lime);object-fit:cover}
+        .user-name{color:var(--white);font-weight:500;font-size:0.8rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--light-gray);border:1px solid var(--light-gray);padding:5px 12px;border-radius:15px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--accent-lime)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html" class="active" aria-current="page">홈페이지</a></li>
+            <li><a href="fortune.html">운명의 서킷</a></li>
+            <li><a href="history.html">역사</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="nav" aria-label="메인 네비게이션">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" aria-current="page">홈페이지</a></li>
+                <li><a href="fortune.html">운명의 서킷</a></li>
+                <li><a href="history.html">역사</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 다음 레이스 예측 히어로 섹션 -->
+        <section class="prediction-hero" aria-label="다음 레이스 예측">
+            <div class="prediction-hero-content">
+                <span class="prediction-badge">NEXT RACE PREDICTION</span>
+                <h2 class="prediction-race-name" id="countdownRaceName">호주 그랑프리</h2>
+                <p class="prediction-circuit" id="predictionCircuit">Albert Park Circuit</p>
+                <div class="prediction-countdown" role="timer">
+                    <div class="prediction-countdown-item">
+                        <span class="prediction-countdown-number" id="countdownDays">--</span>
+                        <span class="prediction-countdown-label">DAYS</span>
+                    </div>
+                    <div class="prediction-countdown-item">
+                        <span class="prediction-countdown-number" id="countdownHours">--</span>
+                        <span class="prediction-countdown-label">HOURS</span>
+                    </div>
+                    <div class="prediction-countdown-item">
+                        <span class="prediction-countdown-number" id="countdownMins">--</span>
+                        <span class="prediction-countdown-label">MINS</span>
+                    </div>
+                    <div class="prediction-countdown-item">
+                        <span class="prediction-countdown-number" id="countdownSecs">--</span>
+                        <span class="prediction-countdown-label">SECS</span>
+                    </div>
+                </div>
+                <a href="betting.html" class="prediction-cta-btn">
+                    <span class="prediction-cta-icon">🏆</span>
+                    베팅 참여하기
+                </a>
+                <p class="prediction-reward-info">정확한 예측 시 AMR 코인 보상!</p>
+            </div>
+        </section>
+
+        <!-- 드라이버 요약 섹션 -->
+        <section class="driver-section" aria-label="드라이버 정보">
+            <div class="driver-section-inner">
+                <h2 class="driver-section-title">OUR DRIVERS</h2>
+                <div class="driver-cards-row">
+                    <a href="alonso.html" class="driver-card-horizontal" aria-label="페르난도 알론소 상세 정보">
+                        <div class="driver-card-image">
+                            <img src="images/alonso.avif" alt="Fernando Alonso" loading="lazy">
+                            <span class="driver-card-number">14</span>
+                        </div>
+                        <div class="driver-card-info">
+                            <h3>Fernando Alonso</h3>
+                            <p class="driver-card-name-ko">페르난도 알론소</p>
+                            <p class="driver-card-meta">Spain | 2x World Champion</p>
+                            <span class="driver-card-link">상세 정보 &rarr;</span>
+                        </div>
+                    </a>
+                    <a href="stroll.html" class="driver-card-horizontal" aria-label="랜스 스트롤 상세 정보">
+                        <div class="driver-card-image">
+                            <img src="images/lance.avif" alt="Lance Stroll" loading="lazy">
+                            <span class="driver-card-number">18</span>
+                        </div>
+                        <div class="driver-card-info">
+                            <h3>Lance Stroll</h3>
+                            <p class="driver-card-name-ko">랜스 스트롤</p>
+                            <p class="driver-card-meta">Canada | F3 Champion</p>
+                            <span class="driver-card-link">상세 정보 &rarr;</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 뉴스 섹션 -->
+        <section class="news-section-full" aria-label="뉴스 및 커뮤니티">
+            <div class="news-section-inner">
+                <div class="news-tabs" role="tablist" aria-label="콘텐츠 탭">
+                    <button class="news-tab active" data-tab="news" role="tab" aria-selected="true" aria-controls="newsContainer">
+                        F1 뉴스
+                    </button>
+                    <button class="news-tab" data-tab="community" role="tab" aria-selected="false" aria-controls="communityContainer">
+                        커뮤니티
+                    </button>
+                </div>
+                <p class="section-update-info" id="sectionUpdateInfo">30분마다 갱신</p>
+                <div class="news-container" id="newsContainer" role="feed" aria-label="뉴스 목록">
+                    <!-- News will be loaded by js/news.js -->
+                </div>
+                <div class="community-container" id="communityContainer" role="feed" aria-label="커뮤니티 글 목록" style="display: none;">
+                    <!-- Community posts will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 팀 통계 -->
+        <section class="stats" aria-label="팀 통계">
+            <h2 class="section-title">TEAM STATS</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">그랑프리 참가</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">포디움</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">폴 포지션</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">팀 인원</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">AMR</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <nav class="footer-links" aria-label="외부 링크">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank" rel="noopener noreferrer">유튜브</a>
+            </nav>
+            <nav class="footer-links footer-legal" aria-label="법적 고지">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </nav>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images &copy; Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">&copy; 2026 AMR FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- 뉴스 모달 -->
+    <div id="newsModal" class="news-modal" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <a id="newsModalLink" href="#" target="_blank" rel="noopener noreferrer" class="news-modal-source-link">
+                    원문 보기 &rarr;
+                </a>
+                <button class="news-modal-close" onclick="closeNewsModal()" aria-label="모달 닫기">&times;</button>
+            </div>
+            <div class="news-modal-body">
+                <h2 id="newsModalTitle" class="news-modal-title"></h2>
+                <div class="news-modal-meta">
+                    <span id="newsModalSource" class="news-modal-source"></span>
+                    <span id="newsModalDate" class="news-modal-date"></span>
+                </div>
+                <div id="newsModalContent" class="news-modal-article">
+                    <!-- Article content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/raceEnergy.js"></script>
+    <script src="js/news.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

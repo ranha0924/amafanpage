@@ -1,0 +1,373 @@
+/* ========================================
+   Error Handler Styles
+   ======================================== */
+
+/* ========================================
+   Toast Container & Toast
+   ======================================== */
+
+.toast-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 380px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    border-left: 4px solid var(--primary-green);
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
+    backdrop-filter: blur(10px);
+}
+
+.toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-icon {
+    font-size: 18px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 14px;
+    color: #fff;
+    line-height: 1.4;
+    word-break: keep-all;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.toast-close:hover {
+    color: #fff;
+}
+
+/* Toast Types */
+.toast-success {
+    border-left-color: #10b981;
+}
+
+.toast-success .toast-icon {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.toast-error {
+    border-left-color: #ef4444;
+}
+
+.toast-error .toast-icon {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.toast-warning {
+    border-left-color: #f59e0b;
+}
+
+.toast-warning .toast-icon {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.toast-info {
+    border-left-color: var(--primary-green);
+}
+
+.toast-info .toast-icon {
+    background: rgba(0, 111, 98, 0.2);
+    color: var(--primary-green);
+}
+
+/* ========================================
+   Dynamic Alert Modal
+   ======================================== */
+
+.dynamic-alert-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.dynamic-alert-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.dynamic-alert-modal .alert-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.dynamic-alert-modal .alert-modal-content {
+    position: relative;
+    background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+    border: 1px solid rgba(0, 111, 98, 0.3);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.dynamic-alert-modal.active .alert-modal-content {
+    transform: scale(1);
+}
+
+.dynamic-alert-modal .alert-modal-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: rgba(0, 111, 98, 0.1);
+    color: var(--primary-green);
+}
+
+.dynamic-alert-modal .alert-modal-icon.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.dynamic-alert-modal .alert-modal-icon.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.dynamic-alert-modal .alert-modal-icon.warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+.dynamic-alert-modal .alert-modal-icon.info {
+    background: rgba(0, 111, 98, 0.1);
+    color: var(--primary-green);
+}
+
+.dynamic-alert-modal .alert-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.dynamic-alert-modal .alert-modal-message {
+    font-size: 15px;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    white-space: pre-line;
+}
+
+.dynamic-alert-modal .alert-modal-btn {
+    background: linear-gradient(135deg, var(--primary-green) 0%, #005a50 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.dynamic-alert-modal .alert-modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 111, 98, 0.4);
+}
+
+/* ========================================
+   Loading Overlay
+   ======================================== */
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 111, 98, 0.2);
+    border-top-color: var(--primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-spinner.small {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+}
+
+.loading-message {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   Section Loading
+   ======================================== */
+
+.section-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 14px;
+}
+
+.section-loading .loading-spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+}
+
+/* ========================================
+   Button Loading State
+   ======================================== */
+
+button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+}
+
+button.loading::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+    .toast-container {
+        top: auto;
+        bottom: 20px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .toast {
+        transform: translateY(120%);
+    }
+
+    .toast.show {
+        transform: translateY(0);
+    }
+
+    .dynamic-alert-modal .alert-modal-content {
+        padding: 24px 20px;
+        margin: 0 15px;
+    }
+
+    .dynamic-alert-modal .alert-modal-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .dynamic-alert-modal .alert-modal-title {
+        font-size: 18px;
+    }
+
+    .dynamic-alert-modal .alert-modal-message {
+        font-size: 14px;
+    }
+}
