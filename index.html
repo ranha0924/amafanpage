@@ -3,416 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aston Martin Aramco F1 Team - Fan Page</title>
+    <meta name="description" content="F1 팬 커뮤니티 - 최신 뉴스, 드라이버 정보, 레이스 일정 및 다양한 팬 콘텐츠">
+    <meta name="keywords" content="F1, 포뮬러1, Formula 1, 팬 커뮤니티">
+    <meta name="author" content="F1 FANS">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="F1 FANS">
+    <meta property="og:description" content="F1 팬 커뮤니티">
+    <meta property="og:type" content="website">
+
+    <title>홈 - F1 FANS</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);background-color:var(--bg-base);color:var(--text-white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px clamp(20px,3vw,48px)}
+        .nav{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--text-white)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--text-secondary)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--text-white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--text-white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:#303030;color:#f0f0f0;border:none;padding:8px 16px;border-radius:4px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover}
+        .user-name{color:var(--text-white);font-weight:500;font-size:0.8rem;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--text-secondary);border:1px solid var(--text-secondary);padding:5px 12px;border-radius:4px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--color-coin)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+
+    <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/cosmetics.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+    <link rel="stylesheet" href="css/homeBettingWidgets.css">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">
-                <span class="logo-text">ASTON MARTIN</span>
-                <span class="logo-sub">ARAMCO F1 TEAM</span>
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay">
+        <div class="loader-logo">F1</div>
+        <div class="tire-spinner">
+            <img src="images/타이어.png" alt="Loading" class="tire">
+            <div class="speed-lines">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
+        </div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html" class="active" aria-current="page">홈페이지</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="shop.html">상점</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="nav" aria-label="메인 네비게이션">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <a href="index.html" class="logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </a>
             <ul class="nav-links">
-                <li><a href="index.html">홈페이지</a></li>
-                <li><a href="fortune.html">운명의 서킷</a></li>
-                <li><a href="history.html">역사</a></li>
-                <li><a href="ranking.html">순위 예측</a></li>
+                <li><a href="index.html" aria-current="page">홈페이지</a></li>
+                <li><a href="betting.html">베팅</a></li>
                 <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="shop.html">상점</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
             </ul>
-            <div class="auth-container" id="authContainer"></div>
+            <div class="auth-container" id="authContainer">
+                <button class="login-btn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24" width="18" height="18">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    로그인
+                </button>
+            </div>
         </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <p class="hero-pretitle">FORMULA 1</p>
-            <h1>ASTON MARTIN ARAMCO F1 TEAM</h1>
-            <p class="tagline">Intensity. Driven.</p>
-            <p class="hero-description">애스턴마틴 F1 팀의 팬페이지에 오신 것을 환영합니다.</p>
-        </div>
-    </section>
-
-    <section id="drivers" class="drivers">
-        <h2 class="section-title">OUR DRIVERS</h2>
-        <div class="drivers-container">
-            <div class="driver-card">
-                <div class="driver-number">14</div>
-                <div class="driver-image">
-                    <img src="images/alonso.avif" alt="Fernando Alonso">
+    <main>
+        <!-- 다음 레이스 예측 히어로 섹션 -->
+        <section class="prediction-bar" aria-label="다음 레이스 예측">
+            <div class="prediction-bar-inner">
+                <div class="prediction-bar-info">
+                    <span class="prediction-bar-dot"></span>
+                    <span class="prediction-bar-race" id="countdownRaceName">호주 GP</span>
+                    <span class="prediction-bar-sep"></span>
+                    <span class="prediction-bar-circuit" id="predictionCircuit">멜버른</span>
+                    <span class="prediction-bar-sep"></span>
+                    <span class="prediction-bar-timer" id="countdownInline" role="timer">
+                        <span id="countdownDays">--</span>:<span id="countdownHours">--</span>:<span id="countdownMins">--</span>:<span id="countdownSecs">--</span>
+                    </span>
                 </div>
-                <div class="driver-info">
-                    <h3>페르난도 알론소</h3>
-                    <p class="driver-name-en">Fernando Alonso</p>
-                    <div class="driver-details">
-                        <p><span>국적:</span> 스페인</p>
-                        <p><span>생년월일:</span> 1981년 7월 29일</p>
-                        <p><span>월드 챔피언:</span> 2회 (2005, 2006)</p>
-                        <p><span>통산 우승:</span> 32회</p>
-                        <p><span>통산 포디움:</span> 100+회</p>
+                <a href="betting.html" class="prediction-bar-cta">
+                    베팅하러 가기
+                    <img src="images/icons/icon-arrow-right.svg" alt="" class="prediction-bar-cta-icon">
+                </a>
+            </div>
+        </section>
+
+        <!-- 베팅 프리뷰 2컬럼 -->
+        <section class="home-betting-section" aria-label="베팅 현황">
+            <div class="home-betting-grid">
+                <!-- 포디움 배당률 TOP 5 -->
+                <div class="home-widget" id="homePodiumWidget">
+                    <div class="home-widget-header">
+                        <div class="home-widget-title">
+                            <img src="images/icons/icon-trophy.svg" alt="" class="home-widget-icon">
+                            포디움 배당률 TOP 5
+                            <span class="hw-live-badge"><span class="hw-live-dot"></span>LIVE</span>
+                        </div>
+                        <a href="betting.html" class="home-widget-link-quiet">전체 배당률 보기 →</a>
                     </div>
-                    <p class="driver-quote">"I knew he would hit the brake. He has a wife and two kids at home."</p>
-                    <a href="fortune.html#alonso" class="driver-fortune-link">♌ 별자리 & 타로 보기</a>
-                </div>
-            </div>
-
-            <div class="driver-card">
-                <div class="driver-number">18</div>
-                <div class="driver-image">
-                    <img src="images/lance.avif" alt="Lance Stroll">
-                </div>
-                <div class="driver-info">
-                    <h3>랜스 스트롤</h3>
-                    <p class="driver-name-en">Lance Stroll</p>
-                    <div class="driver-details">
-                        <p><span>국적:</span> 캐나다</p>
-                        <p><span>생년월일:</span> 1998년 10월 29일</p>
-                        <p><span>F1 데뷔:</span> 2017년</p>
-                        <p><span>최고 성적:</span> 3위</p>
-                        <p><span>폴 포지션:</span> 1회 (2020 터키)</p>
+                    <div class="home-widget-body" id="homePodiumBody">
+                        <div class="home-widget-loading"><span class="loading-spinner"></span></div>
                     </div>
-                    <p class="driver-quote">"Yeah. My mediums feel like a hundred lap old!"</p>
-                    <a href="fortune.html#stroll" class="driver-fortune-link">♏ 별자리 & 타로 보기</a>
+                </div>
+                <!-- 1:1 인기 매치업 -->
+                <div class="home-widget" id="homeMatchupWidget">
+                    <div class="home-widget-header">
+                        <div class="home-widget-title">
+                            <img src="images/icons/icon-swords.svg" alt="" class="home-widget-icon">
+                            1:1 인기 매치업
+                            <span class="hw-live-badge"><span class="hw-live-dot"></span>LIVE</span>
+                        </div>
+                        <a href="betting.html#h2h" class="home-widget-link-quiet">전체 매치업 →</a>
+                    </div>
+                    <div class="home-widget-body" id="homeMatchupBody">
+                        <div class="home-widget-loading"><span class="loading-spinner"></span></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="team" class="team">
-        <h2 class="section-title">ABOUT THE TEAM</h2>
-        <div class="team-content">
-            <div class="team-info">
-                <h3>팀 정보</h3>
-                <table class="team-table">
-                    <tbody>
-                        <tr>
-                            <td>팀 본부</td>
-                            <td>실버스톤, 영국</td>
-                        </tr>
-                        <tr>
-                            <td>팀 대표</td>
-                            <td>마이크 크랙 (Mike Krack)</td>
-                        </tr>
-                        <tr>
-                            <td>소유주</td>
-                            <td>로렌스 스트롤 (Lawrence Stroll)</td>
-                        </tr>
-                        <tr>
-                            <td>파워유닛</td>
-                            <td>Mercedes-AMG</td>
-                        </tr>
-                        <tr>
-                            <td>섀시</td>
-                            <td>AMR26</td>
-                        </tr>
-                        <tr>
-                            <td>F1 참가</td>
-                            <td>2021년 ~ 현재</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- 뉴스 + 커뮤니티 하단 2컬럼 -->
+        <section class="home-bottom-section" aria-label="뉴스 및 커뮤니티">
+            <div class="home-bottom-grid">
+                <div class="home-widget">
+                    <div class="home-widget-header">
+                        <div class="home-widget-title">
+                            <img src="images/icons/icon-newspaper.svg" alt="" class="home-widget-icon">
+                            <span id="newsSectionTitle">F1 뉴스</span>
+                        </div>
+                    </div>
+                    <div class="home-widget-body">
+                        <div class="news-container" id="newsContainer" role="feed" aria-label="뉴스 목록">
+                            <!-- News loaded by js/news.js -->
+                        </div>
+                    </div>
+                </div>
+                <!-- The Paddock 위젯 (숨김)
+                <div class="home-widget">
+                    <div class="home-widget-header">
+                        <div class="home-widget-title">
+                            <img src="images/icons/icon-chat.svg" alt="" class="home-widget-icon">
+                            The Paddock
+                        </div>
+                        <a href="paddock.html" class="home-widget-link-quiet">글 쓰러 가기 →</a>
+                    </div>
+                    <div class="home-widget-body" id="homeCommunityBody">
+                        <div class="home-widget-loading"><span class="loading-spinner"></span></div>
+                    </div>
+                </div>
+                -->
             </div>
-            <div class="team-description">
-                <h3>팀 소개</h3>
-                <p>애스턴마틴 아람코 포뮬러 원 팀은 영국의 럭셔리 자동차 브랜드 애스턴마틴의 이름을 걸고 2021년부터 F1에 참가하고 있는 팀입니다. 상징적인 브리티시 레이싱 그린 컬러의 머신으로 서킷을 누비고 있습니다.</p>
-                <p>2023년 시즌에는 페르난도 알론소의 영입과 함께 놀라운 성적을 거두며 포디움을 연속으로 차지하는 등 팀 역사상 가장 성공적인 시즌을 보냈습니다.</p>
-                <p>실버스톤에 위치한 최첨단 팩토리와 세계 최고의 엔지니어들이 함께하는 애스턴마틴은 월드 챔피언십 타이틀을 향해 끊임없이 도전하고 있습니다.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="calendar" class="calendar">
-        <h2 class="section-title">2026 RACE CALENDAR</h2>
+    </main>
 
-        <div class="next-race">
-            <p class="next-race-label">NEXT RACE</p>
-            <h3 class="next-race-name" id="raceName">호주 그랑프리</h3>
-            <p class="next-race-circuit" id="raceCircuit">앨버트 파크 서킷 · 멜버른</p>
-            <div class="countdown">
-                <div class="countdown-item">
-                    <span class="countdown-number" id="days">--</span>
-                    <span class="countdown-label">DAYS</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="hours">--</span>
-                    <span class="countdown-label">HRS</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="mins">--</span>
-                    <span class="countdown-label">MIN</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number" id="secs">--</span>
-                    <span class="countdown-label">SEC</span>
-                </div>
-            </div>
-        </div>
-
-        <p class="calendar-subtitle">2026 F1 시즌 레이스 일정</p>
-        <p class="swipe-hint">← 스와이프하여 일정 보기 →</p>
-
-        <div class="race-slider">
-            <div class="race-slide">
-                <div class="race-round-large">R1</div>
-                <h3 class="race-title">호주 그랑프리</h3>
-                <p class="race-circuit">앨버트 파크 서킷</p>
-                <p class="race-location">멜버른, 호주</p>
-                <p class="race-date-large">3월 14-16일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R2</div>
-                <h3 class="race-title">중국 그랑프리</h3>
-                <p class="race-circuit">상하이 인터내셔널 서킷</p>
-                <p class="race-location">상하이, 중국</p>
-                <p class="race-date-large">3월 28-30일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R3</div>
-                <h3 class="race-title">일본 그랑프리</h3>
-                <p class="race-circuit">스즈카 서킷</p>
-                <p class="race-location">스즈카, 일본</p>
-                <p class="race-date-large">4월 4-6일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R4</div>
-                <h3 class="race-title">바레인 그랑프리</h3>
-                <p class="race-circuit">바레인 인터내셔널 서킷</p>
-                <p class="race-location">사키르, 바레인</p>
-                <p class="race-date-large">4월 11-13일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R5</div>
-                <h3 class="race-title">사우디 아라비아 그랑프리</h3>
-                <p class="race-circuit">제다 코르니쉬 서킷</p>
-                <p class="race-location">제다, 사우디아라비아</p>
-                <p class="race-date-large">4월 18-20일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R6</div>
-                <h3 class="race-title">마이애미 그랑프리</h3>
-                <p class="race-circuit">마이애미 인터내셔널 오토드롬</p>
-                <p class="race-location">마이애미, 미국</p>
-                <p class="race-date-large">5월 2-4일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R7</div>
-                <h3 class="race-title">에밀리아 로마냐 그랑프리</h3>
-                <p class="race-circuit">이몰라 서킷</p>
-                <p class="race-location">이몰라, 이탈리아</p>
-                <p class="race-date-large">5월 16-18일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R8</div>
-                <h3 class="race-title">모나코 그랑프리</h3>
-                <p class="race-circuit">몬테카를로 시가지 서킷</p>
-                <p class="race-location">몬테카를로, 모나코</p>
-                <p class="race-date-large">5월 23-25일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R9</div>
-                <h3 class="race-title">스페인 그랑프리</h3>
-                <p class="race-circuit">카탈루냐 서킷</p>
-                <p class="race-location">바르셀로나, 스페인</p>
-                <p class="race-date-large">5월 30일 - 6월 1일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R10</div>
-                <h3 class="race-title">캐나다 그랑프리</h3>
-                <p class="race-circuit">질 빌뇌브 서킷</p>
-                <p class="race-location">몬트리올, 캐나다</p>
-                <p class="race-date-large">6월 13-15일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R11</div>
-                <h3 class="race-title">오스트리아 그랑프리</h3>
-                <p class="race-circuit">레드불 링</p>
-                <p class="race-location">슈필베르크, 오스트리아</p>
-                <p class="race-date-large">6월 27-29일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R12</div>
-                <h3 class="race-title">영국 그랑프리</h3>
-                <p class="race-circuit">실버스톤 서킷</p>
-                <p class="race-location">실버스톤, 영국</p>
-                <p class="race-date-large">7월 4-6일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R13</div>
-                <h3 class="race-title">벨기에 그랑프리</h3>
-                <p class="race-circuit">스파-프랑코르샹</p>
-                <p class="race-location">스파, 벨기에</p>
-                <p class="race-date-large">7월 25-27일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R14</div>
-                <h3 class="race-title">헝가리 그랑프리</h3>
-                <p class="race-circuit">헝가로링</p>
-                <p class="race-location">부다페스트, 헝가리</p>
-                <p class="race-date-large">8월 1-3일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R15</div>
-                <h3 class="race-title">네덜란드 그랑프리</h3>
-                <p class="race-circuit">잔드보르트 서킷</p>
-                <p class="race-location">잔드보르트, 네덜란드</p>
-                <p class="race-date-large">8월 29-31일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R16</div>
-                <h3 class="race-title">이탈리아 그랑프리</h3>
-                <p class="race-circuit">몬자 서킷</p>
-                <p class="race-location">몬자, 이탈리아</p>
-                <p class="race-date-large">9월 5-7일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R17</div>
-                <h3 class="race-title">아제르바이잔 그랑프리</h3>
-                <p class="race-circuit">바쿠 시티 서킷</p>
-                <p class="race-location">바쿠, 아제르바이잔</p>
-                <p class="race-date-large">9월 19-21일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R18</div>
-                <h3 class="race-title">싱가포르 그랑프리</h3>
-                <p class="race-circuit">마리나 베이 시가지 서킷</p>
-                <p class="race-location">싱가포르</p>
-                <p class="race-date-large">10월 3-5일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R19</div>
-                <h3 class="race-title">미국 그랑프리</h3>
-                <p class="race-circuit">서킷 오브 디 아메리카스</p>
-                <p class="race-location">오스틴, 미국</p>
-                <p class="race-date-large">10월 17-19일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R20</div>
-                <h3 class="race-title">멕시코 그랑프리</h3>
-                <p class="race-circuit">에르마노스 로드리게스 서킷</p>
-                <p class="race-location">멕시코시티, 멕시코</p>
-                <p class="race-date-large">10월 24-26일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R21</div>
-                <h3 class="race-title">브라질 그랑프리</h3>
-                <p class="race-circuit">인테르라고스</p>
-                <p class="race-location">상파울루, 브라질</p>
-                <p class="race-date-large">11월 7-9일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R22</div>
-                <h3 class="race-title">라스베가스 그랑프리</h3>
-                <p class="race-circuit">라스베가스 스트립 서킷</p>
-                <p class="race-location">라스베가스, 미국</p>
-                <p class="race-date-large">11월 20-22일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R23</div>
-                <h3 class="race-title">카타르 그랑프리</h3>
-                <p class="race-circuit">루사일 인터내셔널 서킷</p>
-                <p class="race-location">루사일, 카타르</p>
-                <p class="race-date-large">11월 28-30일</p>
-            </div>
-            <div class="race-slide">
-                <div class="race-round-large">R24</div>
-                <h3 class="race-title">아부다비 그랑프리</h3>
-                <p class="race-circuit">야스 마리나 서킷</p>
-                <p class="race-location">아부다비, UAE</p>
-                <p class="race-date-large">12월 5-7일</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="shop" class="shop">
-        <h2 class="section-title">OFFICIAL MERCHANDISE</h2>
-        <p class="shop-subtitle">애스턴마틴 F1 팀의 공식 굿즈를 만나보세요</p>
-        <div class="shop-grid">
-            <div class="shop-item">
-                <div class="shop-image">
-                    <img src="images/poloshirt.webp" alt="Polo Shirt">
-                </div>
-                <div class="shop-info">
-                    <h4>2026 팀 폴로 셔츠</h4>
-                    <p class="shop-price">$135.00</p>
-                    <a href="https://shop.astonmartinf1.com/us/en/aston-martin-f1-team-2026-team-polo/701233031-green.html" target="_blank" class="shop-btn">구매하기</a>
-                </div>
-            </div>
-            <div class="shop-item">
-                <div class="shop-image">
-                    <img src="images/astonmartinCap.webp" alt="Cap">
-                </div>
-                <div class="shop-info">
-                    <h4>드라이버 캡 - 알론소 #14</h4>
-                    <p class="shop-price">$38.00</p>
-                    <a href="https://shop.astonmartinf1.com/us/en/aston-martin-f1-team-2026-fernando-alonso-driver-cap/701233023-green.html" target="_blank" class="shop-btn">구매하기</a>
-                </div>
-            </div>
-            <div class="shop-item">
-                <div class="shop-image">
-                    <img src="images/rainJacket.webp" alt="Jacket">
-                </div>
-                <div class="shop-info">
-                    <h4>2026 팀 레인 재킷</h4>
-                    <p class="shop-price">$215.00</p>
-                    <a href="https://shop.astonmartinf1.com/us/en/aston-martin-f1-team-2026-team-rain-jacket/701233030-green.html" target="_blank" class="shop-btn">구매하기</a>
-                </div>
-            </div>
-            <div class="shop-item">
-                <div class="shop-image">
-                    <img src="images/amr24.webp" alt="Model Car">
-                </div>
-                <div class="shop-info">
-                    <h4>AMR24 알론소 1:43 모델</h4>
-                    <p class="shop-price">$85.00</p>
-                    <a href="https://shop.astonmartinf1.com/us/en/aston-martin-f1-team-2024-fernando-alonso-amr24-143-scale-model/701235065-green.html" target="_blank" class="shop-btn">구매하기</a>
-                </div>
-            </div>
-        </div>
-        <a href="https://shop.astonmartinf1.com" target="_blank" class="shop-more">공식 스토어 바로가기</a>
-    </section>
-
-    <section class="stats">
-        <h2 class="section-title">TEAM STATS</h2>
-        <div class="stats-container">
-            <div class="stat-item">
-                <div class="stat-number">100+</div>
-                <div class="stat-label">그랑프리 참가</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">10+</div>
-                <div class="stat-label">포디움</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">1</div>
-                <div class="stat-label">폴 포지션</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">500+</div>
-                <div class="stat-label">팀 인원</div>
-            </div>
-        </div>
-    </section>
-
+    <!-- 푸터 -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <span class="logo-text">ASTON MARTIN</span>
-                <span class="logo-sub">ARAMCO F1 TEAM</span>
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
             </div>
-            <div class="footer-links">
-                <a href="https://www.astonmartinf1.com" target="_blank">공식 웹사이트</a>
-                <a href="https://twitter.com/AstonMartinF1" target="_blank">트위터</a>
-                <a href="https://www.instagram.com/astonmartinf1" target="_blank">인스타그램</a>
-                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank">유튜브</a>
-            </div>
+            <nav class="footer-links" aria-label="외부 링크">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-globe.svg" alt="공식 웹사이트" class="footer-icon"></a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-twitter.svg" alt="트위터" class="footer-icon"></a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-instagram.svg" alt="인스타그램" class="footer-icon"></a>
+            </nav>
+            <nav class="footer-links footer-legal" aria-label="법적 고지">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </nav>
             <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
-            <p class="image-credit">Images © Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
-            <p class="copyright">2026 Aston Martin Fan Page. All rights reserved.</p>
+            <p class="image-credit">Images &copy; Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">&copy; 2026 F1 FANS. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- 뉴스 모달 -->
+    <div id="newsModal" class="news-modal" role="dialog" aria-modal="true" aria-labelledby="newsModalTitle">
+        <div class="news-modal-content">
+            <div class="news-modal-header">
+                <button class="news-modal-close" onclick="closeNewsModal()" aria-label="모달 닫기">&times;</button>
+            </div>
+            <div class="news-modal-body">
+                <h2 id="newsModalTitle" class="news-modal-title"></h2>
+                <div class="news-modal-meta">
+                    <span id="newsModalSource" class="news-modal-source"></span>
+                    <span id="newsModalDate" class="news-modal-date"></span>
+                </div>
+                <div id="newsModalContent" class="news-modal-article">
+                    <!-- Article content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -420,9 +266,30 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/teams.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
     <script src="js/firebaseConfig.js"></script>
+    <script src="js/cosmetics.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/news.js"></script>
     <script src="js/script.js"></script>
+
+    <!-- Home Betting Widgets -->
+    <script src="js/bettingData.js"></script>
+    <script src="js/homeBettingWidgets.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,569 @@
+/* ========================================
+   Driver Detail Page Styles
+   ======================================== */
+
+/* Driver Hero Section */
+.driver-hero {
+    min-height: 36vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 80px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-card-dark);
+    border-bottom: 1px solid var(--color-brand);
+}
+
+.driver-hero-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 30px var(--page-padding);
+    z-index: 1;
+}
+
+.driver-hero-image {
+    flex-shrink: 0;
+}
+
+.driver-hero-photo {
+    width: 160px;
+    height: 160px;
+    border-radius: var(--radius-full);
+    border: 4px solid var(--color-brand);
+    object-fit: cover;
+    object-position: top center;
+    box-shadow: var(--shadow-2xl);
+}
+
+.driver-hero-info {
+    text-align: left;
+}
+
+.driver-hero-number {
+    font-size: 4.5rem;
+    font-weight: 900;
+    color: rgba(var(--color-brand-rgb), 0.15);
+    line-height: 0.8;
+    margin-bottom: -20px;
+    font-family: var(--font-heading);
+}
+
+.driver-hero-name {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-white);
+    margin-bottom: 8px;
+    letter-spacing: var(--tracking-widest);
+}
+
+.driver-hero-name-en {
+    font-size: 1rem;
+    color: var(--text-white);
+    letter-spacing: var(--tracking-heading);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.driver-hero-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(var(--color-brand-rgb), 0.3);
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-brand);
+}
+
+.driver-hero-flag img {
+    width: 30px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 2px;
+}
+
+.driver-hero-flag span {
+    color: var(--text-white);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+}
+
+/* Profile Card */
+.driver-profile-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-base);
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--color-brand);
+}
+
+.profile-card-title {
+    font-size: 1.05rem;
+    color: var(--text-white);
+    margin-bottom: 18px;
+    letter-spacing: var(--tracking-wider);
+    font-weight: 700;
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(var(--color-brand-rgb), 0.2);
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.profile-label {
+    color: var(--text-secondary);
+}
+
+.profile-value {
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+/* Stats Grid */
+.driver-stats-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-body);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--color-brand);
+}
+
+.stat-card-number {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--text-white);
+    margin-bottom: 8px;
+}
+
+.stat-card-label {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+}
+
+/* TMI Section */
+.driver-tmi-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-base);
+}
+
+.tmi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.tmi-card {
+    background: rgba(var(--color-brand-rgb), 0.08);
+    border: 1px solid rgba(var(--color-brand-rgb), 0.3);
+    border-radius: var(--radius-xl);
+    padding: 18px;
+    text-align: center;
+    transition: var(--transition-slow);
+}
+
+.tmi-card:hover {
+    border-color: var(--color-brand-light);
+    background: rgba(var(--color-brand-light-rgb), 0.08);
+}
+
+.tmi-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.tmi-icon img {
+    width: 2rem;
+    height: 2rem;
+    filter: brightness(0) invert(0.7);
+}
+
+.tmi-label {
+    color: var(--color-brand);
+    font-size: 0.8rem;
+    letter-spacing: var(--tracking-normal);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.tmi-value {
+    color: var(--text-white);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Quotes Section */
+.driver-quotes-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-body);
+}
+
+.quotes-container {
+}
+
+.quote-card {
+    background: var(--bg-card);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.quote-card::before {
+    content: '"';
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 3.5rem;
+    color: rgba(var(--color-brand-rgb), 0.2);
+    font-family: var(--font-body);
+    font-style: italic;
+    line-height: 1;
+}
+
+.quote-text {
+    font-size: 1.1rem;
+    color: var(--text-white);
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 16px;
+    padding-left: 30px;
+}
+
+.quote-context {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding-left: 30px;
+}
+
+/* Timeline Section */
+.driver-timeline-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-base);
+}
+
+.career-timeline {
+    position: relative;
+}
+
+.career-timeline::before {
+    content: "";
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-brand);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 65px;
+    padding-bottom: 30px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: var(--color-brand);
+    border-radius: var(--radius-full);
+    border: 4px solid var(--bg-base);
+}
+
+.timeline-year {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 8px;
+}
+
+.timeline-content {
+    background: var(--bg-card);
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-xl);
+    padding: 18px;
+}
+
+.timeline-title {
+    color: var(--text-white);
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.timeline-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: var(--leading-relaxed);
+}
+
+/* Merchandise Link */
+.driver-merch-section {
+    padding: 32px var(--page-padding);
+    background: var(--bg-body);
+    text-align: center;
+}
+
+.merch-cta {
+}
+
+.merch-cta p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 22px;
+}
+
+.merch-btn {
+    display: inline-block;
+    background: var(--color-brand);
+    color: var(--text-white);
+    padding: 12px 30px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: var(--tracking-wider);
+    transition: var(--transition-slow);
+}
+
+.merch-btn:hover {
+    background: var(--color-brand-light);
+    color: var(--bg-base);
+    opacity: 0.9;
+}
+
+/* Back to Home */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border: 1px solid var(--color-brand);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-slow);
+    margin-bottom: 40px;
+}
+
+.back-link:hover {
+    color: var(--color-brand-light);
+    border-color: var(--color-brand-light);
+    background: rgba(var(--color-brand-light-rgb), 0.1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .driver-hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .driver-hero-info {
+        text-align: center;
+    }
+
+    .driver-hero-number {
+        font-size: 5rem;
+    }
+
+    .driver-hero-name {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .driver-hero {
+        min-height: auto;
+        padding: 90px 16px 40px;
+    }
+
+    .driver-hero-photo {
+        width: 120px;
+        height: 120px;
+    }
+
+    .driver-hero-number {
+        font-size: 2.5rem;
+        margin-bottom: -8px;
+    }
+
+    .driver-hero-name {
+        font-size: 1.2rem;
+    }
+
+    .driver-hero-name-en {
+        font-size: 0.85rem;
+        letter-spacing: var(--tracking-widest);
+    }
+
+    .driver-profile-section,
+    .driver-stats-section,
+    .driver-tmi-section,
+    .driver-quotes-section,
+    .driver-timeline-section,
+    .driver-merch-section {
+        padding: 40px 16px;
+    }
+
+    .profile-card,
+    .stat-card,
+    .tmi-card,
+    .quote-card,
+    .timeline-content {
+        padding: 16px;
+    }
+
+    .quote-text {
+        font-size: 1rem;
+        padding-left: 16px;
+    }
+
+    .quote-context {
+        padding-left: 16px;
+    }
+
+    .career-timeline::before {
+        left: 15px;
+    }
+
+    .timeline-item {
+        padding-left: 45px;
+    }
+
+    .timeline-dot {
+        left: 5px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .driver-hero {
+        padding: 75px 12px 30px;
+    }
+
+    .driver-hero-photo {
+        width: 95px;
+        height: 95px;
+    }
+
+    .driver-hero-number {
+        font-size: 2rem;
+    }
+
+    .driver-hero-name {
+        font-size: 1rem;
+        letter-spacing: var(--tracking-wide);
+    }
+
+    .driver-hero-name-en {
+        font-size: 0.75rem;
+        letter-spacing: var(--tracking-wider);
+        margin-bottom: 12px;
+    }
+
+    .driver-hero-flag {
+        padding: 8px 14px;
+    }
+
+    .driver-profile-section,
+    .driver-stats-section,
+    .driver-tmi-section,
+    .driver-quotes-section,
+    .driver-timeline-section,
+    .driver-merch-section {
+        padding: 30px 12px;
+    }
+
+    .profile-card,
+    .stat-card,
+    .tmi-card,
+    .quote-card,
+    .timeline-content {
+        padding: 14px;
+    }
+
+    .profile-card-title {
+        font-size: 0.95rem;
+        margin-bottom: 14px;
+    }
+
+    .stat-card-number {
+        font-size: 1.8rem;
+    }
+
+    .tmi-icon {
+        font-size: 1.5rem;
+    }
+
+    .timeline-year {
+        font-size: 1.1rem;
+    }
+
+    .timeline-title {
+        font-size: 0.95rem;
+    }
+
+    .merch-btn {
+        padding: 10px 24px;
+        font-size: 0.85rem;
+    }
+}

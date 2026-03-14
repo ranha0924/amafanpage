@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인벤토리 - F1 FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);background-color:var(--bg-base);color:var(--text-white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px clamp(20px,3vw,48px)}
+        .nav{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--text-white)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--text-secondary)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--text-white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--text-white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:#303030;color:#f0f0f0;border:none;padding:8px 16px;border-radius:4px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover}
+        .user-name{color:var(--text-white);font-weight:500;font-size:0.8rem;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--text-secondary);border:1px solid var(--text-secondary);padding:5px 12px;border-radius:4px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--color-coin)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/betting.css">
+    <link rel="stylesheet" href="css/inventory.css">
+    <link rel="stylesheet" href="css/cosmetics.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay">
+        <div class="loader-logo">F1</div>
+        <div class="tire-spinner">
+            <img src="images/타이어.png" alt="Loading" class="tire">
+            <div class="speed-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html">홈페이지</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="shop.html">상점</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html" class="active">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">F1</span>
+                    <span class="logo-sub">FANS</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈페이지</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="shop.html">상점</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer"></div>
+        </nav>
+    </header>
+
+    <!-- 서브헤더 바 -->
+    <div class="inv-subheader">
+        <div class="inv-subheader-left">
+            <button class="inv-tab active" data-tab="bag">
+                <img src="images/icons/icon-bag.svg" alt="" class="inv-tab-icon">
+                <span>배낭</span>
+            </button>
+            <button class="inv-tab" data-tab="equip">
+                <img src="images/icons/icon-gem.svg" alt="" class="inv-tab-icon">
+                <span>장착</span>
+            </button>
+        </div>
+        <div class="inv-subheader-right">
+            <div class="inv-stat">
+                <img src="images/icons/icon-bag.svg" alt="" class="inv-stat-icon">
+                <span class="inv-stat-value" id="invItemCount">0</span>
+            </div>
+            <a href="mypage.html" class="inv-close-btn" title="닫기">
+                <img src="images/icons/icon-cross.svg" alt="닫기" class="inv-close-icon">
+            </a>
+        </div>
+    </div>
+
+    <!-- 장착 패널 (토글) -->
+    <div class="inv-equip-panel" id="invEquipPanel" style="display: none;">
+        <div class="inv-equip-preview" id="invEquipPreview">
+            <!-- JS가 프로필 미리보기 렌더링 -->
+        </div>
+        <div class="equipment-slots" id="equipmentSlots">
+            <!-- JS가 렌더링 -->
+        </div>
+    </div>
+
+    <!-- 3존 레이아웃 -->
+    <div class="inv-genshin-layout">
+        <!-- Zone 1: 아이콘 사이드바 -->
+        <aside class="inv-icon-sidebar" id="invCategoryTabs">
+            <button class="inv-icon-tab active" data-cat="profile-border" title="테두리">
+                <img src="images/icons/icon-palette.svg" alt="테두리">
+            </button>
+            <button class="inv-icon-tab" data-cat="badge" title="뱃지">
+                <img src="images/icons/icon-badge.svg" alt="뱃지">
+            </button>
+            <button class="inv-icon-tab" data-cat="nickname-color" title="닉네임 컬러">
+                <img src="images/icons/icon-user.svg" alt="닉네임 컬러">
+            </button>
+            <button class="inv-icon-tab" data-cat="profile-bg" title="프로필 배경">
+                <img src="images/icons/icon-globe.svg" alt="프로필 배경">
+            </button>
+            <button class="inv-icon-tab" data-cat="post-deco" title="게시물 꾸미기">
+                <img src="images/icons/icon-sparkle.svg" alt="게시물 꾸미기">
+            </button>
+            <button class="inv-icon-tab" data-cat="functional" title="기능성">
+                <img src="images/icons/icon-lightning.svg" alt="기능성">
+            </button>
+        </aside>
+
+        <!-- Zone 2: 중앙 아이템 그리드 -->
+        <main class="inv-grid-zone">
+            <div class="inv-grid" id="inventoryGrid">
+                <div class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Zone 3: 우측 디테일 패널 -->
+        <aside class="inv-detail-panel" id="invDetailPanel">
+            <div class="inv-detail-empty">
+                <img src="images/icons/icon-package.svg" alt="" class="inv-detail-empty-icon">
+                <p>아이템을 선택하세요</p>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 하단 필터 바 -->
+    <div class="inv-filter-bar">
+        <span class="inv-filter-label">유형</span>
+        <button class="inv-filter-btn active" data-type="all">전체</button>
+        <button class="inv-filter-btn" data-type="permanent">영구</button>
+        <button class="inv-filter-btn" data-type="consumable">소모품</button>
+        <button class="inv-filter-btn" data-type="rental">기간제</button>
+        <button class="inv-filter-btn" data-type="limited">한정</button>
+    </div>
+
+    <!-- 로그인 유도 모달 -->
+    <div class="shop-modal-overlay" id="loginPromptModal">
+        <div class="shop-modal login-prompt-modal">
+            <button class="shop-modal-close" onclick="closeLoginPromptModal()">&times;</button>
+            <div class="modal-lock-icon"><img src="images/icons/icon-lock.svg" alt=""></div>
+            <div class="modal-title">로그인이 필요합니다</div>
+            <div class="modal-desc">인벤토리를 이용하려면 로그인이 필요합니다.</div>
+            <button class="btn-login" onclick="signInWithGoogle()">
+                <svg class="google-icon" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                로그인
+            </button>
+        </div>
+    </div>
+
+    <div class="shop-modal-overlay" id="consumableModal">
+        <div class="shop-modal consumable-modal">
+            <button class="shop-modal-close" onclick="closeConsumableModal()">&times;</button>
+            <div class="modal-title" id="consumableModalTitle">아이템 사용</div>
+            <div class="modal-desc" id="consumableModalDesc"></div>
+            <div id="consumableModalBody"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <nav class="footer-links" aria-label="외부 링크">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer">공식 웹사이트</a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer">트위터</a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer">인스타그램</a>
+                <a href="https://www.youtube.com/@AstonMartinAramcoF1" target="_blank" rel="noopener noreferrer">유튜브</a>
+            </nav>
+            <nav class="footer-links footer-legal" aria-label="법적 고지">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </nav>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images &copy; Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">&copy; 2026 F1 FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/cosmetics.js"></script>
+    <script src="js/inventory.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

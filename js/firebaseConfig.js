@@ -43,9 +43,9 @@ try {
     firebaseApp = firebase.initializeApp(firebaseConfig);
     db = firebase.firestore();
     auth = firebase.auth();
-    console.log('Firebase 연결 성공!');
+    logger.log('Firebase 연결 성공!');
 } catch (error) {
-    console.warn('Firebase 연결 실패:', error);
+    logger.warn('Firebase 연결 실패:', error);
 }
 
 // Firebase 연결 상태 확인

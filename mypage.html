@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지 - F1 FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);background-color:var(--bg-base);color:var(--text-white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px clamp(20px,3vw,48px)}
+        .nav{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--text-white)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--text-secondary)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--text-white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--text-white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:#303030;color:#f0f0f0;border:none;padding:8px 16px;border-radius:4px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover}
+        .user-name{color:var(--text-white);font-weight:500;font-size:0.8rem;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--text-secondary);border:1px solid var(--text-secondary);padding:5px 12px;border-radius:4px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--color-coin)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/mypage.css">
+    <link rel="stylesheet" href="css/cosmetics.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay">
+        <div class="loader-logo">F1</div>
+        <div class="tire-spinner">
+            <img src="images/타이어.png" alt="Loading" class="tire">
+            <div class="speed-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html">홈페이지</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="shop.html">상점</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html" class="active">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">F1</span>
+                    <span class="logo-sub">FANS</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈페이지</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="shop.html">상점</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                    <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer"></div>
+        </nav>
+    </header>
+
+    <!-- 로그인 필요 안내 -->
+    <section class="login-required-section" id="loginRequiredSection">
+        <div class="login-required-content">
+            <div class="login-icon"><img src="images/icons/icon-lock.svg" alt=""></div>
+            <h2>로그인이 필요합니다</h2>
+            <p>마이페이지를 이용하려면 로그인해주세요.</p>
+            <button class="login-btn-large" onclick="signInWithGoogle()">
+                <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Google로 로그인
+            </button>
+        </div>
+    </section>
+
+    <!-- 마이페이지 메인 -->
+    <section class="mypage-main" id="mypageMain" style="display: none;">
+        <!-- 프로필 배너 - 그리드 전체 너비 -->
+        <div class="profile-banner-section">
+            <div class="profile-banner" id="profileBanner">
+                <div class="banner-overlay"></div>
+            </div>
+            <div class="profile-banner-info">
+                <img class="profile-avatar-lg" id="profilePhoto" src="" alt="프로필 사진">
+                <div class="profile-identity">
+                    <div class="profile-name-row">
+                        <h2 id="profileName">로딩 중...</h2>
+                        <button class="nickname-btn" id="nicknameChangeBtn" style="display: none;">변경</button>
+                    </div>
+                    <p id="profileEmail" class="profile-email"></p>
+                    <p class="profile-joined">가입일: <span id="profileJoinDate">-</span></p>
+                </div>
+                <div class="profile-team-selector" id="profileTeamSelector">
+                    <div class="profile-team-badge" id="profileTeamBadge">
+                        <span class="team-dot" id="profileTeamDot"></span>
+                        <span id="profileTeamName">팀 미선택</span>
+                    </div>
+                    <button class="team-change-btn" id="teamChangeBtn">변경</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 왼쪽 사이드바 -->
+        <aside class="mypage-sidebar">
+            <!-- 인벤토리 바로가기 -->
+            <a href="inventory.html" class="sidebar-inventory-btn">
+                <span class="sidebar-btn-left"><img src="images/icons/icon-gem.svg" alt="" class="inline-icon"> 인벤토리</span>
+                <img src="images/icons/icon-arrow-right.svg" alt="" class="inline-icon">
+            </a>
+            <!-- 토큰 잔액 (강조 카드) -->
+            <section class="token-hero-section">
+                <div class="token-hero-card">
+                    <img src="images/AMRcoin.png" class="token-hero-icon" alt="FC Coin">
+                    <div class="token-hero-info">
+                        <span id="profileTokens" class="token-hero-amount">0</span>
+                        <span class="token-hero-label">FC</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 통계 그리드 -->
+            <section class="stats-grid-section">
+                <div class="stat-card">
+                    <span class="stat-icon"><img src="images/icons/icon-fire.svg" alt="" class="inline-icon"></span>
+                    <span class="stat-value" id="profileStreak">0일</span>
+                    <span class="stat-label">연속 출석</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon"><img src="images/icons/icon-target.svg" alt="" class="inline-icon"></span>
+                    <span class="stat-value" id="profileWinRate">2026 시즌 개막 후 업데이트</span>
+                    <span class="stat-label">적중률</span>
+                    <input type="hidden" id="profileTotalBets" value="0">
+                    <input type="hidden" id="profileWonBets" value="0">
+                </div>
+            </section>
+
+            <!-- 출석체크 섹션 (게임 스타일) -->
+            <section class="attendance-game-section">
+                <div class="attendance-game-header">
+                    <h3 class="attendance-game-title"><img src="images/icons/icon-calendar.svg" alt="" class="inline-icon"> 출석체크</h3>
+                    <span class="attendance-streak-badge" id="attendanceStreak">연속 0일</span>
+                </div>
+                <div class="attendance-days" id="attendanceCalendar">
+                    <!-- JS로 7일 렌더링 -->
+                </div>
+                <button class="attendance-main-btn" id="attendanceBtn" disabled>로그인 필요</button>
+            </section>
+
+            <!-- 칭호 컬렉션 (비활성화됨) -->
+            <!--
+            <section class="profile-titles-section" id="profileTitlesSection" style="display: none;">
+                <h3 class="titles-header">
+                    <img src="images/icons/icon-trophy.svg" alt="" class="inline-icon"> 칭호 컬렉션
+                    <span class="titles-count" id="profileTitlesCount">0</span>
+                </h3>
+                <div class="titles-grid" id="profileTitlesGrid"></div>
+            </section>
+            -->
+
+        </aside>
+
+        <!-- 오른쪽 메인 영역 -->
+        <div class="mypage-content-area">
+            <!-- 탭 네비게이션 -->
+            <div class="mypage-tabs">
+                <button class="tab-btn active" data-tab="posts">내 게시글</button>
+                <button class="tab-btn" data-tab="bets">베팅 내역</button>
+                <button class="tab-btn" data-tab="tokens">코인 내역</button>
+            </div>
+
+            <!-- 내 게시글 탭 -->
+            <section class="tab-content active" id="postsTab">
+                <div class="content-card">
+                    <h3 class="card-title">내가 작성한 게시글</h3>
+                    <div class="posts-list" id="myPostsList">
+                        <div class="loading-indicator">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 베팅 내역 탭 -->
+            <section class="tab-content" id="betsTab">
+                <!-- 서브탭: 전체 / 포디움 / 1:1 -->
+                <div class="bet-sub-tabs">
+                    <button class="bet-sub-tab active" data-bet-tab="overall">전체 통계</button>
+                    <button class="bet-sub-tab" data-bet-tab="podium">포디움</button>
+                    <button class="bet-sub-tab" data-bet-tab="h2h">1:1 대결</button>
+                </div>
+
+                <!-- 전체 베팅 통계 -->
+                <div class="bet-sub-content active" id="overallBetContent">
+                    <div class="content-card overall-stats-card">
+                        <div class="betting-stats">
+                            <div class="stat-box">
+                                <span class="stat-number" id="overallTotalBets">0</span>
+                                <span class="stat-label">총 베팅</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" id="overallWonBets">0</span>
+                                <span class="stat-label">당첨</span>
+                            </div>
+                            <div class="stat-box highlight">
+                                <span class="stat-number" id="overallWinRate">0%</span>
+                                <span class="stat-label">적중률</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 포디움 베팅 -->
+                <div class="bet-sub-content" id="podiumBetContent">
+                    <div class="content-card">
+                        <div class="betting-stats">
+                            <div class="stat-box">
+                                <span class="stat-number" id="totalBets">0</span>
+                                <span class="stat-label">총 베팅</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" id="wonBets">0</span>
+                                <span class="stat-label">당첨</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" id="winRate">0%</span>
+                                <span class="stat-label">적중률</span>
+                            </div>
+                        </div>
+                        <div class="bets-list" id="myBetsList">
+                            <div class="loading-indicator">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- H2H 베팅 -->
+                <div class="bet-sub-content" id="h2hBetContent">
+                    <div class="content-card">
+                        <div class="betting-stats">
+                            <div class="stat-box">
+                                <span class="stat-number" id="h2hTotalBets">0</span>
+                                <span class="stat-label">총 베팅</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" id="h2hWonBets">0</span>
+                                <span class="stat-label">당첨</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-number" id="h2hWinRate">0%</span>
+                                <span class="stat-label">적중률</span>
+                            </div>
+                        </div>
+                        <div class="bets-list" id="myH2HBetsListPage">
+                            <div class="loading-indicator">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 코인 내역 탭 -->
+            <section class="tab-content" id="tokensTab">
+                <div class="content-card">
+                    <h3 class="card-title">코인 획득/사용 내역</h3>
+                    <div class="tokens-list" id="tokenHistoryList">
+                        <div class="loading-indicator">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="pagination" id="tokenPagination" style="display: none;">
+                        <button class="page-btn page-prev" id="tokenPrevBtn" disabled>&lt;</button>
+                        <div class="page-numbers" id="tokenPageNumbers"></div>
+                        <button class="page-btn page-next" id="tokenNextBtn">&gt;</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- 회원 탈퇴 영역 -->
+        <div class="danger-zone">
+            <button class="delete-account-link" id="deleteAccountBtn">회원 탈퇴</button>
+        </div>
+    </section>
+
+    <!-- 닉네임 변경 모달 -->
+    <div class="modal-overlay" id="nicknameModal">
+        <div class="modal-content nickname-modal">
+            <div class="modal-header">
+                <h3>닉네임 변경</h3>
+                <button class="modal-close" onclick="closeNicknameModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="nickname-notice"><img src="images/icons/icon-warning.svg" alt="" class="inline-icon"> 닉네임은 <strong>1회만</strong> 변경 가능합니다.</p>
+                <div class="nickname-input-group">
+                    <label for="nicknameInput">새 닉네임</label>
+                    <input type="text" id="nicknameInput" maxlength="10" placeholder="2~10자 입력">
+                    <p class="nickname-hint">한글, 영문, 숫자, 언더스코어(_)만 사용 가능</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeNicknameModal()">취소</button>
+                <button class="btn-confirm" id="confirmNicknameBtn">변경하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 탈퇴 확인 모달 -->
+    <div class="modal-overlay" id="deleteAccountModal">
+        <div class="modal-content delete-modal">
+            <div class="modal-header">
+                <h3>회원 탈퇴</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-icon"><img src="images/icons/icon-warning.svg" alt=""></div>
+                <p class="warning-title">정말 탈퇴하시겠습니까?</p>
+                <p class="warning-text">
+                    모든 데이터가 삭제되며 <strong>복구할 수 없습니다.</strong>
+                </p>
+                <ul class="delete-list">
+                    <li>작성한 게시글 및 댓글</li>
+                    <li>베팅 내역</li>
+                    <li>보유 FC 토큰</li>
+                    <li>출석 기록</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeDeleteModal()">취소</button>
+                <button class="btn-delete" id="confirmDeleteBtn">탈퇴하기</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <nav class="footer-links" aria-label="외부 링크">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-globe.svg" alt="공식 웹사이트" class="footer-icon"></a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-twitter.svg" alt="트위터" class="footer-icon"></a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-instagram.svg" alt="인스타그램" class="footer-icon"></a>
+            </nav>
+            <nav class="footer-links footer-legal" aria-label="법적 고지">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </nav>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images &copy; Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">&copy; 2026 F1 FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/bettingData.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/cosmetics.js"></script>
+    <script src="js/attendance.js"></script>
+    <script src="js/mypage.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,935 @@
+/* ========================================
+   Shop Page
+
+   레이아웃:
+   - 원신: 좌측 세로 사이드바 + 우측 콘텐츠 (2패널)
+   - 카러플: 큰 카드, 넓은 미리보기, 3열 그리드
+   색감: 사이트 기존 변수 그대로
+   ======================================== */
+
+/* ===== 애니메이션 ===== */
+
+@keyframes modalSlideUp {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ========================================
+   페이지
+   ======================================== */
+
+.shop-page {
+    min-height: 100vh;
+    padding-top: 80px;
+    background: var(--bg-body);
+}
+
+/* ========================================
+   B. 2패널 레이아웃 (원신 스타일)
+   ┌──────────┬──────────────────────────┐
+   │ 사이드바  │       아이템 그리드       │
+   │ (카테고리)│                          │
+   └──────────┴──────────────────────────┘
+   ======================================== */
+
+.shop-layout {
+    display: flex;
+    padding: 20px var(--page-padding) 80px;
+    gap: 20px;
+}
+
+/* ========================================
+   B-1. 좌측 사이드바 (원신 카테고리 패널)
+   세로 방향 아이콘+텍스트 탭
+   ======================================== */
+
+.shop-sidebar {
+    flex: 0 0 160px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: 8px;
+}
+
+.sidebar-tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--text-tertiary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+    text-align: left;
+    width: 100%;
+}
+
+.sidebar-tab:hover {
+    color: var(--text-white);
+    background: var(--bg-surface);
+}
+
+.sidebar-tab.active {
+    background: var(--brand-primary);
+    color: var(--text-on-brand);
+    border-color: rgba(var(--color-brand-rgb), 0.2);
+    box-shadow: 0 2px 12px rgba(var(--color-brand-rgb), 0.3);
+}
+
+.sidebar-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    opacity: 0.4;
+    filter: brightness(0) invert(0.7);
+    transition: var(--transition-base);
+}
+
+.sidebar-tab:hover .sidebar-icon {
+    opacity: 0.8;
+    filter: brightness(0) invert(0.9);
+}
+
+.sidebar-tab.active .sidebar-icon {
+    opacity: 1;
+    filter: brightness(0) invert(1);
+}
+
+.sidebar-label {
+    white-space: nowrap;
+}
+
+/* ========================================
+   B-2. 우측 콘텐츠 영역
+   ======================================== */
+
+.shop-content {
+    flex: 1;
+    min-width: 0;
+}
+
+/* ========================================
+   C. 아이템 그리드 — 카러플 스타일 큰 카드, 3열
+   ======================================== */
+
+.shop-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* 게시글 세로 스택 레이아웃 */
+.shop-grid.shop-grid--horizontal {
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.shop-grid--horizontal .shop-item-card {
+    flex-direction: row;
+    align-items: stretch;
+}
+
+.shop-grid--horizontal .card-visual {
+    aspect-ratio: auto;
+    flex: 1;
+    min-height: 140px;
+    border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+    padding: 0;
+}
+
+.shop-grid--horizontal .card-meta {
+    flex: 0 0 180px;
+    justify-content: center;
+    min-width: 0;
+}
+
+.shop-grid--horizontal .card-icon {
+    width: 100%;
+}
+
+/* ========================================
+   C-1. 아이템 카드
+
+   ┌─────────────────────────────┐
+   │                             │
+   │     [라이브 미리보기]         │  ← 비주얼 영역
+   │                             │
+   ├─────────────────────────────┤
+   │  아이템 이름                 │
+   │               1,500 FC     │  ← 메타
+   └─────────────────────────────┘
+   ======================================== */
+
+.shop-item-card {
+    position: relative;
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.shop-item-card:hover {
+    border-color: var(--border-medium);
+    box-shadow: var(--shadow-md);
+}
+
+/* --- 비주얼 영역 (큰 미리보기) --- */
+.card-visual {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* 닉네임 컬러 카드: 아이템 색상 그라데이션 배경 */
+.card-visual--nickname-color {
+    background: linear-gradient(135deg, var(--item-color, transparent) 0%, transparent 60%);
+}
+.card-visual--nickname-color .card-visual-bg {
+    opacity: 0.4;
+}
+
+.card-visual-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.65;
+    transition: opacity 0.25s ease;
+}
+
+.shop-item-card:hover .card-visual-bg {
+    opacity: 0.9;
+}
+
+.card-visual-bg {
+    background: var(--bg-card);
+}
+
+/* 아이콘 — 카러플 스타일 크게 */
+.card-icon {
+    position: relative;
+    z-index: 1;
+}
+
+.card-icon .preview-svg-icon {
+    width: 52px;
+    height: 52px;
+    opacity: 0.55;
+    filter: brightness(0) invert(0.85);
+    transition: all 0.25s ease;
+}
+
+.shop-item-card:hover .card-icon .preview-svg-icon {
+    opacity: 0.95;
+    filter: brightness(0) invert(1);
+}
+
+/* --- 메타 영역 --- */
+.card-meta {
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-price {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--color-coin);
+}
+
+.card-price .coin-icon {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+/* --- 보유중 오버레이 --- */
+.shop-item-card.owned { cursor: default; }
+.shop-item-card.owned:hover { transform: none; box-shadow: none; }
+
+.owned-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-xl);
+}
+
+.owned-stamp {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(var(--brand-muted-rgb), 0.75);
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(var(--brand-muted-rgb), 0.3);
+}
+
+.owned-stamp .owned-stamp-icon {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) invert(1) sepia(1) saturate(50) hue-rotate(30deg);
+}
+
+.owned-stamp span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-white);
+    letter-spacing: 0.5px;
+}
+
+/* 장착중 아이템 라임 강조 */
+.shop-item-card.equipped .owned-stamp {
+    background: rgba(196, 255, 0, 0.25);
+    border-color: var(--accent-lime);
+}
+
+.shop-item-card.equipped .owned-stamp span {
+    color: var(--accent-lime);
+}
+
+.shop-item-card.equipped .owned-stamp .owned-stamp-icon {
+    filter: brightness(0) saturate(100%) invert(91%) sepia(44%) saturate(1000%) hue-rotate(25deg) brightness(105%);
+}
+
+/* ========================================
+   D. 빈 상태
+   ======================================== */
+
+.shop-grid .empty-state {
+    grid-column: 1 / -1;
+    background: var(--bg-card);
+    border: 1px dashed var(--border-default);
+    border-radius: var(--radius-md);
+}
+
+/* ========================================
+   E. 모달 공통
+   ======================================== */
+
+.shop-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: var(--z-modal);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.shop-modal-overlay.active {
+    display: flex;
+}
+
+.shop-modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-2xl);
+    width: 100%;
+    max-width: 520px;
+    padding: 36px 32px 28px;
+    text-align: center;
+    position: relative;
+    animation: modalSlideUp 0.3s ease-out;
+}
+
+.shop-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-base);
+}
+
+.shop-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-white);
+}
+
+/* ========================================
+   E-1. 구매 확인 모달
+   ======================================== */
+
+.purchase-modal {
+    border-top: 3px solid var(--brand-primary);
+}
+
+.purchase-modal .modal-preview {
+    display: none;
+}
+
+.purchase-modal .modal-item-name {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-white);
+    margin-bottom: 6px;
+}
+
+.purchase-modal .modal-item-desc {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.purchase-modal .modal-price-info {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    padding: 12px 14px;
+    margin-bottom: 20px;
+}
+
+.purchase-modal .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 0.84rem;
+}
+
+.purchase-modal .price-row + .price-row {
+    border-top: 1px solid var(--border-subtle);
+}
+
+.purchase-modal .price-row .label { color: var(--text-tertiary); }
+.purchase-modal .price-row .value { font-weight: 700; color: var(--text-white); }
+.purchase-modal .price-row .value.cost { color: var(--color-error-alt); }
+.purchase-modal .price-row .value.after { color: var(--color-coin); font-weight: 800; }
+.purchase-modal .price-row.insufficient .value.after { color: var(--color-error-alt); }
+
+.purchase-modal .modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.purchase-modal .btn-cancel {
+    flex: 1;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.purchase-modal .btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-white);
+}
+
+.purchase-modal .btn-purchase {
+    flex: 1.2;
+    padding: 12px;
+    background: var(--brand-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    color: var(--bg-base);
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.purchase-modal .btn-purchase::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: transparent;
+}
+
+.purchase-modal .btn-purchase:hover {
+    opacity: 0.9;
+}
+
+.purchase-modal .btn-purchase:hover::after {
+    /* shine 애니메이션 삭제됨 */
+}
+
+.purchase-modal .btn-purchase:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.purchase-modal .btn-purchase:disabled::after {
+    display: none;
+}
+
+/* ========================================
+   E-2. 로그인 유도 모달
+   ======================================== */
+
+.login-prompt-modal .modal-lock-icon {
+    margin-bottom: 16px;
+}
+
+.login-prompt-modal .modal-lock-icon img {
+    width: 36px;
+    height: 36px;
+    filter: brightness(0) invert(0.7);
+}
+
+.login-prompt-modal .modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 6px;
+}
+
+.login-prompt-modal .modal-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.login-prompt-modal .btn-login {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-active);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-slow);
+}
+
+.login-prompt-modal .btn-login:hover {
+    opacity: 0.9;
+}
+
+.login-prompt-modal .btn-login .google-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================
+   E-3. 라이브 미리보기 (카드 비주얼 영역)
+   ======================================== */
+
+/* --- 프로필 테두리 --- */
+.preview-border-demo {
+    width: 80px;
+    height: 80px;
+}
+.preview-border-demo.preview-tire {
+    width: 130px;
+    height: 130px;
+}
+.preview-border-demo .cosmetic-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-card, #181818);
+}
+.preview-border-demo.preview-tire .cosmetic-avatar {
+    width: 72px;
+    height: 72px;
+}
+.preview-border-demo.preview-tire .cosmetic-border-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 130px;
+    height: 130px;
+    z-index: 2;
+    pointer-events: none;
+    object-fit: contain;
+}
+
+/* --- 닉네임 컬러 --- */
+.preview-color-demo {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* --- 뱃지 --- */
+.preview-badge-icon {
+    width: 40px;
+    height: 40px;
+    filter: none;
+    opacity: 1;
+}
+
+/* --- 게시물 데코 --- */
+.card-icon .preview-post-wrap {
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.preview-post-demo {
+    width: 100%;
+    flex: 1;
+    background: var(--bg-elevated, #252525);
+    border: 1px solid var(--border-default, #2a2a2a);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    overflow: hidden;
+}
+.preview-post-vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    min-width: 44px;
+    gap: 2px;
+}
+.preview-vote-count {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted, #888);
+}
+.preview-vote-label {
+    font-size: 0.5rem;
+    color: var(--text-faint, #555);
+}
+.preview-post-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 14px 10px 0;
+    min-width: 0;
+}
+.preview-post-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.preview-post-tag {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    background: rgba(241, 196, 15, 0.2);
+    color: #f7dc6f;
+    flex-shrink: 0;
+}
+.preview-post-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #3a3a3a;
+    flex-shrink: 0;
+}
+.preview-post-name {
+    font-size: 0.7rem;
+    color: var(--text-secondary, #999);
+    font-weight: 600;
+}
+.preview-post-time {
+    font-size: 0.58rem;
+    color: var(--text-tertiary, #666);
+}
+.preview-post-title {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-primary, #ddd);
+    line-height: 1.3;
+}
+.preview-post-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.preview-post-line {
+    height: 5px;
+    border-radius: 2px;
+    background: var(--border-default, #333);
+}
+.preview-post-line:nth-child(1) { width: 90%; }
+.preview-post-line:nth-child(2) { width: 65%; }
+.preview-post-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.preview-post-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6rem;
+    color: var(--text-tertiary, #666);
+}
+.preview-post-stat svg {
+    opacity: 0.7;
+}
+/* 두 번째 미리보기 포스트 (리스트 느낌) */
+.preview-post-demo.preview-post-ghost {
+    flex: none;
+    opacity: 0.4;
+}
+.preview-post-ghost .preview-post-main {
+    padding: 8px 14px 8px 0;
+    gap: 4px;
+}
+.preview-post-ghost .preview-post-vote {
+    padding: 6px 12px;
+}
+
+/* ========================================
+   F. 반응형
+   ======================================== */
+
+/* 태블릿: 사이드바 좁히기, 2열 그리드 */
+@media (max-width: 1024px) {
+    .shop-sidebar {
+        flex: 0 0 130px;
+    }
+
+    .sidebar-tab {
+        padding: 10px 12px;
+        font-size: 0.78rem;
+    }
+
+    .shop-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 모바일: 사이드바 → 가로 스크롤 탭 (카러플 스타일) */
+@media (max-width: 768px) {
+    .shop-layout {
+        flex-direction: column;
+        padding: 12px 16px 60px;
+        gap: 12px;
+    }
+
+    /* 사이드바 → 가로 스크롤 탭 바 */
+    .shop-sidebar {
+        flex: none;
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .shop-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .sidebar-tab {
+        flex: 0 0 auto;
+        padding: 8px 14px;
+        gap: 6px;
+    }
+
+    .sidebar-icon {
+        width: 15px;
+        height: 15px;
+    }
+
+    .shop-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .shop-grid.shop-grid--horizontal {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-grid--horizontal .shop-item-card {
+        flex-direction: column;
+    }
+
+    .shop-grid--horizontal .card-visual {
+        width: 100%;
+        min-height: 100px;
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    .shop-grid--horizontal .card-meta {
+        flex: none;
+    }
+
+    .card-visual {
+        aspect-ratio: 1 / 0.75;
+    }
+
+    .card-icon .preview-svg-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .card-meta {
+        padding: 10px 12px 12px;
+        gap: 6px;
+    }
+
+    .card-name {
+        font-size: 0.8rem;
+    }
+
+    .card-price {
+        font-size: 0.8rem;
+    }
+
+    .shop-empty-state {
+        padding: 60px 16px;
+    }
+}
+
+/* 작은 모바일 */
+@media (max-width: 480px) {
+    .shop-layout {
+        padding: 8px 12px 40px;
+    }
+
+    .shop-sidebar {
+        padding: 4px;
+    }
+
+    .sidebar-tab {
+        padding: 7px 12px;
+        font-size: 0.75rem;
+        gap: 5px;
+    }
+
+    .sidebar-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .shop-grid {
+        gap: 8px;
+    }
+
+    .shop-grid--horizontal .card-visual {
+        width: 100%;
+    }
+
+    .card-visual {
+        aspect-ratio: 1 / 0.7;
+    }
+
+    .card-icon .preview-svg-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .card-meta {
+        padding: 8px 10px 10px;
+        gap: 5px;
+    }
+
+    .card-name {
+        font-size: 0.74rem;
+    }
+
+    .card-price {
+        font-size: 0.74rem;
+    }
+
+    .card-price .coin-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+    .owned-stamp {
+        padding: 4px 10px;
+        gap: 4px;
+    }
+
+    .owned-stamp .owned-stamp-icon {
+        width: 12px;
+        height: 12px;
+    }
+
+    .owned-stamp span {
+        font-size: 0.65rem;
+    }
+
+    .shop-modal {
+        max-width: 440px;
+        padding: 28px 20px 22px;
+    }
+
+    .purchase-modal .modal-preview {
+        display: none;
+    }
+
+    .empty-icon-wrap .empty-icon {
+        width: 44px;
+        height: 44px;
+    }
+}

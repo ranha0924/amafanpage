@@ -1,0 +1,1662 @@
+/* ========================================
+   My Page Styles - Aston Martin Theme
+   Consistent with betting/paddock pages
+   ======================================== */
+
+/* 마이페이지 body 배경 통일 */
+body:has(.mypage-main) {
+    background-color: var(--bg-base);
+}
+
+/* 로그인 필요 섹션 */
+.login-required-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 80px);
+    padding: 80px 16px;
+    background: var(--bg-base);
+}
+
+.login-required-content {
+    text-align: center;
+    padding: 40px 30px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    max-width: 360px;
+}
+
+.login-icon {
+    font-size: 3rem;
+    margin-bottom: 16px;
+}
+
+.login-icon img {
+    filter: brightness(0) invert(0.7);
+}
+
+.login-required-content h2 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.login-required-content p {
+    color: var(--text-tertiary);
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+}
+
+.login-btn-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--bg-active);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition-slow);
+}
+
+.login-btn-large:hover {
+    opacity: 0.9;
+}
+
+/* ========================================
+   마이페이지 메인 컨테이너
+   ======================================== */
+.mypage-main {
+    display: block;
+    padding: 65px var(--page-padding) 28px;
+    background: var(--bg-base);
+    min-height: calc(100vh - 140px);
+}
+
+/* 데스크톱 2컬럼 그리드 */
+@media (min-width: 1024px) {
+    .mypage-main {
+        display: grid;
+        grid-template-columns: 35fr 65fr;
+        grid-template-rows: auto 1fr;
+        gap: 24px;
+        align-items: start;
+    }
+
+    /* 배너는 전체 너비 */
+    .profile-banner-section {
+        grid-column: 1 / -1;
+    }
+
+    /* 왼쪽 사이드바 - sticky 제거 (스크롤 문제 방지) */
+    .mypage-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    /* 사이드바 내부 섹션 마진 제거 (gap으로 대체) */
+    .mypage-sidebar .token-hero-section,
+    .mypage-sidebar .stats-grid-section,
+    .mypage-sidebar .attendance-game-section {
+        margin-bottom: 0;
+    }
+
+    .mypage-main > .danger-zone {
+        grid-column: 1 / -1;
+    }
+
+    /* 오른쪽 메인 영역 - 최대 높이 + 내부 스크롤 */
+    .mypage-content-area {
+        min-width: 0;
+        max-height: 640px;
+        overflow-y: auto;
+    }
+}
+
+/* 모바일/태블릿: 1컬럼 */
+@media (max-width: 1023px) {
+    .mypage-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .mypage-sidebar .token-hero-section,
+    .mypage-sidebar .stats-grid-section,
+    .mypage-sidebar .attendance-game-section {
+        margin-bottom: 0;
+    }
+
+    .mypage-content-area {
+        max-height: 560px;
+        overflow-y: auto;
+    }
+}
+
+/* ========================================
+   프로필 배너
+   ======================================== */
+.profile-banner-section {
+    position: relative;
+    background: linear-gradient(135deg,
+        var(--color-brand-darkest),
+        rgba(var(--color-secondary-rgb), 0.15));
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.profile-banner {
+    position: relative;
+    height: 200px;
+    background: var(--color-brand-darkest);
+    background-size: cover;
+    background-position: center;
+}
+
+.banner-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: transparent;
+}
+
+.profile-banner-info {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    padding: 0 24px 20px;
+    margin-top: -40px;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-avatar-lg {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--bg-surface);
+}
+
+.profile-identity {
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 4px;
+}
+
+.profile-name-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.profile-identity h2 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nickname-btn {
+    padding: 3px 10px;
+    background: transparent;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    color: var(--text-tertiary);
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.nickname-btn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+/* 팀 선택 UI */
+.profile-team-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile-team-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.team-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-disabled);
+    flex-shrink: 0;
+}
+
+.team-change-btn {
+    padding: 5px 12px;
+    background: transparent;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    color: var(--text-tertiary);
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.team-change-btn:hover:not(:disabled) {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.team-change-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.profile-email {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    margin: 0 0 2px 0;
+}
+
+.profile-joined {
+    color: var(--text-disabled);
+    font-size: 0.75rem;
+    margin: 0;
+}
+
+/* ========================================
+   토큰 & 통계 그리드
+   ======================================== */
+.token-hero-section {
+    margin-bottom: 16px;
+}
+
+.token-hero-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.token-hero-card:hover {
+    border-color: var(--color-brand);
+}
+
+.token-hero-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+}
+
+.token-hero-info {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.token-hero-amount {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-coin);
+}
+
+.token-hero-label {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-disabled);
+}
+
+/* 통계 그리드 (연속출석 + 적중률) */
+.stats-grid-section {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 14px 7px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    border-color: var(--color-brand);
+}
+
+.stat-card .stat-icon {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.stat-card .stat-value {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-white);
+    word-break: keep-all;
+    text-align: center;
+    line-height: 1.3;
+}
+
+.stat-card .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-disabled);
+    text-transform: uppercase;
+}
+
+/* ========================================
+   출석체크 섹션
+   ======================================== */
+.attendance-game-section {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.attendance-game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.attendance-game-title {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-normal);
+}
+
+.attendance-streak-badge {
+    padding: 4px 12px;
+    background: rgba(var(--color-brand-rgb), 0.15);
+    border-radius: 2px;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-white);
+}
+
+/* 7일 출석 달력 */
+.attendance-days {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.attendance-day {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 4px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: all 0.15s;
+}
+
+.attendance-day-number {
+    font-size: 0.65rem;
+    color: var(--text-disabled);
+    font-weight: 500;
+}
+
+.attendance-day-reward {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-coin);
+}
+
+.attendance-day-label {
+    font-size: 0.6rem;
+    color: var(--text-disabled);
+}
+
+/* 완료된 날 */
+.attendance-day.completed {
+    background: rgba(var(--color-brand-rgb), 0.1);
+    border-color: var(--brand-primary);
+}
+
+.attendance-day.completed::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 10px;
+    height: 10px;
+    background: url('../images/icons/icon-check.svg') no-repeat center / contain;
+    filter: brightness(0) saturate(100%) invert(81%) sepia(75%) saturate(392%) hue-rotate(29deg) brightness(107%) contrast(106%);
+}
+
+.attendance-day.completed .attendance-day-reward {
+    color: var(--text-disabled);
+    text-decoration: line-through;
+}
+
+/* 오늘 */
+.attendance-day.today {
+    border-color: var(--brand-primary);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+.attendance-day.today .attendance-day-label {
+    color: var(--brand-primary);
+}
+
+/* 보너스 날 (7일차) */
+.attendance-day.bonus {
+    border-color: var(--color-gold);
+    background: rgba(241, 196, 15, 0.08);
+}
+
+.attendance-day.bonus .attendance-day-reward {
+    color: var(--color-gold);
+}
+
+/* 출석 버튼 */
+.attendance-main-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: var(--brand-primary);
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--bg-base);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.attendance-main-btn:hover:not(:disabled) {
+    background: var(--brand-secondary);
+}
+
+.attendance-main-btn:disabled {
+    background: var(--border-light);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+}
+
+.attendance-main-btn.completed {
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    color: var(--text-white);
+}
+
+/* ========================================
+   탭 네비게이션
+   ======================================== */
+.mypage-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    background: var(--bg-card);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.mypage-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    background: rgba(255,255,255,0.04);
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: var(--brand-primary);
+    color: var(--text-on-brand);
+    font-weight: 600;
+}
+
+/* 탭 컨텐츠 */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.content-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-normal);
+}
+
+/* ========================================
+   베팅 통계
+   ======================================== */
+.betting-stats {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.stat-box {
+    flex: 1;
+    text-align: center;
+    padding: 12px 8px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+}
+
+.stat-box .stat-number {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--text-white);
+    margin-bottom: 4px;
+}
+
+.stat-box .stat-label {
+    color: var(--text-disabled);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+/* 전체 통계 카드 (고정) */
+.overall-stats-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--brand-muted);
+    border-left: 3px solid var(--brand-muted);
+    margin-bottom: 16px;
+}
+
+.overall-stats-card .card-title {
+    color: var(--brand-primary);
+}
+
+/* 베팅 서브탭 */
+.bet-sub-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 16px;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.bet-sub-tab {
+    flex: 1;
+    padding: 9px 12px;
+    background: var(--bg-surface-alt);
+    border: none;
+    border-right: 1px solid var(--border-medium);
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.bet-sub-tab:last-child {
+    border-right: none;
+}
+
+.bet-sub-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-active);
+}
+
+.bet-sub-tab.active {
+    background: var(--brand-primary);
+    color: var(--text-on-brand);
+}
+
+/* 서브탭 콘텐츠 */
+.bet-sub-content {
+    display: none;
+}
+
+.bet-sub-content.active {
+    display: block;
+}
+
+.stat-box.highlight {
+    background: rgba(var(--color-brand-rgb), 0.1);
+    border-color: var(--color-brand);
+}
+
+.stat-box.highlight .stat-number {
+    font-size: 1.4rem;
+}
+
+/* ========================================
+   게시글 리스트
+   ======================================== */
+.posts-list, .bets-list, .tokens-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.post-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.15s;
+}
+
+.post-item:hover {
+    background: var(--bg-active);
+}
+
+.post-tag {
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.post-tag.tag-question { background: rgba(52, 152, 219, 0.15); color: #5dade2; }
+.post-tag.tag-cheer { background: rgba(46, 204, 113, 0.15); color: var(--color-tag-cheer); }
+.post-tag.tag-analysis { background: rgba(155, 89, 182, 0.15); color: #bb8fce; }
+.post-tag.tag-free { background: rgba(241, 196, 15, 0.15); color: #f7dc6f; }
+.post-tag.tag-other { background: rgba(149, 165, 166, 0.15); color: #bdc3c7; }
+
+.post-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-title {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-meta {
+    display: flex;
+    gap: 10px;
+    color: var(--text-disabled);
+    font-size: 0.75rem;
+}
+
+/* ========================================
+   베팅 아이템
+   ======================================== */
+.bet-item {
+    padding: 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--border-light);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.bet-item:hover {
+    border-color: var(--color-brand);
+}
+
+.bet-item.status-won {
+    border-left-color: var(--color-brand);
+}
+
+.bet-item.status-lost {
+    border-left-color: var(--color-error);
+}
+
+.bet-item.status-pending {
+    border-left-color: var(--color-warning);
+}
+
+.bet-race {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.race-name {
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.bet-status {
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.bet-status.status-won { background: rgba(var(--color-brand-rgb), 0.15); color: var(--color-brand-light); }
+.bet-status.status-lost { background: rgba(229, 57, 53, 0.15); color: var(--color-error); }
+.bet-status.status-pending { background: rgba(255, 193, 7, 0.15); color: var(--color-warning); }
+
+.bet-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.bet-position {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: var(--bg-surface);
+    border-radius: 2px;
+    font-size: 0.8rem;
+}
+
+.pos-badge {
+    background: var(--color-brand);
+    color: var(--text-on-brand);
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+.bet-total {
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-medium);
+}
+
+.win-amount {
+    color: var(--color-coin);
+    font-weight: 600;
+}
+
+/* H2H 베팅 */
+.h2h-bet-item .h2h-matchup-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+}
+
+.h2h-matchup-display .matchup-driver {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    padding: 4px 10px;
+    border-radius: 2px;
+    background: var(--bg-surface-alt);
+}
+
+.h2h-matchup-display .matchup-driver.predicted {
+    color: var(--color-coin);
+    background: rgba(var(--color-brand-rgb), 0.15);
+    border: 1px solid var(--color-brand);
+}
+
+.h2h-matchup-display .matchup-vs {
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    color: var(--text-disabled);
+}
+
+#betsTab .content-card {
+    margin-bottom: 16px;
+}
+
+#betsTab .content-card:last-child {
+    margin-bottom: 0;
+}
+
+/* ========================================
+   토큰 내역
+   ======================================== */
+.token-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.token-item:hover {
+    border-color: var(--color-brand);
+}
+
+.token-reason {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.token-date {
+    color: var(--text-disabled);
+    font-size: 0.75rem;
+    margin-top: 3px;
+}
+
+.token-change {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.token-change.positive {
+    color: var(--color-coin);
+}
+
+.token-change.negative {
+    color: var(--color-error);
+}
+
+/* ========================================
+   로딩 및 빈 상태
+   ======================================== */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+.loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--border-medium);
+    border-top-color: var(--brand-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* spin은 style.css에 정의됨 */
+
+/* .empty-state는 style.css 통일 컴포넌트로 대체됨 */
+
+/* .empty-cta-btn은 .empty-state .empty-cta로 대체됨 */
+
+/* 페이지네이션 */
+#tokenPagination,
+.pagination {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 16px;
+    border-top: 1px solid var(--border-medium);
+    background: var(--bg-surface-alt);
+    border-radius: var(--radius-md);
+}
+
+/* 이전/다음 버튼 - 확실히 보이게 */
+#tokenPrevBtn,
+#tokenNextBtn,
+.page-btn {
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-primary) !important;
+    border: 2px solid var(--brand-primary) !important;
+    border-radius: var(--radius-sm);
+    color: #fff !important;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 2px 8px rgba(var(--color-brand-rgb), 0.5);
+}
+
+#tokenPrevBtn:hover:not(:disabled),
+#tokenNextBtn:hover:not(:disabled),
+.page-btn:hover:not(:disabled) {
+    background: var(--brand-secondary) !important;
+    color: #000 !important;
+}
+
+#tokenPrevBtn:disabled,
+#tokenNextBtn:disabled,
+.page-btn:disabled {
+    background: #444 !important;
+    color: #888 !important;
+    border: 2px solid #666 !important;
+    opacity: 1 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 6px;
+}
+
+/* 페이지 번호 버튼 - 확실히 보이게 */
+.page-num {
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: #444 !important;
+    border: 2px solid #666 !important;
+    border-radius: var(--radius-sm);
+    color: #fff !important;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.page-num:hover {
+    background: #555 !important;
+    border-color: var(--brand-primary) !important;
+    color: var(--brand-primary) !important;
+}
+
+.page-num.active {
+    background: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: #fff !important;
+    font-weight: 700;
+    box-shadow: 0 0 12px rgba(var(--color-brand-rgb), 0.4);
+}
+
+/* ========================================
+   회원 탈퇴
+   ======================================== */
+.danger-zone {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-medium);
+    text-align: center;
+}
+
+.delete-account-link {
+    background: none;
+    border: none;
+    color: var(--text-disabled);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.delete-account-link:hover {
+    color: var(--color-error);
+}
+
+/* ========================================
+   모달
+   ======================================== */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content.nickname-modal,
+.modal-content.delete-modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    max-width: 400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-medium);
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-disabled);
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 24px 20px;
+}
+
+/* 닉네임 모달 */
+.nickname-notice {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: var(--radius-md);
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--color-warning);
+    text-align: center;
+}
+
+.nickname-notice strong {
+    color: var(--color-error);
+}
+
+.nickname-input-group {
+    margin-bottom: 8px;
+}
+
+.nickname-input-group label {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+}
+
+.nickname-input-group input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.nickname-input-group input:focus {
+    border-color: var(--border-active);
+}
+
+.nickname-input-group input::placeholder {
+    color: var(--text-disabled);
+}
+
+.nickname-hint {
+    margin-top: 6px;
+    font-size: 0.7rem;
+    color: var(--text-disabled);
+}
+
+/* 탈퇴 모달 */
+.warning-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.warning-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.warning-text {
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+    line-height: var(--leading-normal);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.warning-text strong {
+    color: var(--color-error);
+}
+
+.delete-list {
+    text-align: left;
+    background: rgba(229, 57, 53, 0.1);
+    border: 1px solid rgba(229, 57, 53, 0.2);
+    border-radius: var(--radius-md);
+    padding: 14px 14px 14px 32px;
+    margin: 0;
+    color: var(--text-tertiary);
+}
+
+.delete-list li {
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+}
+
+.delete-list li:last-child {
+    margin-bottom: 0;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-medium);
+}
+
+.modal-footer button {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel {
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    color: var(--text-tertiary);
+}
+
+.btn-cancel:hover {
+    background: var(--bg-active);
+    color: var(--text-primary);
+}
+
+.btn-confirm {
+    background: var(--brand-primary);
+    border: none;
+    color: var(--bg-base);
+}
+
+.btn-confirm:hover {
+    background: var(--brand-secondary);
+}
+
+.btn-confirm:disabled {
+    background: var(--border-light);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+}
+
+.btn-delete {
+    background: var(--color-error);
+    border: none;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: #c62828;
+}
+
+.btn-delete:disabled {
+    background: var(--border-light);
+    color: var(--text-disabled);
+    cursor: not-allowed;
+}
+
+/* 인벤토리 스타일은 별도 페이지(css/inventory.css)로 분리됨 */
+
+/* 사이드바 인벤토리 바로가기 버튼 */
+.sidebar-inventory-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.sidebar-btn-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-inventory-btn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+.sidebar-inventory-btn .inline-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+.sidebar-inventory-btn:hover .inline-icon {
+    opacity: 1;
+}
+
+/* ========================================
+   칭호 컬렉션 탭
+   ======================================== */
+
+.profile-titles-section {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.titles-header {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.titles-header .inline-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.titles-count {
+    float: right;
+    font-size: 0.75rem;
+    color: var(--text-disabled);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.titles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.title-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 12px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.title-card:hover {
+    border-color: var(--color-brand);
+}
+
+.title-locked {
+    opacity: 0.6;
+}
+
+.title-locked .title-icon {
+    filter: grayscale(1);
+}
+
+.title-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.title-icon .inline-icon {
+    width: 28px;
+    height: 28px;
+}
+
+.title-name {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.title-hint {
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+    line-height: 1.3;
+}
+
+.title-unlocked {
+    border-color: var(--color-brand);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+.title-equipped {
+    border-color: var(--color-brand);
+}
+
+.titles-coming-soon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    border: 1px dashed var(--border-medium);
+    border-radius: var(--radius-md);
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* ========================================
+   반응형
+   ======================================== */
+@media (max-width: 768px) {
+    .mypage-main {
+        padding: 70px 12px 30px;
+    }
+
+    .profile-banner {
+        height: 150px;
+    }
+
+    .profile-banner-info {
+        padding: 0 16px 16px;
+        margin-top: -32px;
+    }
+
+    .profile-avatar-lg {
+        width: 64px;
+        height: 64px;
+    }
+
+    .profile-identity h2 {
+        font-size: 0.95rem;
+    }
+
+    .token-hero-card {
+        padding: 16px;
+    }
+
+    .token-hero-amount {
+        font-size: 1.5rem;
+    }
+
+    .stats-grid-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .attendance-days {
+        gap: 4px;
+    }
+
+    .attendance-day {
+        padding: 8px 2px;
+    }
+
+    .attendance-day-reward {
+        font-size: 0.75rem;
+    }
+
+    .betting-stats {
+        flex-wrap: wrap;
+    }
+
+    .stat-box {
+        flex: 1 1 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .mypage-main {
+        padding: 60px 8px 20px;
+    }
+
+    .profile-banner {
+        height: 120px;
+    }
+
+    .profile-banner-info {
+        padding: 0 12px 14px;
+        margin-top: -28px;
+        gap: 12px;
+    }
+
+    .profile-avatar-lg {
+        width: 56px;
+        height: 56px;
+        border-width: 2px;
+    }
+
+    .profile-identity h2 {
+        font-size: 0.88rem;
+    }
+
+    .token-hero-card {
+        padding: 14px;
+        gap: 10px;
+    }
+
+    .token-hero-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .token-hero-amount {
+        font-size: 1.3rem;
+    }
+
+    .stat-card {
+        padding: 10px 6px;
+    }
+
+    .stat-card .stat-value {
+        font-size: 0.9rem;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.6rem;
+    }
+
+    .attendance-game-section {
+        padding: 12px;
+    }
+
+    .attendance-game-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .attendance-day {
+        padding: 8px 2px;
+        border-radius: 2px;
+    }
+
+    .attendance-day-number {
+        font-size: 0.55rem;
+    }
+
+    .attendance-day-reward {
+        font-size: 0.7rem;
+    }
+
+    .attendance-day-label {
+        font-size: 0.5rem;
+    }
+
+    .attendance-main-btn {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    .mypage-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .mypage-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab-btn {
+        flex: 0 0 auto;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .content-card {
+        padding: 12px;
+    }
+
+    .card-title {
+        font-size: 0.8rem;
+    }
+
+    .stat-box .stat-number {
+        font-size: 0.95rem;
+    }
+
+    .post-item {
+        padding: 10px;
+    }
+
+    .post-title {
+        font-size: 0.85rem;
+    }
+
+    .bet-item {
+        padding: 12px;
+    }
+
+    .token-item {
+        padding: 10px 12px;
+    }
+
+    .empty-state {
+        padding: 30px 16px;
+    }
+
+    .titles-grid {
+        grid-template-columns: 1fr;
+    }
+}

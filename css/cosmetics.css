@@ -1,0 +1,1301 @@
+/* ========================================
+   Cosmetics CSS
+   shop, mypage, paddock 공용 코스메틱 스타일
+
+   Sections:
+   1. Avatar Border Wrapper
+   2. Border Styles (20 types)
+   3. Nickname Color Styles (13 types)
+   4. Badge
+   5. Post Deco Styles (8 types)
+   6. Performance
+   7. Card Type Badges (shop)
+   ======================================== */
+
+
+/* ===========================================
+   1. Avatar Border Wrapper
+   =========================================== */
+
+.cosmetic-avatar-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 50%;
+    isolation: isolate;
+    flex-shrink: 0;
+}
+
+.cosmetic-avatar-wrap .cosmetic-avatar {
+    display: block;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    object-fit: cover;
+}
+
+.cosmetic-avatar-plain {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cosmetic-name {
+    font-weight: inherit;
+}
+
+
+/* ===========================================
+   2. Border Styles (12 types)
+   =========================================== */
+
+/* --- Static Borders --- */
+/* borderClass is applied directly on .cosmetic-avatar-wrap element */
+
+/* Silver */
+.cosmetic-avatar-wrap.border-silver {
+    border: 4px solid #c0c0c0;
+}
+
+/* Gold */
+.cosmetic-avatar-wrap.border-gold {
+    border: 4px solid #ffd700;
+}
+
+/* AMR Green — 테마 불변 고정색 */
+.cosmetic-avatar-wrap.border-amr-green {
+    border: 4px solid #0A7968;
+}
+
+/* Lime Glow */
+.cosmetic-avatar-wrap.border-lime-glow {
+    border: 4px solid var(--color-coin);
+    box-shadow: 0 0 12px rgba(196, 255, 0, 0.5);
+}
+
+/* Sector Purple */
+.cosmetic-avatar-wrap.border-sector-purple {
+    border: 4px solid #a855f7;
+}
+
+/* Racing Point */
+.cosmetic-avatar-wrap.border-racing-point {
+    border: 4px solid #f596c8;
+}
+
+/* --- F1 Team Solid Borders --- */
+.cosmetic-avatar-wrap.border-redbull-blue   { border: 4px solid var(--team-redbull-1); }
+.cosmetic-avatar-wrap.border-mclaren-orange { border: 4px solid var(--team-mclaren-1); }
+.cosmetic-avatar-wrap.border-ferrari-red    { border: 4px solid var(--team-ferrari-1); }
+.cosmetic-avatar-wrap.border-alpine-blue    { border: 4px solid var(--team-alpine-1); }
+.cosmetic-avatar-wrap.border-alpine-pink    { border: 4px solid var(--team-alpine-2); }
+.cosmetic-avatar-wrap.border-williams-blue  { border: 4px solid var(--team-williams-1); }
+.cosmetic-avatar-wrap.border-rb-blue        { border: 4px solid var(--team-rb-1); }
+.cosmetic-avatar-wrap.border-haas-red       { border: 4px solid var(--team-haas-1); }
+.cosmetic-avatar-wrap.border-audi-silver    { border: 4px solid var(--team-audi-1); }
+.cosmetic-avatar-wrap.border-audi-red       { border: 4px solid var(--team-audi-2); }
+.cosmetic-avatar-wrap.border-cadillac-black { border: 4px solid var(--team-cadillac-1); }
+
+/* --- F1 Team Gradient Borders --- */
+.cosmetic-avatar-wrap.border-redbull-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-redbull-1), var(--team-redbull-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-mclaren-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-mclaren-1), var(--team-mclaren-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-ferrari-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-ferrari-1), var(--team-ferrari-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-alpine-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-alpine-1), var(--team-alpine-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-williams-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-williams-1), var(--team-williams-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-rb-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-rb-1), var(--team-rb-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-haas-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-haas-1), var(--team-haas-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-audi-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-audi-1), var(--team-audi-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+.cosmetic-avatar-wrap.border-cadillac-gradient {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, var(--team-cadillac-1), var(--team-cadillac-2));
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+/* --- Gradient Borders (background trick) --- */
+
+/* Renault 2005 */
+.cosmetic-avatar-wrap.border-renault-2005 {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, #005aab, #ffd700);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+/* Podium */
+.cosmetic-avatar-wrap.border-podium {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, #ffd700, #c0c0c0, #cd7f32, #ffd700);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+/* --- Animated Borders (::before pseudo element) --- */
+
+/* Checkered */
+.cosmetic-avatar-wrap.border-checkered::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #fff 0deg, #fff 45deg,
+        #333 45deg, #333 90deg,
+        #fff 90deg, #fff 135deg,
+        #333 135deg, #333 180deg,
+        #fff 180deg, #fff 225deg,
+        #333 225deg, #333 270deg,
+        #fff 270deg, #fff 315deg,
+        #333 315deg, #333 360deg
+    );
+    z-index: -1;
+    animation: rotate-border 8s linear infinite;
+}
+
+/* Champion */
+.cosmetic-avatar-wrap.border-champion::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(#ffd700, #ff8c00, #ffd700, #fff8dc, #ffd700);
+    z-index: -1;
+    animation: rotate-border 4s linear infinite;
+}
+
+/* Season 2026 */
+.cosmetic-avatar-wrap.border-season-2026::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(var(--brand-primary), var(--color-lime), var(--brand-primary), var(--color-lime));
+    z-index: -1;
+    animation: rotate-border 6s linear infinite;
+}
+
+/* --- Dynamic Border Sizing --- */
+/* sm: 30px 이하 아바타 (패독 목록, 네비, 리더보드 등) */
+.cosmetic-avatar-wrap.cosmetic-sz-sm[class*="border-"] {
+    border-width: 3px;
+}
+
+.cosmetic-avatar-wrap.cosmetic-sz-sm.border-checkered::before,
+.cosmetic-avatar-wrap.cosmetic-sz-sm.border-champion::before,
+.cosmetic-avatar-wrap.cosmetic-sz-sm.border-season-2026::before,
+.cosmetic-avatar-wrap.cosmetic-sz-sm.border-night-race::before {
+    inset: -3px;
+}
+
+/* md: 31~50px 아바타 (패독 상세, 댓글 등) */
+.cosmetic-avatar-wrap.cosmetic-sz-md[class*="border-"] {
+    border-width: 3.5px;
+}
+
+.cosmetic-avatar-wrap.cosmetic-sz-md.border-checkered::before,
+.cosmetic-avatar-wrap.cosmetic-sz-md.border-champion::before,
+.cosmetic-avatar-wrap.cosmetic-sz-md.border-season-2026::before,
+.cosmetic-avatar-wrap.cosmetic-sz-md.border-night-race::before {
+    inset: -4px;
+}
+
+/* lg: 51px 이상 (마이페이지 프로필 등) - 기본값 유지 */
+
+/* --- Animated Border Inner Mask --- */
+/* ::before(그라데이션)가 avatar-wrapper 내부 갭까지 채우는 것을 방지 */
+/* ::after(불투명 원)로 내부를 가려서, 바깥 확장 영역만 테두리로 보이게 함 */
+.cosmetic-avatar-wrap.border-checkered::after,
+.cosmetic-avatar-wrap.border-champion::after,
+.cosmetic-avatar-wrap.border-season-2026::after,
+.cosmetic-avatar-wrap.border-night-race::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--bg-card, #181818);
+    z-index: 0;
+}
+
+
+/* --- Border Keyframes --- */
+
+@keyframes rotate-border {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fire-scale {
+    from { transform: rotate(0deg) scale(1); }
+    to { transform: rotate(360deg) scale(1.08); }
+}
+
+
+/* ===========================================
+   3. Nickname Color Styles (10 types)
+   =========================================== */
+
+.color-sector-purple {
+    color: #a855f7 !important;
+}
+
+.color-amr-green {
+    color: #0A7968 !important;
+}
+
+.color-renault-yellow {
+    color: #ffd700 !important;
+}
+
+.color-renault-blue {
+    color: #005aab !important;
+}
+
+.color-racing-point {
+    color: #f596c8 !important;
+}
+
+.color-lime {
+    color: var(--color-coin) !important;
+}
+
+.color-silver {
+    color: #c0c0c0 !important;
+}
+
+.color-gold {
+    color: #ffd700 !important;
+}
+
+/* --- F1 Team Solid Colors --- */
+.color-redbull-blue   { color: var(--team-redbull-1) !important; }
+.color-mclaren-orange { color: var(--team-mclaren-1) !important; }
+.color-ferrari-red    { color: var(--team-ferrari-1) !important; }
+.color-alpine-blue    { color: var(--team-alpine-1) !important; }
+.color-alpine-pink    { color: var(--team-alpine-2) !important; }
+.color-williams-blue  { color: var(--team-williams-1) !important; }
+.color-rb-blue        { color: var(--team-rb-1) !important; }
+.color-haas-red       { color: var(--team-haas-1) !important; }
+.color-audi-silver    { color: var(--team-audi-1) !important; }
+.color-audi-red       { color: var(--team-audi-2) !important; }
+.color-cadillac-black { color: var(--team-cadillac-1) !important; text-shadow: 0 0 1px rgba(255,255,255,0.15); }
+
+/* --- F1 Team Gradient Colors --- */
+.color-redbull-gradient {
+    background: linear-gradient(90deg, var(--team-redbull-1), var(--team-redbull-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-mclaren-gradient {
+    background: linear-gradient(90deg, var(--team-mclaren-1), var(--team-mclaren-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-ferrari-gradient {
+    background: linear-gradient(90deg, var(--team-ferrari-1), var(--team-ferrari-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-alpine-gradient {
+    background: linear-gradient(90deg, var(--team-alpine-1), var(--team-alpine-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-williams-gradient {
+    background: linear-gradient(90deg, var(--team-williams-1), var(--team-williams-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-rb-gradient {
+    background: linear-gradient(90deg, var(--team-rb-1), var(--team-rb-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-haas-gradient {
+    background: linear-gradient(90deg, var(--team-haas-1), var(--team-haas-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-audi-gradient {
+    background: linear-gradient(90deg, var(--team-audi-1), var(--team-audi-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.color-cadillac-gradient {
+    background: linear-gradient(90deg, var(--team-cadillac-1), var(--team-cadillac-2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Rainbow */
+.color-rainbow {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-text 3s linear infinite;
+}
+
+/* Neon */
+.color-neon {
+    color: #39ff14 !important;
+    text-shadow: 0 0 7px #39ff14, 0 0 10px #39ff14, 0 0 21px #39ff14;
+    animation: neon-pulse 2s ease-in-out infinite alternate;
+}
+
+/* Renault Gradient (blue-yellow) */
+.color-renault-gradient {
+    background: linear-gradient(90deg, #005aab, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Renault Gradient Glow */
+.color-renault-gradient-glow {
+    background: linear-gradient(90deg, #005aab, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 4px rgba(0, 90, 171, 0.6));
+    animation: renault-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+/* Racing Point Glow */
+.color-racing-point-glow {
+    color: #f596c8 !important;
+    text-shadow: 0 0 6px rgba(245, 150, 200, 0.5), 0 0 12px rgba(245, 150, 200, 0.3);
+    animation: racing-point-glow-pulse 2s ease-in-out infinite alternate;
+}
+
+/* --- Nickname Color Keyframes --- */
+
+@keyframes rainbow-text {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes neon-pulse {
+    from {
+        text-shadow: 0 0 5px #39ff14, 0 0 10px #39ff14;
+    }
+    to {
+        text-shadow: 0 0 10px #39ff14, 0 0 20px #39ff14, 0 0 40px #39ff14;
+    }
+}
+
+@keyframes renault-glow-pulse {
+    from {
+        filter: drop-shadow(0 0 4px rgba(0, 90, 171, 0.4));
+    }
+    to {
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)) drop-shadow(0 0 20px rgba(0, 90, 171, 0.4));
+    }
+}
+
+@keyframes racing-point-glow-pulse {
+    from {
+        text-shadow: 0 0 4px rgba(245, 150, 200, 0.4), 0 0 8px rgba(245, 150, 200, 0.2);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(245, 150, 200, 0.7), 0 0 20px rgba(245, 150, 200, 0.4), 0 0 30px rgba(245, 150, 200, 0.2);
+    }
+}
+
+
+/* ===========================================
+   4. Badge
+   =========================================== */
+
+img.cosmetic-badge {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-left: 4px;
+    object-fit: contain;
+}
+
+
+/* ===========================================
+   5. Post Deco Styles (8 types)
+   =========================================== */
+
+/* Highlight */
+.deco-highlight {
+    border: 1px solid rgba(196, 255, 0, 0.6);
+    box-shadow: 0 0 8px rgba(196, 255, 0, 0.25), inset 0 0 8px rgba(196, 255, 0, 0.05);
+}
+
+/* AMR Green Background — 테마 불변 고정색 */
+.deco-amr-green-bg {
+    background: linear-gradient(135deg, rgba(10, 121, 104, 0.08), rgba(10, 121, 104, 0.02)) !important;
+}
+
+/* Gold Background */
+.deco-gold-bg {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.02)) !important;
+}
+
+/* Pinned */
+.deco-pinned {
+    position: relative;
+    border-top: 2px solid var(--color-coin);
+}
+
+.deco-pinned::before {
+    content: 'PINNED';
+    position: absolute;
+    top: -1px;
+    right: 12px;
+    background: var(--color-coin);
+    color: #1a1a1a;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 0 0 4px 4px;
+    letter-spacing: 1px;
+}
+
+/* Team Radio - F1 broadcast style */
+.deco-team-radio {
+    --radio-color: var(--brand-primary);
+    position: relative;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) !important;
+    border-left: 4px solid var(--radio-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Team Radio 태그별 색상 */
+.deco-team-radio[data-tag="질문"] { --radio-color: #5dade2; }
+.deco-team-radio[data-tag="응원"] { --radio-color: #58d68d; }
+.deco-team-radio[data-tag="분석"] { --radio-color: #bb8fce; }
+.deco-team-radio[data-tag="자유"] { --radio-color: #f7dc6f; }
+.deco-team-radio[data-tag="다른팀"] { --radio-color: #bdc3c7; }
+
+.deco-team-radio .post-title { color: var(--radio-color); }
+
+.team-radio-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--radio-color);
+    margin-left: 4px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: rgba(var(--color-brand-rgb), 0.1);
+}
+
+.team-radio-wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    margin-bottom: 4px;
+}
+
+.team-radio-wave span {
+    display: block;
+    width: 3px;
+    background: var(--radio-color);
+    border-radius: 1px;
+}
+
+.team-radio-wave span:nth-child(1)  { height: 40%; }
+.team-radio-wave span:nth-child(2)  { height: 70%; }
+.team-radio-wave span:nth-child(3)  { height: 50%; }
+.team-radio-wave span:nth-child(4)  { height: 90%; }
+.team-radio-wave span:nth-child(5)  { height: 30%; }
+.team-radio-wave span:nth-child(6)  { height: 60%; }
+.team-radio-wave span:nth-child(7)  { height: 100%; }
+.team-radio-wave span:nth-child(8)  { height: 45%; }
+.team-radio-wave span:nth-child(9)  { height: 75%; }
+.team-radio-wave span:nth-child(10) { height: 55%; }
+.team-radio-wave span:nth-child(11) { height: 85%; }
+.team-radio-wave span:nth-child(12) { height: 35%; }
+.team-radio-wave span:nth-child(13) { height: 65%; }
+.team-radio-wave span:nth-child(14) { height: 50%; }
+.team-radio-wave span:nth-child(15) { height: 40%; }
+
+/* Fastest Lap - F1 purple style */
+.deco-fastest-lap {
+    position: relative;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)) !important;
+    border-left: 4px solid #9333ea;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.deco-fastest-lap .vote-count,
+.deco-fastest-lap .vote-count.has-votes { color: #c084fc; }
+.deco-fastest-lap .post-title { color: #c084fc; }
+.deco-fastest-lap .post-stat svg { stroke: #c084fc; }
+
+.fastest-lap-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #c084fc;
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(147, 51, 234, 0.08);
+    width: fit-content;
+}
+
+.fastest-lap-label svg {
+    stroke: #c084fc;
+}
+
+/* 미리보기 대응 — Fastest Lap */
+.deco-fastest-lap .preview-post-title { color: #c084fc; }
+.deco-fastest-lap .preview-post-stat { color: #c084fc; }
+.deco-fastest-lap .preview-post-stat svg { stroke: #c084fc; }
+.deco-fastest-lap .preview-vote-count { color: #c084fc; }
+
+/* 미리보기 대응 — Team Radio */
+.deco-team-radio .preview-post-title { color: var(--radio-color); }
+.deco-team-radio .preview-vote-count { color: var(--radio-color); }
+
+/* 상세보기 모달 대응 — Team Radio */
+.detail-modal.deco-team-radio {
+    --radio-color: var(--brand-primary);
+    background: #0e0e0e !important;
+    border-left: 4px solid var(--radio-color);
+}
+.detail-modal.deco-team-radio[data-tag="질문"] { --radio-color: #5dade2; }
+.detail-modal.deco-team-radio[data-tag="응원"] { --radio-color: #58d68d; }
+.detail-modal.deco-team-radio[data-tag="분석"] { --radio-color: #bb8fce; }
+.detail-modal.deco-team-radio[data-tag="자유"] { --radio-color: #f7dc6f; }
+.detail-modal.deco-team-radio[data-tag="다른팀"] { --radio-color: #bdc3c7; }
+.deco-team-radio .detail-title { color: var(--radio-color); }
+
+.detail-modal.deco-team-radio .comment-item,
+.detail-modal.deco-team-radio .comment-form textarea {
+    background: #161616;
+}
+
+/* 상세보기 모달 대응 — Fastest Lap */
+.detail-modal.deco-fastest-lap {
+    background: #0e0e0e !important;
+    border-left: 4px solid #9333ea;
+}
+.deco-fastest-lap .detail-title { color: #c084fc; }
+
+.detail-modal.deco-fastest-lap .comment-item,
+.detail-modal.deco-fastest-lap .comment-form textarea {
+    background: #161616;
+}
+
+/* 모달 내부 .post-detail 중복 데코 제거 (모달 자체에 적용되므로) */
+.detail-modal.deco-team-radio .post-detail.deco-team-radio,
+.detail-modal.deco-fastest-lap .post-detail.deco-fastest-lap {
+    background: transparent !important;
+    border-left: none;
+    overflow: visible;
+}
+
+
+/* --- New Borders --- */
+
+/* Night Race - 야간 레이스 조명 */
+.cosmetic-avatar-wrap.border-night-race::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(#1a1a4e, #3b82f6, #1a1a4e, #f59e0b, #1a1a4e);
+    z-index: -1;
+    animation: rotate-border 6s linear infinite;
+}
+
+/* Renault 2005 Glow - 블루옐로우 글로우 */
+.cosmetic-avatar-wrap.border-renault-2005-glow {
+    border: 4px solid transparent;
+    background-image: linear-gradient(var(--bg-card, #181818), var(--bg-card, #181818)),
+                       linear-gradient(135deg, #005aab, #ffd700);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: renault-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes renault-glow {
+    from { box-shadow: 0 0 6px rgba(0, 90, 171, 0.5), 0 0 12px rgba(255, 215, 0, 0.3); }
+    to { box-shadow: 0 0 14px rgba(0, 90, 171, 0.7), 0 0 28px rgba(255, 215, 0, 0.5); }
+}
+
+/* Racing Point Glow - 핑크 글로우 */
+.cosmetic-avatar-wrap.border-racing-point-glow {
+    border: 4px solid #f596c8;
+    animation: racing-point-border-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes racing-point-border-glow {
+    from { box-shadow: 0 0 6px rgba(245, 150, 200, 0.4); }
+    to { box-shadow: 0 0 14px rgba(245, 150, 200, 0.7), 0 0 28px rgba(245, 150, 200, 0.3); }
+}
+
+/* --- Animated Border Preview: 경계 제거 --- */
+/* 미리보기에서 아바타를 wrapper에 맞춰 ::after 마스크 갭 제거 */
+.preview-border-demo.border-checkered .cosmetic-avatar,
+.preview-border-demo.border-champion .cosmetic-avatar,
+.preview-border-demo.border-season-2026 .cosmetic-avatar,
+.preview-border-demo.border-night-race .cosmetic-avatar {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* --- Tire Borders (5 types) --- */
+/* 타이어 PNG 이미지를 오버레이로 사용, 아바타가 림 구멍에 보임 */
+/* 전부 정적 — 애니메이션 없음 */
+
+.cosmetic-border-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+    object-fit: contain;
+}
+
+
+/* ===========================================
+   6. Performance
+   =========================================== */
+
+.cosmetic-avatar-wrap.border-checkered::before,
+.cosmetic-avatar-wrap.border-champion::before,
+.cosmetic-avatar-wrap.border-season-2026::before,
+.cosmetic-avatar-wrap.border-night-race::before {
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cosmetic-avatar-wrap.border-checkered::before,
+    .cosmetic-avatar-wrap.border-champion::before,
+    .cosmetic-avatar-wrap.border-season-2026::before,
+    .cosmetic-avatar-wrap.border-night-race::before,
+    .cosmetic-avatar-wrap.border-renault-2005-glow,
+    .cosmetic-avatar-wrap.border-racing-point-glow,
+    .color-rainbow,
+    .color-neon,
+    .color-renault-gradient-glow,
+    .color-racing-point-glow,
+    .ctitle-legend,
+    .ctitle-resident,
+    .ctitle-lawrence,
+    .ctitle-allclear,
+    .ctitle-influencer,
+    .ctitle-og,
+    .ctitle-alpha-better,
+    .ctitle-earlybird,
+    .ctitle-founder,
+    .ctitle-null,
+    .ctitle-last-second,
+    .ctitle-watching,
+    .ctitle-777,
+    .ctitle-not-a-bug {
+        animation: none !important;
+    }
+}
+
+
+/* ===========================================
+   7. Card Type Badges (shop)
+   =========================================== */
+
+.card-type-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    text-transform: uppercase;
+}
+
+.card-type-badge.type-consumable {
+    background: #ef4444;
+    color: #fff;
+}
+
+.card-type-badge.type-rental {
+    background: #eab308;
+    color: #1a1a1a;
+}
+
+.card-type-badge.type-limited {
+    background: #a855f7;
+    color: #fff;
+}
+
+
+/* ===========================================
+   8. Title Text Styles (inline)
+   =========================================== */
+
+.cosmetic-titles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.cosmetic-title-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-disabled);
+}
+
+/* 족집게 - 라임 */
+.ctitle-chalkboard {
+    color: var(--color-coin);
+    background: #1a3a2a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 선견지명 - 골드 + 글로우 */
+.ctitle-gold {
+    color: #ffd700;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+    background: #2a2510;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 예언자 - 보라 + 글로우 */
+.ctitle-prophet {
+    color: #b266ff;
+    text-shadow: 0 0 6px rgba(178, 102, 255, 0.4);
+    background: #1f1530;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 연승머신 - 오렌지 */
+.ctitle-streak {
+    color: #ff8c00;
+    background: #2a1a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* DNF - 빨강 + 취소선 */
+.ctitle-dnf {
+    color: #ff4444;
+    text-decoration: line-through;
+}
+
+/* 퍼펙트 위크 - 하늘색 + 글로우 */
+.ctitle-perfect {
+    color: #00bfff;
+    text-shadow: 0 0 6px rgba(0, 191, 255, 0.4);
+    background: #0a1a2a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 살아있는 전설 - 흰색 + 골든 글로우 + 반짝임 */
+.ctitle-legend {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+    background: #1a1a10;
+    padding: 2px 6px;
+    border-radius: 4px;
+    animation: ctitle-sparkle 3s ease-in-out infinite;
+}
+
+/* 인라인 아이콘 (mask-image로 currentColor 상속) */
+.ctitle-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
+    background-color: currentColor;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    margin-right: 2px;
+}
+
+
+/* -------------------------------------------
+   희귀 등급 (Rare)
+   ------------------------------------------- */
+
+/* 루키시즌 */
+.ctitle-rookie {
+    color: #90ee90;
+}
+
+/* 아이언맨 */
+.ctitle-ironman {
+    color: #b0c4de;
+    text-shadow: 0 0 4px rgba(176, 196, 222, 0.3);
+}
+
+/* 단골손님 */
+.ctitle-regular {
+    color: #d4a574;
+    background: #2a1a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 쇼핑 중독 */
+.ctitle-shopaholic {
+    color: #ff69b4;
+    background: #2a0a1a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 짠돌이 - 동전 느낌, 구리빛 */
+.ctitle-miser {
+    color: #cd7f32;
+    text-shadow: 0 0 3px rgba(205, 127, 50, 0.2);
+    background: #1a1208;
+    border: 1px dashed rgba(205, 127, 50, 0.4);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 자산가 */
+.ctitle-wealthy {
+    color: #4caf50;
+    background: #0a2a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 777 - 네온 슬롯머신 */
+.ctitle-777 {
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff, #00ffff, #ff00ff);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 2px;
+    filter: drop-shadow(0 0 4px rgba(255, 0, 255, 0.5));
+    animation: ctitle-777-jackpot 1.5s ease-in-out infinite;
+}
+
+/* 사재기 */
+.ctitle-bulk {
+    color: #ff6b6b;
+    background: #2a0a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 이야기꾼 */
+.ctitle-storyteller {
+    color: #c4a8ff;
+    background: #1a0f2e;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 다작러 */
+.ctitle-prolific {
+    color: #6495ed;
+    background: #0a0f2a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 인기쟁이 */
+.ctitle-popular {
+    color: #ff69b4;
+}
+
+/* 기억나? */
+.ctitle-remember {
+    color: #cccccc;
+    text-shadow: 0 0 6px rgba(204, 204, 204, 0.2);
+    background: #2a2a2a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+
+/* -------------------------------------------
+   전설 등급 (Legendary)
+   ------------------------------------------- */
+
+/* Home sweet Home */
+.ctitle-home {
+    color: #f5deb3;
+    text-shadow: 0 0 4px rgba(255, 165, 0, 0.3);
+    background: #1a0f0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 여기 살아? */
+.ctitle-resident {
+    color: #2dd4bf;
+    text-shadow: 0 0 6px rgba(45, 212, 191, 0.5);
+    background: #0a1f1f;
+    padding: 2px 6px;
+    border-radius: 4px;
+    animation: ctitle-teal-glow 2.5s ease-in-out infinite alternate;
+}
+
+/* 큰손 - 금색 럭셔리 */
+.ctitle-bigspender {
+    color: #ffd700;
+    text-shadow: 0 0 6px rgba(255, 215, 0, 0.4);
+    background: linear-gradient(135deg, #1a0f00, #2a1a0a);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* 만수르 */
+.ctitle-mansour {
+    color: #87ceeb;
+    text-shadow: 0 0 6px rgba(135, 206, 235, 0.4);
+}
+
+/* 로렌스의 지갑 */
+.ctitle-lawrence {
+    color: transparent;
+    background: linear-gradient(90deg, var(--brand-primary), var(--color-coin), var(--brand-primary), var(--brand-primary-hover), var(--brand-primary));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    padding: 2px 6px;
+    border-radius: 4px;
+    filter: drop-shadow(0 0 4px rgba(var(--color-brand-rgb), 0.5));
+    animation: ctitle-lawrence-shine 2s ease-in-out infinite;
+}
+
+/* 올클리어 */
+.ctitle-allclear {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbow-text 3s linear infinite;
+}
+
+/* 패독 터줏대감 - 오래된 나무 간판 느낌 */
+.ctitle-paddock-og {
+    color: #e8d5a3;
+    background: #2c1e0e;
+    border: 1px solid rgba(232, 213, 163, 0.3);
+    padding: 2px 6px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+}
+
+/* 인플루언서 */
+.ctitle-influencer {
+    background: linear-gradient(90deg, #ff69b4, #a855f7, #ff69b4);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: ctitle-sparkle 3s ease-in-out infinite;
+}
+
+
+/* -------------------------------------------
+   특별 등급 (Special)
+   ------------------------------------------- */
+
+/* OG - 골드 엠보싱 */
+.ctitle-og {
+    background: linear-gradient(90deg, #ffd700, #fff1a8, #ffd700);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+    animation: ctitle-shine 3s ease-in-out infinite;
+}
+
+/* 알파 베터 - 빨강-검정 */
+.ctitle-alpha-better {
+    background: linear-gradient(90deg, #ff4444, #1a0000, #ff4444);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 4px rgba(255, 68, 68, 0.5));
+    animation: ctitle-shine 2.5s ease-in-out infinite;
+}
+
+/* 얼리버드 - 새벽 하늘 그라디언트 */
+.ctitle-earlybird {
+    background: linear-gradient(90deg, #87ceeb, #ffd1dc, #87ceeb);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 4px rgba(135, 206, 235, 0.5));
+    animation: ctitle-shine 3s ease-in-out infinite;
+}
+
+/* 개국공신 */
+.ctitle-founder {
+    background: linear-gradient(90deg, #ff4444, #ffd700, #ff4444);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: ctitle-founder-glow 3s ease-in-out infinite;
+}
+
+
+/* -------------------------------------------
+   히든 등급 (Hidden)
+   ------------------------------------------- */
+
+/* (공집합) - 검정 + 연기/글리치 */
+.ctitle-null {
+    color: #000;
+    text-shadow:
+        0 0 8px rgba(80, 80, 80, 0.6),
+        0 0 20px rgba(60, 60, 60, 0.3),
+        0 0 40px rgba(40, 40, 40, 0.2);
+    filter: drop-shadow(0 0 3px rgba(100, 100, 100, 0.5));
+    animation: ctitle-smoke 3s ease-in-out infinite, ctitle-null-glitch 8s ease-in-out infinite;
+}
+
+/* Adrian의 메모 */
+.ctitle-adrian-memo {
+    color: #c8b88a;
+    text-shadow: 0 0 4px rgba(200, 184, 138, 0.2);
+    background: #0a0f1e;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* [삭제된 기록] */
+.ctitle-deleted {
+    color: #444;
+    background: #0a0a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-decoration: line-through;
+}
+
+/* 버그 아닙니다 - 글리치 */
+.ctitle-not-a-bug {
+    color: #00ff41;
+    font-family: monospace;
+    background: #0a0a0a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+    animation: ctitle-glitch 3s ease-in-out infinite;
+}
+
+/* 마지막 1초 */
+.ctitle-last-second {
+    color: #ff1744;
+    text-shadow: 0 0 6px rgba(255, 23, 68, 0.6);
+    animation: ctitle-last-second-blink 0.8s steps(2, start) infinite;
+}
+
+/* 지켜보고 있다 */
+.ctitle-watching {
+    color: #666;
+    text-shadow: 0 0 6px rgba(102, 102, 102, 0.3);
+    animation: ctitle-watching-fade 4s ease-in-out infinite;
+}
+
+
+/* -------------------------------------------
+   Title Keyframes
+   ------------------------------------------- */
+
+@keyframes ctitle-sparkle {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+}
+
+@keyframes ctitle-teal-glow {
+    from {
+        text-shadow: 0 0 4px rgba(45, 212, 191, 0.3);
+    }
+    to {
+        text-shadow: 0 0 10px rgba(45, 212, 191, 0.7), 0 0 20px rgba(45, 212, 191, 0.3);
+    }
+}
+
+@keyframes ctitle-shine {
+    0%, 100% { background-position: 200% center; }
+    50% { background-position: 0% center; }
+}
+
+@keyframes ctitle-smoke {
+    0%, 100% { text-shadow: 0 0 4px rgba(80, 80, 80, 0.3); }
+    50% { text-shadow: 0 0 12px rgba(80, 80, 80, 0.6), 0 2px 8px rgba(60, 60, 60, 0.4); }
+}
+
+@keyframes ctitle-null-glitch {
+    0%, 90%, 100% { transform: none; opacity: 1; }
+    92% { transform: translateX(-2px) skewX(-2deg); opacity: 0.8; }
+    94% { transform: translateX(2px) skewX(2deg); opacity: 0.6; }
+    96% { transform: translateX(-1px); opacity: 0.9; }
+    98% { transform: none; opacity: 1; }
+}
+
+@keyframes ctitle-founder-glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 3px rgba(255, 68, 68, 0.4));
+        background-position: 200% center;
+    }
+    50% {
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+        background-position: 0% center;
+    }
+}
+
+@keyframes ctitle-glitch {
+    0%, 85%, 100% { transform: none; opacity: 1; }
+    87% { transform: translateX(-3px) skewX(-4deg); opacity: 0.7; }
+    89% { transform: translateX(3px) skewX(4deg); opacity: 0.5; }
+    91% { transform: translateX(-1px); opacity: 0.8; text-shadow: 0 0 12px rgba(0, 255, 65, 0.9), -2px 0 #ff0000, 2px 0 #0000ff; }
+    93% { transform: none; opacity: 1; }
+}
+
+@keyframes ctitle-lawrence-shine {
+    0%, 100% {
+        background-position: 300% center;
+        filter: drop-shadow(0 0 4px rgba(var(--color-brand-rgb), 0.5));
+    }
+    50% {
+        background-position: 0% center;
+        filter: drop-shadow(0 0 10px rgba(196, 255, 0, 0.8)) drop-shadow(0 0 20px rgba(var(--color-brand-rgb), 0.4));
+    }
+}
+
+@keyframes ctitle-777-jackpot {
+    0%, 100% {
+        background-position: 300% center;
+        filter: drop-shadow(0 0 4px rgba(255, 0, 255, 0.5));
+    }
+    50% {
+        background-position: 0% center;
+        filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.7)) drop-shadow(0 0 20px rgba(255, 0, 255, 0.4));
+    }
+}
+
+@keyframes ctitle-last-second-blink {
+    0% { opacity: 1; text-shadow: 0 0 8px rgba(255, 23, 68, 0.8); }
+    50% { opacity: 0.4; text-shadow: none; }
+}
+
+@keyframes ctitle-watching-fade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+
+/* -------------------------------------------
+   Title Performance
+   ------------------------------------------- */
+
+.title-card-name .ctitle-legend,
+.title-card-name .ctitle-resident,
+.title-card-name .ctitle-lawrence,
+.title-card-name .ctitle-allclear,
+.title-card-name .ctitle-influencer,
+.title-card-name .ctitle-og,
+.title-card-name .ctitle-alpha-better,
+.title-card-name .ctitle-earlybird,
+.title-card-name .ctitle-founder,
+.title-card-name .ctitle-null,
+.title-card-name .ctitle-not-a-bug,
+.title-card-name .ctitle-777,
+.title-card-name .ctitle-last-second,
+.title-card-name .ctitle-watching,
+.title-modal-name .ctitle-legend,
+.title-modal-name .ctitle-resident,
+.title-modal-name .ctitle-lawrence,
+.title-modal-name .ctitle-allclear,
+.title-modal-name .ctitle-influencer,
+.title-modal-name .ctitle-og,
+.title-modal-name .ctitle-alpha-better,
+.title-modal-name .ctitle-earlybird,
+.title-modal-name .ctitle-founder,
+.title-modal-name .ctitle-null,
+.title-modal-name .ctitle-not-a-bug,
+.title-modal-name .ctitle-777,
+.title-modal-name .ctitle-last-second,
+.title-modal-name .ctitle-watching {
+    will-change: filter, text-shadow, background-position;
+}

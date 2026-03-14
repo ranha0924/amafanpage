@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>칭호 - F1 FANS</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2Z7RRYD2E5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-2Z7RRYD2E5');
+    </script>
+
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <!-- Critical CSS for header (prevents FOUC) -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--font-body);background-color:var(--bg-base);color:var(--text-white)}
+        .header{position:fixed;top:0;left:0;right:0;background:linear-gradient(180deg,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.7) 100%);backdrop-filter:blur(10px);z-index:1000;padding:8px clamp(20px,3vw,48px)}
+        .nav{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;flex-direction:column}
+        .logo-text{font-size:1.1rem;font-weight:700;letter-spacing:2px;color:var(--text-white)}
+        .logo-sub{font-size:0.55rem;letter-spacing:1.5px;color:var(--text-secondary)}
+        .nav-links{display:flex;list-style:none;gap:20px}
+        .nav-links a{color:var(--text-white);text-decoration:none;font-weight:500;font-size:0.85rem}
+        .auth-container{display:flex;align-items:center;margin-left:15px;min-height:36px}
+        .hamburger-btn{display:none;flex-direction:column;justify-content:space-between;width:28px;height:20px;background:transparent;border:none;cursor:pointer;padding:0;z-index:1100}
+        .hamburger-btn span{display:block;width:100%;height:3px;background:var(--text-white);border-radius:2px}
+        .login-btn{display:flex;align-items:center;gap:6px;background:#303030;color:#f0f0f0;border:none;padding:8px 16px;border-radius:4px;font-weight:600;font-size:0.8rem;cursor:pointer}
+        .user-info{display:flex;align-items:center;gap:10px}
+        .user-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover}
+        .user-name{color:var(--text-white);font-weight:500;font-size:0.8rem;white-space:nowrap}
+        .logout-btn{background:transparent;color:var(--text-secondary);border:1px solid var(--text-secondary);padding:5px 12px;border-radius:4px;font-size:0.75rem;cursor:pointer}
+        .token-display{display:flex;align-items:center;gap:5px;margin-right:10px;font-size:0.85rem;color:var(--color-coin)}
+        @media(max-width:1024px){.nav-links{display:none}.hamburger-btn{display:flex}}
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/token.css">
+    <link rel="stylesheet" href="css/title.css">
+    <link rel="stylesheet" href="css/cosmetics.css">
+    <link rel="stylesheet" href="css/errorHandler.css">
+</head>
+<body>
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay">
+        <div class="loader-logo">F1</div>
+        <div class="tire-spinner">
+            <img src="images/타이어.png" alt="Loading" class="tire">
+            <div class="speed-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="loader-text">Loading</div>
+    </div>
+
+    <!-- 사이드 메뉴 -->
+    <nav class="side-menu" id="sideMenu" aria-label="사이드 네비게이션">
+        <div class="side-menu-header">
+            <div class="logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+        </div>
+        <ul class="side-menu-links">
+            <li><a href="index.html">홈페이지</a></li>
+            <li><a href="betting.html">베팅</a></li>
+            <li><a href="paddock.html">The Paddock</a></li>
+            <li><a href="shop.html">상점</a></li>
+            <li><a href="leaderboard.html">리더보드</a></li>
+            <li><a href="mypage.html">마이페이지</a></li>
+        </ul>
+    </nav>
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <header class="header">
+        <nav class="nav">
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="메뉴 열기">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="logo">
+                <a href="index.html">
+                    <span class="logo-text">F1</span>
+                    <span class="logo-sub">FANS</span>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">홈페이지</a></li>
+                <li><a href="betting.html">베팅</a></li>
+                <li><a href="paddock.html">The Paddock</a></li>
+                <li><a href="shop.html">상점</a></li>
+                <li><a href="leaderboard.html">리더보드</a></li>
+                <li><a href="mypage.html">마이페이지</a></li>
+            </ul>
+            <div class="auth-container" id="authContainer"></div>
+        </nav>
+    </header>
+
+    <!-- 페이지 헤더 -->
+    <section class="title-page-header">
+        <h1 class="title-page-title">TITLES</h1>
+        <p class="title-page-subtitle">나만의 칭호를 모아보세요</p>
+    </section>
+
+    <!-- 로그인 안내 (비로그인 시) -->
+    <section class="title-login-prompt" id="titleLoginPrompt" style="display:none">
+        <img src="images/icons/icon-lock.svg" alt="" class="inline-icon">
+        <span>로그인하고 칭호를 모아보세요</span>
+        <button class="title-login-btn" onclick="signInWithGoogle()">로그인</button>
+    </section>
+
+    <!-- 2열 레이아웃 -->
+    <section class="title-main-section">
+        <div class="title-layout">
+            <!-- 왼쪽 패널: 탭 + 정렬 + 도감 그리드 -->
+            <div class="title-left-panel">
+                <!-- 카테고리 탭 -->
+                <div class="title-tabs" id="titleTabs">
+                    <button class="title-tab active" data-category="all">전체</button>
+                    <button class="title-tab" data-category="betting">베팅</button>
+                    <button class="title-tab" data-category="attendance">출석/활동</button>
+                    <button class="title-tab" data-category="coin">코인/경제</button>
+                    <button class="title-tab" data-category="community">커뮤니티</button>
+                    <button class="title-tab" data-category="special">특별</button>
+                </div>
+
+                <!-- 정렬 옵션 -->
+                <div class="title-sort" id="titleSort">
+                    <button class="title-sort-btn active" data-sort="rarity">등급순</button>
+                    <button class="title-sort-btn" data-sort="achieved">달성순</button>
+                    <button class="title-sort-btn" data-sort="recent">최근 달성순</button>
+                </div>
+
+                <!-- 칭호 도감 -->
+                <div class="title-collection" id="titleCollection">
+                    <div class="title-empty-state">
+                        <img src="images/icons/icon-trophy.svg" alt="" class="inline-icon title-empty-icon">
+                        <p>칭호 목록을 불러오는 중...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 패널 -->
+            <div class="title-right-panel">
+                <!-- 사이드바 (장착 슬롯 + 달성률) -->
+                <div class="title-sidebar" id="titleSidebar">
+                    <!-- 모바일 미니 바 (접힌 상태) -->
+                    <div class="title-sidebar-mini" id="titleSidebarMini" onclick="toggleTitleSidebar()">
+                        <span class="title-sidebar-mini-label">MY TITLES</span>
+                        <span class="title-sidebar-mini-slots" id="titleMiniSlots">0/3 장착</span>
+                        <span class="title-sidebar-mini-progress" id="titleMiniProgress">0%</span>
+                        <img src="images/icons/icon-chart.svg" alt="" class="inline-icon title-sidebar-mini-icon">
+                    </div>
+                    <!-- 전체 사이드바 콘텐츠 -->
+                    <div class="title-sidebar-full" id="titleSidebarFull">
+                        <!-- 헤더 -->
+                        <div class="title-sidebar-header">
+                            <span class="title-sidebar-header-text">MY TITLES</span>
+                            <button class="title-sidebar-close" id="titleSidebarClose" onclick="toggleTitleSidebar()">
+                                <img src="images/icons/icon-cross.svg" alt="닫기" class="inline-icon">
+                            </button>
+                        </div>
+                        <!-- 장착 슬롯 3개 -->
+                        <div class="title-sidebar-slots" id="titleSidebarSlots">
+                            <div class="title-sidebar-slot title-sidebar-slot-empty" onclick="handleSlotClick(0)">
+                                <img src="images/icons/icon-plus.svg" alt="" class="inline-icon">
+                                <span>칭호를 선택하세요</span>
+                            </div>
+                            <div class="title-sidebar-slot title-sidebar-slot-empty" onclick="handleSlotClick(1)">
+                                <img src="images/icons/icon-plus.svg" alt="" class="inline-icon">
+                                <span>칭호를 선택하세요</span>
+                            </div>
+                            <div class="title-sidebar-slot title-sidebar-slot-empty" onclick="handleSlotClick(2)">
+                                <img src="images/icons/icon-plus.svg" alt="" class="inline-icon">
+                                <span>칭호를 선택하세요</span>
+                            </div>
+                        </div>
+                        <!-- 달성률 -->
+                        <div class="title-sidebar-progress" id="titleSidebarProgress">
+                            <div class="title-progress-info">
+                                <span class="title-progress-label">달성률</span>
+                                <span class="title-progress-value" id="titleProgressValue">0/0 달성 (0%)</span>
+                            </div>
+                            <div class="title-progress-bar">
+                                <div class="title-progress-fill" id="titleProgressFill" style="width:0%"></div>
+                            </div>
+                            <div class="title-sidebar-category-progress" id="titleCategoryProgress"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 최근 소식 (독립 카드) -->
+                <div class="title-sidebar-feed" id="titleSidebarFeed">
+                    <div class="title-sidebar-section-label">
+                        <img src="images/icons/icon-sparkle.svg" alt="" class="inline-icon"> 최근 희귀 칭호 달성
+                    </div>
+                    <div class="title-sidebar-feed-list" id="titleFeedList">
+                        <span class="title-sidebar-feed-empty">피드를 불러오는 중...</span>
+                    </div>
+                </div>
+                <!-- 히든 칭호 힌트 (독립 카드) -->
+                <div class="title-sidebar-hidden" id="titleSidebarHidden"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 상세 모달 -->
+    <div class="title-modal-overlay" id="titleModalOverlay">
+        <div class="title-modal" id="titleModal">
+            <div class="title-modal-drag-handle"></div>
+            <div class="title-modal-content" id="titleModalContent"></div>
+        </div>
+    </div>
+
+    <!-- 장착 변경 모달 -->
+    <div class="title-modal-overlay" id="titleEquipOverlay">
+        <div class="title-modal" id="titleEquipModal">
+            <div class="title-modal-drag-handle"></div>
+            <div class="title-equip-modal-content" id="titleEquipContent">
+                <h3 class="title-equip-modal-title">칭호 장착 변경</h3>
+                <div class="title-equip-list" id="titleEquipList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">F1</span>
+                <span class="logo-sub">FANS</span>
+            </div>
+            <nav class="footer-links" aria-label="외부 링크">
+                <a href="https://www.astonmartinf1.com" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-globe.svg" alt="공식 웹사이트" class="footer-icon"></a>
+                <a href="https://twitter.com/AstonMartinF1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-twitter.svg" alt="트위터" class="footer-icon"></a>
+                <a href="https://www.instagram.com/astonmartinf1" target="_blank" rel="noopener noreferrer"><img src="images/icons/icon-instagram.svg" alt="인스타그램" class="footer-icon"></a>
+            </nav>
+            <nav class="footer-links footer-legal" aria-label="법적 고지">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+            </nav>
+            <p class="footer-note">이 사이트는 팬이 제작한 비공식 팬페이지입니다.</p>
+            <p class="image-credit">Images &copy; Formula 1, Aston Martin Lagonda Limited. Used for fan purposes only.</p>
+            <p class="copyright">&copy; 2026 F1 FANS. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/constants.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/errorHandler.js"></script>
+    <script src="js/firebaseConfig.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/token.js"></script>
+    <script src="js/cosmetics.js"></script>
+    <script src="js/title.js"></script>
+
+    <!-- Vercel Analytics (production only) -->
+    <script>
+        if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            var s = document.createElement('script');
+            s.defer = true;
+            s.src = '/_vercel/insights/script.js';
+            document.body.appendChild(s);
+        }
+    </script>
+</body>
+</html>

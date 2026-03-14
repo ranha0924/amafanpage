@@ -1,0 +1,1387 @@
+/* ========================================
+   Title Page - 칭호 도감 컬렉션
+   ======================================== */
+
+/* ========================================
+   페이지 헤더
+   ======================================== */
+.title-page-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 80px var(--page-padding) 0;
+}
+
+.title-page-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: var(--tracking-heading);
+    margin: 0;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.title-page-subtitle {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+}
+
+/* ========================================
+   로그인 안내 (비로그인 시)
+   ======================================== */
+.title-login-prompt {
+    margin: 20px 0 0;
+    padding: 16px var(--page-padding);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+}
+
+.title-login-prompt .inline-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.title-login-btn {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-active);
+    color: var(--text-primary);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-slow);
+    white-space: nowrap;
+}
+
+.title-login-btn:hover {
+    opacity: 0.9;
+}
+
+/* ========================================
+   2열 메인 레이아웃
+   ======================================== */
+.title-main-section {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 0 var(--page-padding);
+}
+
+.title-layout {
+    display: grid;
+    grid-template-columns: 65fr 35fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.title-left-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.title-right-panel {
+    position: sticky;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ========================================
+   카테고리 탭
+   ======================================== */
+.title-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.title-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.title-tab {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    color: var(--text-tertiary);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition-base);
+}
+
+.title-tab:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.title-tab.active {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: #fff;
+}
+
+/* ========================================
+   정렬 옵션
+   ======================================== */
+.title-sort {
+    margin-top: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.title-sort-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-disabled);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.title-sort-btn:hover {
+    color: var(--text-secondary);
+}
+
+.title-sort-btn.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   카테고리 헤더 (도감 내)
+   ======================================== */
+.title-category-header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 6px;
+    margin-top: 8px;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.title-category-header::before,
+.title-category-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-medium);
+}
+
+/* ========================================
+   칭호 도감 그리드
+   ======================================== */
+.title-collection {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+/* ========================================
+   칭호 컬렉션 카드
+   ======================================== */
+.title-collection-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 12px 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.title-collection-card:hover {
+    border-color: var(--color-brand);
+}
+
+/* 카드 상태 아이콘 (우측 상단) */
+.title-card-status {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 16px;
+    height: 16px;
+}
+
+.title-card-status .inline-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.title-card-status-achieved .inline-icon {
+    color: var(--brand-primary);
+}
+
+.title-card-status-locked .inline-icon {
+    opacity: 0.4;
+}
+
+.title-card-status-hidden .inline-icon {
+    opacity: 0.3;
+}
+
+/* 카드 칭호명 */
+.title-card-name {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+/* 카드 조건/힌트 */
+.title-card-hint {
+    font-size: 0.7rem;
+    color: var(--text-disabled);
+    line-height: 1.3;
+}
+
+/* 카드 진행도 바 */
+.title-card-progress {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.title-card-progress-bar {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.title-card-progress-fill {
+    height: 100%;
+    background: var(--brand-primary);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.title-card-progress-text {
+    font-size: 0.65rem;
+    color: var(--text-disabled);
+    margin-top: 3px;
+}
+
+/* 카드 보유자 목록 */
+.title-card-holders {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 4px;
+}
+
+.title-card-holder-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--bg-surface-alt);
+    margin-left: -6px;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+
+.title-card-holder-avatar:first-child {
+    margin-left: 0;
+}
+
+.title-card-holder-avatar:hover {
+}
+
+.title-card-holder-more {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg-active);
+    border: 2px solid var(--bg-surface-alt);
+    margin-left: -6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.55rem;
+    color: var(--text-disabled);
+    font-weight: 600;
+}
+
+/* 보유자 수 뱃지 (20명 초과 시) */
+.title-card-holder-count {
+    font-size: 0.65rem;
+    color: var(--text-disabled);
+    margin-top: 4px;
+}
+
+/* 달성 카드 */
+.title-card-achieved {
+    border-color: var(--brand-primary);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+/* 미달성 카드 */
+.title-card-locked {
+    opacity: 0.6;
+}
+
+/* 히든+미달성 카드 */
+.title-card-hidden {
+    opacity: 0.45;
+}
+
+/* ========================================
+   칭호 등급별 스타일 (기존 유지)
+   ======================================== */
+
+/* 일반 등급 (normal) */
+.title-collection-card[data-rarity="normal"] .title-card-name {
+    color: #999;
+}
+
+/* 칭호 등급별 스타일은 cosmetics.css의 ctitle-* 클래스로 텍스트에 직접 적용 */
+
+/* ========================================
+   빈 상태
+   ======================================== */
+.title-empty-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 40px 20px;
+    color: var(--text-disabled);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.title-empty-icon {
+    width: 40px;
+    height: 40px;
+    opacity: 0.3;
+}
+
+/* ========================================
+   선택 모드 (클릭-투-장착)
+   ======================================== */
+.title-collection-select-mode .title-card-achieved {
+    box-shadow: 0 0 0 2px var(--brand-primary);
+    cursor: pointer;
+}
+
+.title-collection-select-mode .title-card-achieved:hover {
+    border-color: var(--color-brand);
+}
+
+.title-collection-select-mode .title-card-locked,
+.title-collection-select-mode .title-card-hidden {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* ========================================
+   사이드바
+   ======================================== */
+.title-sidebar {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+/* 데스크톱: 미니 바 숨김 */
+.title-sidebar-mini {
+    display: none;
+}
+
+/* 데스크톱: 닫기 버튼 숨김 */
+.title-sidebar-close {
+    display: none;
+}
+
+/* 사이드바 헤더 */
+.title-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--accent-yellow);
+}
+
+.title-sidebar-header-text {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--bg-base);
+    letter-spacing: 1px;
+}
+
+/* 장착 슬롯 */
+.title-sidebar-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+}
+
+.title-sidebar-slot {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.title-sidebar-slot:hover {
+    border-color: var(--border-strong);
+}
+
+.title-sidebar-slot .inline-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.4;
+    flex-shrink: 0;
+}
+
+.title-sidebar-slot-empty span {
+    font-size: 0.75rem;
+    color: var(--text-disabled);
+}
+
+/* 채워진 슬롯 */
+.title-sidebar-slot-filled {
+    border-color: var(--brand-primary);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+.title-sidebar-slot-filled .title-sidebar-slot-name {
+    flex: 1;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.title-sidebar-slot-remove {
+    background: transparent;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.15s;
+    display: flex;
+    align-items: center;
+}
+
+.title-sidebar-slot-remove:hover {
+    opacity: 1;
+}
+
+.title-sidebar-slot-remove .inline-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 1;
+}
+
+/* 활성 슬롯 (선택 대기) */
+.title-sidebar-slot-active {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 1px var(--brand-primary);
+    animation: slotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes slotPulse {
+    0%, 100% { box-shadow: 0 0 0 1px var(--brand-primary); }
+    50% { box-shadow: 0 0 8px 2px rgba(var(--brand-primary-rgb), 0.3); }
+}
+
+/* 달성률 */
+.title-sidebar-progress {
+    padding: 12px;
+    border-top: 1px solid var(--border-medium);
+}
+
+.title-sidebar-progress .title-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.title-sidebar-progress .title-progress-label {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.title-sidebar-progress .title-progress-value {
+    font-size: 0.75rem;
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+.title-sidebar-progress .title-progress-bar {
+    height: 6px;
+    background: var(--bg-surface-alt);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.title-sidebar-progress .title-progress-fill {
+    height: 100%;
+    background: var(--brand-primary);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* 카테고리별 달성률 */
+.title-sidebar-category-progress {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.title-cat-progress-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 0.68rem;
+}
+
+.title-cat-progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-cat-progress-label {
+    color: var(--text-disabled);
+}
+
+.title-cat-progress-value {
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+.title-cat-progress-bar {
+    height: 6px;
+    background: var(--bg-surface-alt);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.title-cat-progress-fill {
+    height: 100%;
+    background: var(--brand-primary);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* 최근 소식 피드 (독립 카드) */
+.title-sidebar-feed {
+    padding: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+}
+
+.title-sidebar-section-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+.title-sidebar-section-label .inline-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.title-sidebar-feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.title-sidebar-feed-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+.title-feed-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.title-feed-text {
+    flex: 1;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+.title-feed-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.title-feed-time {
+    font-size: 0.62rem;
+    color: var(--text-disabled);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.title-sidebar-feed-empty {
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+    font-style: italic;
+    padding: 8px 0;
+}
+
+/* 히든 칭호 힌트 (독립 카드) */
+.title-sidebar-hidden {
+    padding: 12px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.title-sidebar-hidden .inline-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.4;
+}
+
+.title-sidebar-hidden:empty {
+    display: none;
+}
+
+/* ========================================
+   상세 모달 (데스크톱: 센터 / 모바일: 바텀시트)
+   ======================================== */
+.title-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.title-modal-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.title-modal {
+    position: relative;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    border-radius: 8px;
+    max-width: 420px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+}
+
+.title-modal-overlay.active .title-modal {
+    transform: translateY(0);
+}
+
+.title-modal-drag-handle {
+    display: none;
+}
+
+.title-modal-content {
+    padding: 28px 24px;
+}
+
+/* 모달 내부 요소 */
+.title-modal-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.title-modal-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.title-modal-icon .inline-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.title-modal-name {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.title-modal-badges {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.title-modal-badge {
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-tertiary);
+}
+
+.title-modal-badge-rarity {
+    background: rgba(var(--brand-primary-rgb), 0.15);
+    color: var(--brand-primary);
+}
+
+.title-modal-divider {
+    height: 1px;
+    background: var(--border-medium);
+    margin: 16px 0;
+}
+
+.title-modal-section-label {
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.title-modal-condition {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 12px;
+}
+
+/* 모달 진행도 바 */
+.title-modal-progress {
+    margin-bottom: 12px;
+}
+
+.title-modal-progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.title-modal-progress-label {
+    font-size: 0.72rem;
+    color: var(--text-disabled);
+}
+
+.title-modal-progress-value {
+    font-size: 0.72rem;
+    color: var(--text-white);
+    font-weight: 600;
+}
+
+.title-modal-progress-bar {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.title-modal-progress-fill {
+    height: 100%;
+    background: var(--brand-primary);
+    border-radius: 3px;
+}
+
+/* 모달 보유자 */
+.title-modal-holders {
+    margin-bottom: 16px;
+}
+
+.title-modal-holder-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.title-modal-holder {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+}
+
+.title-modal-holder:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.title-modal-holder-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.title-modal-holder-name {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.title-modal-holder-count {
+    font-size: 0.78rem;
+    color: var(--text-disabled);
+    margin-top: 8px;
+}
+
+/* 모달 액션 버튼 */
+.title-modal-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.title-modal-equip-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.title-modal-equip-btn-primary {
+    background: var(--brand-primary);
+    color: var(--bg-base);
+}
+
+.title-modal-equip-btn-primary:hover {
+    background: var(--brand-secondary);
+}
+
+.title-modal-equip-btn-secondary {
+    background: transparent;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-medium);
+}
+
+.title-modal-equip-btn-secondary:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-primary);
+}
+
+.title-modal-close-btn {
+    flex: 1;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.title-modal-close-btn:hover {
+    border-color: var(--text-tertiary);
+    color: var(--text-primary);
+}
+
+/* ========================================
+   장착 변경 모달
+   ======================================== */
+.title-equip-modal-content {
+    padding: 24px;
+}
+
+.title-equip-modal-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.title-equip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.title-equip-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition-base);
+}
+
+.title-equip-item:hover {
+    border-color: var(--color-brand);
+    background: rgba(var(--color-brand-rgb), 0.08);
+}
+
+.title-equip-item-equipped {
+    border-color: var(--color-brand);
+    background: rgba(var(--color-brand-rgb), 0.1);
+}
+
+.title-equip-item-name {
+    flex: 1;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.title-equip-item-badge {
+    font-size: 0.68rem;
+    color: var(--brand-primary);
+    font-weight: 600;
+}
+
+.title-equip-item-action {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.title-equip-item-action-equip {
+    background: var(--brand-primary);
+    color: var(--bg-base);
+}
+
+.title-equip-item-action-unequip {
+    background: transparent;
+    color: var(--text-tertiary);
+    border: 1px solid var(--border-medium);
+}
+
+/* ========================================
+   반응형 - 992px 이하: 1열 + 모바일 사이드바
+   ======================================== */
+@media (max-width: 992px) {
+    .title-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* 사이드바: 하단 고정 */
+    .title-sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        border-radius: 4px 4px 0 0;
+        border: none;
+        border-top: 1px solid var(--border-medium);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+        max-height: 85vh;
+        overflow: hidden;
+        top: auto;
+    }
+
+    /* 기본 접힌 상태 */
+    .title-sidebar.collapsed .title-sidebar-full {
+        display: none;
+    }
+
+    .title-sidebar.collapsed .title-sidebar-mini {
+        display: flex;
+    }
+
+    /* 펼친 상태 */
+    .title-sidebar:not(.collapsed) .title-sidebar-full {
+        display: block;
+        max-height: calc(85vh - 10px);
+        overflow-y: auto;
+    }
+
+    .title-sidebar:not(.collapsed) .title-sidebar-mini {
+        display: none;
+    }
+
+    /* 미니 바 스타일 */
+    .title-sidebar-mini {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 20px;
+        background: var(--accent-yellow);
+        cursor: pointer;
+        gap: 12px;
+    }
+
+    .title-sidebar-mini-label {
+        font-family: var(--font-heading);
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1px;
+    }
+
+    .title-sidebar-mini-slots {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.7);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 4px 10px;
+        border-radius: 2px;
+    }
+
+    .title-sidebar-mini-progress {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-white);
+        margin-left: auto;
+    }
+
+    .title-sidebar-mini-icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+        transition: transform 0.3s ease;
+    }
+
+    .title-sidebar.collapsed .title-sidebar-mini-icon {
+        transform: rotate(0deg);
+    }
+
+    .title-sidebar:not(.collapsed) .title-sidebar-mini-icon {
+        transform: rotate(180deg);
+    }
+
+    /* 닫기 버튼 표시 */
+    .title-sidebar-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .title-sidebar-close .inline-icon {
+        width: 14px;
+        height: 14px;
+        opacity: 1;
+        filter: brightness(100);
+    }
+
+    .title-sidebar-close:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* right-panel: 모바일에서 sticky 해제, 일반 블록으로 표시 */
+    .title-right-panel {
+        position: static;
+        display: contents;
+    }
+
+    /* 피드/히든: 사이드바와 별도로 메인 콘텐츠 아래 일반 블록 표시 */
+    .title-sidebar-feed,
+    .title-sidebar-hidden {
+        order: 1;
+    }
+
+    /* 메인 콘텐츠 하단 여백 */
+    .title-left-panel {
+        padding-bottom: 70px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 바텀시트 모드 */
+    .title-modal.bottomsheet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px 16px 0 0;
+        max-height: 85vh;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .title-modal-overlay.active .title-modal.bottomsheet {
+        transform: translateY(0);
+    }
+
+    .title-modal.bottomsheet .title-modal-drag-handle {
+        display: block;
+        width: 36px;
+        height: 4px;
+        background: var(--border-strong);
+        border-radius: 2px;
+        margin: 10px auto 0;
+    }
+
+    .title-modal-overlay.active {
+        align-items: flex-end;
+    }
+
+    .title-collection {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .title-page-header {
+        padding: 80px 15px 0;
+    }
+
+    .title-main-section {
+        padding: 0 15px;
+    }
+
+    .title-login-prompt {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title-page-header {
+        padding: 80px 12px 0;
+        gap: 14px;
+    }
+
+    .title-page-title {
+        font-size: 1.6rem;
+    }
+
+    .title-main-section {
+        padding: 0 12px;
+    }
+
+    .title-collection {
+        gap: 8px;
+    }
+
+    .title-login-prompt {
+        padding-left: 12px;
+        padding-right: 12px;
+        font-size: 0.78rem;
+    }
+
+    .title-collection-card {
+        padding: 14px 10px 12px;
+    }
+
+    .title-card-name {
+        font-size: 0.78rem;
+    }
+
+    .title-modal-content {
+        padding: 24px 18px;
+    }
+}
+
+@media (max-width: 360px) {
+    .title-page-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* ========================================
+   칭호 획득 축하 모달
+   ======================================== */
+.title-congrats-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.title-congrats-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.title-congrats-modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--color-brand);
+    border-radius: 12px;
+    max-width: 360px;
+    width: 85%;
+    padding: 32px 24px 24px;
+    text-align: center;
+    transform: scale(0.8) translateY(20px);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.title-congrats-overlay.active .title-congrats-modal {
+    transform: scale(1) translateY(0);
+}
+
+.title-congrats-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+}
+
+.title-congrats-name {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    line-height: 1.3;
+}
+
+.title-congrats-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    background: rgba(var(--brand-primary-rgb), 0.15);
+    color: var(--brand-primary);
+    margin-bottom: 16px;
+}
+
+.title-congrats-hint {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.title-congrats-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: var(--brand-primary);
+    color: var(--bg-base);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.title-congrats-btn:hover {
+    background: var(--brand-secondary);
+}
+
+/* 등장 애니메이션용 shine 효과 */
+.title-congrats-modal::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, transparent 30%, rgba(var(--color-lime-rgb), 0.15) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: congrats-shine 2s ease-in-out infinite;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.title-congrats-modal {
+    position: relative;
+    overflow: visible;
+}
+
+@keyframes congrats-shine {
+    0% { background-position: 200% 200%; }
+    100% { background-position: -200% -200%; }
+}

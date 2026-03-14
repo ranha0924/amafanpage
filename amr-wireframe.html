@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 FANS - Homepage Wireframe</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111113;
+    --bg-card: #16161a;
+    --bg-card-hover: #1c1c21;
+    --amr-green: #00594f;
+    --amr-green-light: #00ff88;
+    --amr-lime: #c8ff00;
+    --accent-gold: #ffd700;
+    --accent-red: #ff3b5c;
+    --accent-blue: #00b4ff;
+    --text-primary: #f0f0f0;
+    --text-secondary: #8a8a9a;
+    --text-dim: #555566;
+    --border-subtle: rgba(255,255,255,0.06);
+    --border-glow: rgba(200,255,0,0.15);
+    --glow-green: 0 0 20px rgba(0,255,136,0.15);
+    --glow-lime: 0 0 30px rgba(200,255,0,0.1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ═══ NAV ═══ */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--amr-lime);
+  }
+  .nav-logo span {
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 3px;
+    margin-left: 6px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+  .nav-links li a:hover,
+  .nav-links li a.active {
+    color: var(--text-primary);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .coin-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amr-lime);
+  }
+  .coin-icon {
+    width: 16px;
+    height: 16px;
+    background: var(--amr-lime);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9d, #c44dff, #00b4ff);
+    border: 2px solid var(--border-subtle);
+  }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    margin-top: 60px;
+    position: relative;
+    height: 280px;
+    background: linear-gradient(135deg, #001a15 0%, #0a2920 40%, #0d1f1a 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 60px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60%;
+    height: 100%;
+    background: radial-gradient(ellipse at 70% 50%, rgba(0,255,136,0.06) 0%, transparent 70%);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--amr-green-light), transparent);
+    opacity: 0.3;
+  }
+
+  .hero-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(200,255,0,0.1);
+    border: 1px solid rgba(200,255,0,0.3);
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--amr-lime);
+    margin-bottom: 16px;
+  }
+  .hero-badge .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--amr-lime);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .hero-sub {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--amr-lime);
+    color: #000;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(200,255,0,0.2);
+  }
+  .hero-cta:hover {
+    box-shadow: 0 0 30px rgba(200,255,0,0.4);
+    transform: translateY(-1px);
+  }
+
+  .hero-countdown {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+  }
+
+  .countdown-item {
+    text-align: center;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 14px 18px;
+    min-width: 72px;
+    backdrop-filter: blur(10px);
+  }
+  .countdown-item .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--amr-lime);
+    line-height: 1;
+  }
+  .countdown-item .label {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ═══ MAIN CONTENT ═══ */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    padding: 24px 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ═══ CARDS ═══ */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .card-title .icon {
+    font-size: 18px;
+  }
+
+  .card-link {
+    color: var(--amr-lime);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+  }
+  .card-link:hover { opacity: 0.7; }
+
+  .card-body {
+    padding: 20px 22px;
+  }
+
+  /* ═══ PODIUM PREDICTION CARD ═══ */
+  .prediction-card {
+    border: 1px solid var(--border-glow);
+    background: linear-gradient(180deg, rgba(200,255,0,0.02) 0%, var(--bg-card) 100%);
+  }
+
+  .prediction-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .prediction-meta .stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .stat-highlight {
+    color: var(--amr-lime);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+
+  .driver-predictions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .driver-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+  .driver-row:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .position-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+  }
+  .pos-1 { background: linear-gradient(135deg, #ffd700, #ffaa00); color: #000; }
+  .pos-2 { background: linear-gradient(135deg, #c0c0c0, #909090); color: #000; }
+  .pos-3 { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff; }
+
+  .driver-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .driver-info {
+    flex: 1;
+  }
+  .driver-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .driver-team {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .prediction-bar-wrap {
+    flex: 1;
+    max-width: 200px;
+  }
+  .prediction-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 3px;
+  }
+  .prediction-bar .fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--amr-green), var(--amr-lime));
+  }
+  .prediction-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .odds-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(200,255,0,0.08);
+    border: 1px solid rgba(200,255,0,0.2);
+    color: var(--amr-lime);
+  }
+
+  .predict-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--amr-green), #007a5e);
+    border: 1px solid rgba(0,255,136,0.3);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: var(--glow-green);
+  }
+  .predict-btn:hover {
+    box-shadow: 0 0 30px rgba(0,255,136,0.25);
+    transform: translateY(-1px);
+  }
+
+  /* ═══ 1:1 MATCHUP CARD ═══ */
+  .matchup-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .matchup-item {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .matchup-item:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  .matchup-driver {
+    flex: 1;
+    text-align: center;
+  }
+  .matchup-driver .name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .matchup-driver .team-tag {
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.5px;
+  }
+
+  .matchup-vs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+  }
+  .vs-text {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+  .matchup-bar {
+    display: flex;
+    width: 120px;
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 6px;
+    gap: 2px;
+  }
+  .matchup-bar .left {
+    background: var(--accent-blue);
+    border-radius: 2px 0 0 2px;
+  }
+  .matchup-bar .right {
+    background: var(--accent-red);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .matchup-votes {
+    display: flex;
+    justify-content: space-between;
+    width: 120px;
+    margin-top: 3px;
+  }
+  .matchup-votes span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .matchup-votes .v-left { color: var(--accent-blue); }
+  .matchup-votes .v-right { color: var(--accent-red); }
+
+  .matchup-participants {
+    font-size: 11px;
+    color: var(--text-dim);
+    text-align: center;
+    margin-top: 3px;
+  }
+
+  .go-btn {
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .go-btn:hover {
+    background: rgba(200,255,0,0.1);
+    border-color: rgba(200,255,0,0.3);
+    color: var(--amr-lime);
+  }
+
+  /* ═══ RIGHT SIDEBAR ═══ */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* MY DASHBOARD */
+  .dashboard-card {
+    border: 1px solid var(--border-glow);
+    background: linear-gradient(180deg, rgba(200,255,0,0.03) 0%, var(--bg-card) 40%);
+  }
+
+  .dashboard-header {
+    background: linear-gradient(135deg, var(--amr-green), #004a3f);
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dashboard-header .avatar-lg {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b9d, #c44dff, #00b4ff);
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+  .dashboard-header .user-detail .name {
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .dashboard-header .user-detail .title {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .dash-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 18px 22px;
+  }
+
+  .dash-stat {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  .dash-stat .value {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--amr-lime);
+    line-height: 1;
+  }
+  .dash-stat .label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .dash-stat.coin-stat .value {
+    font-size: 18px;
+  }
+  .dash-stat.streak-stat .value {
+    color: #ff8c00;
+  }
+
+  .dash-attendance {
+    margin: 0 22px 18px;
+    padding: 14px 16px;
+    background: rgba(200,255,0,0.04);
+    border: 1px dashed rgba(200,255,0,0.2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dash-attendance .att-info {
+    font-size: 13px;
+  }
+  .dash-attendance .att-info strong {
+    color: var(--amr-lime);
+  }
+  .dash-attendance .att-reward {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .check-btn {
+    padding: 8px 18px;
+    background: var(--amr-lime);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .check-btn:hover {
+    box-shadow: 0 0 15px rgba(200,255,0,0.3);
+  }
+
+  .dash-prediction-status {
+    margin: 0 22px 18px;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+  }
+  .dash-prediction-status .status-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .dash-prediction-status .status-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-red);
+  }
+  .dash-prediction-status .status-value.done {
+    color: var(--amr-green-light);
+  }
+  .dash-quick-link {
+    display: block;
+    margin-top: 8px;
+    color: var(--amr-lime);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* TOP BETTERS */
+  .leaderboard-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.02);
+    transition: background 0.2s;
+  }
+  .lb-row:hover { background: rgba(255,255,255,0.04); }
+
+  .lb-rank {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    width: 24px;
+    text-align: center;
+  }
+  .lb-rank.r1 { color: var(--accent-gold); }
+  .lb-rank.r2 { color: #c0c0c0; }
+  .lb-rank.r3 { color: #cd7f32; }
+
+  .lb-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .lb-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .lb-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--amr-lime);
+    font-weight: 600;
+  }
+
+  .lb-mine {
+    background: rgba(200,255,0,0.05);
+    border: 1px solid rgba(200,255,0,0.15);
+    margin-top: 4px;
+  }
+
+  /* ═══ BOTTOM ROW ═══ */
+  .bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    grid-column: 1 / -1;
+  }
+
+  /* NEWS */
+  .news-item {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .news-item:last-child { border-bottom: none; }
+
+  .news-thumb {
+    width: 72px;
+    height: 50px;
+    border-radius: 6px;
+    background: var(--bg-secondary);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+
+  .news-info {
+    flex: 1;
+  }
+  .news-info .source {
+    font-size: 10px;
+    color: var(--amr-green-light);
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .news-info .title {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+  .news-info .time {
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-top: 3px;
+  }
+
+  /* COMMUNITY */
+  .community-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .community-item:last-child { border-bottom: none; }
+
+  .community-tag {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .tag-analysis { background: rgba(0,180,255,0.15); color: var(--accent-blue); }
+  .tag-free { background: rgba(255,255,255,0.08); color: var(--text-secondary); }
+  .tag-cheer { background: rgba(0,255,136,0.1); color: var(--amr-green-light); }
+  .tag-question { background: rgba(255,215,0,0.1); color: var(--accent-gold); }
+
+  .community-info {
+    flex: 1;
+  }
+  .community-info .c-title {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .community-info .c-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  .community-stats {
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 10px;
+  }
+
+  /* ═══ SECTION LABEL ═══ */
+  .section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--text-dim);
+    padding: 20px 40px 0;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-transform: uppercase;
+  }
+
+  /* ═══ WIREFRAME LABEL ═══ */
+  .wireframe-note {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(200,255,0,0.1);
+    border: 1px solid rgba(200,255,0,0.3);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--amr-lime);
+    z-index: 200;
+    letter-spacing: 1px;
+  }
+
+  /* ═══ ANIMATIONS ═══ */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .main > *, .bottom-row > * {
+    animation: fadeInUp 0.5s ease-out both;
+  }
+  .main > *:nth-child(1) { animation-delay: 0.1s; }
+  .main > *:nth-child(2) { animation-delay: 0.15s; }
+  .main > *:nth-child(3) { animation-delay: 0.2s; }
+  .main > *:nth-child(4) { animation-delay: 0.25s; }
+
+  /* Glow effect on prediction card */
+  .prediction-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--amr-lime), transparent);
+    opacity: 0.5;
+  }
+  .prediction-card {
+    position: relative;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">F1 <span>FANS</span></div>
+  <ul class="nav-links">
+    <li><a href="#" class="active">홈</a></li>
+    <li><a href="#">베팅</a></li>
+    <li><a href="#">The Paddock</a></li>
+    <li><a href="#">리더보드</a></li>
+    <li><a href="#">마이페이지</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="coin-badge">
+      <span class="coin-icon"></span>
+      60,839
+    </div>
+    <div class="user-info">
+      <div class="avatar"></div>
+      ranha0924
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      NEXT RACE PREDICTION
+    </div>
+    <h1>상하이 그랑프리</h1>
+    <p class="hero-sub">상하이 인터내셔널 서킷 · 56 Laps · 스프린트 주간</p>
+    <a href="#" class="hero-cta">🎯 지금 예측하기</a>
+  </div>
+  <div class="hero-countdown">
+    <div class="countdown-item">
+      <div class="num">03</div>
+      <div class="label">DAYS</div>
+    </div>
+    <div class="countdown-item">
+      <div class="num">14</div>
+      <div class="label">HRS</div>
+    </div>
+    <div class="countdown-item">
+      <div class="num">22</div>
+      <div class="label">MIN</div>
+    </div>
+    <div class="countdown-item">
+      <div class="num">47</div>
+      <div class="label">SEC</div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN 2-COLUMN -->
+<div class="main">
+
+  <!-- LEFT: CONTENT -->
+  <div class="left-content" style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- PODIUM PREDICTION -->
+    <div class="card prediction-card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">🏆</span>
+          포디움 예측 현황
+        </div>
+        <a href="#" class="card-link">전체 배당률 보기 →</a>
+      </div>
+      <div class="card-body">
+        <div class="prediction-meta">
+          <span class="stat">👥 참여 <span class="stat-highlight">127명</span></span>
+          <span class="stat">💰 총 베팅 <span class="stat-highlight">45,200 FC</span></span>
+          <span class="stat">⏰ 마감 <span class="stat-highlight">D-3</span></span>
+        </div>
+
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:10px;letter-spacing:0.5px;">1위 예측 TOP 드라이버</div>
+        <div class="driver-predictions">
+          <div class="driver-row">
+            <div class="position-badge pos-1">1st</div>
+            <div class="driver-avatar">🏎️</div>
+            <div class="driver-info">
+              <div class="driver-name">Lando Norris</div>
+              <div class="driver-team">McLaren</div>
+            </div>
+            <div class="prediction-bar-wrap">
+              <div class="prediction-bar"><div class="fill" style="width:43%"></div></div>
+              <div class="prediction-percent">43% 선택</div>
+            </div>
+            <div class="odds-badge">1.3x</div>
+          </div>
+
+          <div class="driver-row">
+            <div class="position-badge pos-2">2nd</div>
+            <div class="driver-avatar">🏎️</div>
+            <div class="driver-info">
+              <div class="driver-name">Oscar Piastri</div>
+              <div class="driver-team">McLaren</div>
+            </div>
+            <div class="prediction-bar-wrap">
+              <div class="prediction-bar"><div class="fill" style="width:28%"></div></div>
+              <div class="prediction-percent">28% 선택</div>
+            </div>
+            <div class="odds-badge">1.6x</div>
+          </div>
+
+          <div class="driver-row">
+            <div class="position-badge pos-3">3rd</div>
+            <div class="driver-avatar">🏎️</div>
+            <div class="driver-info">
+              <div class="driver-name">Max Verstappen</div>
+              <div class="driver-team">Red Bull</div>
+            </div>
+            <div class="prediction-bar-wrap">
+              <div class="prediction-bar"><div class="fill" style="width:18%"></div></div>
+              <div class="prediction-percent">18% 선택</div>
+            </div>
+            <div class="odds-badge">2.0x</div>
+          </div>
+        </div>
+
+        <a href="#" class="predict-btn">🎯 포디움 예측하기</a>
+      </div>
+    </div>
+
+    <!-- 1:1 MATCHUP -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">⚔️</span>
+          1:1 드라이버 매치업
+        </div>
+        <a href="#" class="card-link">전체 매치업 →</a>
+      </div>
+      <div class="card-body">
+        <div class="matchup-list">
+          <div class="matchup-item">
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-blue)">VER</div>
+              <div class="team-tag">Red Bull</div>
+            </div>
+            <div class="matchup-vs">
+              <div class="vs-text">VS</div>
+              <div class="matchup-bar">
+                <div class="left" style="width:62%"></div>
+                <div class="right" style="width:38%"></div>
+              </div>
+              <div class="matchup-votes">
+                <span class="v-left">62%</span>
+                <span class="v-right">38%</span>
+              </div>
+              <div class="matchup-participants">45명 참여</div>
+            </div>
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-red)">HAM</div>
+              <div class="team-tag">Ferrari</div>
+            </div>
+            <a href="#" class="go-btn">베팅</a>
+          </div>
+
+          <div class="matchup-item">
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-blue)">NOR</div>
+              <div class="team-tag">McLaren</div>
+            </div>
+            <div class="matchup-vs">
+              <div class="vs-text">VS</div>
+              <div class="matchup-bar">
+                <div class="left" style="width:55%"></div>
+                <div class="right" style="width:45%"></div>
+              </div>
+              <div class="matchup-votes">
+                <span class="v-left">55%</span>
+                <span class="v-right">45%</span>
+              </div>
+              <div class="matchup-participants">38명 참여</div>
+            </div>
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-red)">LEC</div>
+              <div class="team-tag">Ferrari</div>
+            </div>
+            <a href="#" class="go-btn">베팅</a>
+          </div>
+
+          <div class="matchup-item">
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-blue)">ALO</div>
+              <div class="team-tag">Aston Martin</div>
+            </div>
+            <div class="matchup-vs">
+              <div class="vs-text">VS</div>
+              <div class="matchup-bar">
+                <div class="left" style="width:48%"></div>
+                <div class="right" style="width:52%"></div>
+              </div>
+              <div class="matchup-votes">
+                <span class="v-left">48%</span>
+                <span class="v-right">52%</span>
+              </div>
+              <div class="matchup-participants">27명 참여</div>
+            </div>
+            <div class="matchup-driver">
+              <div class="name" style="color:var(--accent-red)">STR</div>
+              <div class="team-tag">Aston Martin</div>
+            </div>
+            <a href="#" class="go-btn">베팅</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- MY DASHBOARD -->
+    <div class="card dashboard-card">
+      <div class="dashboard-header">
+        <div class="avatar-lg"></div>
+        <div class="user-detail">
+          <div class="name">ranha0924</div>
+          <div class="title">🏷️ 칭호 없음 · Lv.1</div>
+        </div>
+      </div>
+
+      <div class="dash-stats">
+        <div class="dash-stat coin-stat">
+          <div class="value">60,839</div>
+          <div class="label">💰 FC 코인</div>
+        </div>
+        <div class="dash-stat streak-stat">
+          <div class="value">3일 🔥</div>
+          <div class="label">연속 출석</div>
+        </div>
+        <div class="dash-stat">
+          <div class="value">---</div>
+          <div class="label">🎯 적중률</div>
+        </div>
+        <div class="dash-stat">
+          <div class="value">---</div>
+          <div class="label">🏅 시즌 순위</div>
+        </div>
+      </div>
+
+      <div class="dash-attendance">
+        <div class="att-info">
+          📅 오늘 출석 보상: <strong>+50 FC</strong>
+          <div class="att-reward">내일: +60 FC (4일 연속 보너스)</div>
+        </div>
+        <button class="check-btn">출석 ✓</button>
+      </div>
+
+      <div class="dash-prediction-status">
+        <div class="status-label">상하이 GP 예측 상태</div>
+        <div class="status-value">⚠️ 미참여</div>
+        <a href="#" class="dash-quick-link">→ 지금 예측하러 가기</a>
+      </div>
+    </div>
+
+    <!-- TOP BETTERS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">🏅</span>
+          TOP 베터
+        </div>
+        <a href="#" class="card-link">전체 순위 →</a>
+      </div>
+      <div class="card-body">
+        <div class="leaderboard-list">
+          <div class="lb-row">
+            <div class="lb-rank r1">1</div>
+            <div class="lb-avatar"></div>
+            <div class="lb-name">speedking_f1</div>
+            <div class="lb-score">2,340 FC</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank r2">2</div>
+            <div class="lb-avatar"></div>
+            <div class="lb-name">amr_forever</div>
+            <div class="lb-score">1,890 FC</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank r3">3</div>
+            <div class="lb-avatar"></div>
+            <div class="lb-name">vettel_fan04</div>
+            <div class="lb-score">1,560 FC</div>
+          </div>
+          <div class="lb-row lb-mine">
+            <div class="lb-rank" style="color:var(--amr-lime)">-</div>
+            <div class="lb-avatar" style="background:linear-gradient(135deg, #ff6b9d, #c44dff)"></div>
+            <div class="lb-name" style="color:var(--amr-lime)">나 (ranha0924)</div>
+            <div class="lb-score">첫 베팅 필요</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM ROW: NEWS + COMMUNITY -->
+  <div class="bottom-row">
+
+    <!-- NEWS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">📰</span>
+          Aston Martin 뉴스
+        </div>
+        <a href="#" class="card-link">더보기 →</a>
+      </div>
+      <div class="card-body">
+        <div class="news-item">
+          <div class="news-thumb">IMG</div>
+          <div class="news-info">
+            <div class="source">Motorsport.com</div>
+            <div class="title">Aston Martin은 트랙사이드 엔지니어링 구조를 변경합니다</div>
+            <div class="time">1시간 전</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">IMG</div>
+          <div class="news-info">
+            <div class="source">Formula 1</div>
+            <div class="title">Verstappen은 초기 Aston Martin의 어려움에도 Honda가 잘 할 것을 희망</div>
+            <div class="time">6시간 전</div>
+          </div>
+        </div>
+        <div class="news-item">
+          <div class="news-thumb">IMG</div>
+          <div class="news-info">
+            <div class="source">Autosport</div>
+            <div class="title">2026 규정 변경이 Aston Martin에 미치는 영향 분석</div>
+            <div class="time">1일 전</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">💬</span>
+          The Paddock
+        </div>
+        <a href="#" class="card-link">글 쓰러 가기 →</a>
+      </div>
+      <div class="card-body">
+        <div class="community-item">
+          <span class="community-tag tag-analysis">분석</span>
+          <div class="community-info">
+            <div class="c-title">상하이 GP 서킷 분석 & 포디움 예측</div>
+            <div class="c-meta">ranha0924 · 2시간 전</div>
+          </div>
+          <div class="community-stats">
+            <span>👍 12</span>
+            <span>💬 5</span>
+          </div>
+        </div>
+        <div class="community-item">
+          <span class="community-tag tag-free">자유</span>
+          <div class="community-info">
+            <div class="c-title">2026 규정 변경으로 AM 유리해질까?</div>
+            <div class="c-meta">f1_lover · 5시간 전</div>
+          </div>
+          <div class="community-stats">
+            <span>👍 8</span>
+            <span>💬 3</span>
+          </div>
+        </div>
+        <div class="community-item">
+          <span class="community-tag tag-cheer">응원</span>
+          <div class="community-info">
+            <div class="c-title">알론소 올해가 마지막 시즌일까...</div>
+            <div class="c-meta">alo_14 · 1일 전</div>
+          </div>
+          <div class="community-stats">
+            <span>👍 21</span>
+            <span>💬 8</span>
+          </div>
+        </div>
+        <div class="community-item">
+          <span class="community-tag tag-question">질문</span>
+          <div class="community-info">
+            <div class="c-title">코인 베팅 어떻게 하는 건가요?</div>
+            <div class="c-meta">newbie_f1 · 1일 전</div>
+          </div>
+          <div class="community-stats">
+            <span>👍 3</span>
+            <span>💬 4</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="wireframe-note">F1 FANS WIREFRAME v1.0 · 란하 참고용</div>
+
+</body>
+</html>

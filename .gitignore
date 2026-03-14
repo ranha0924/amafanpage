@@ -1,0 +1,37 @@
+# 환경변수 (비밀번호 포함 - 절대 GitHub에 올리면 안됨!)
+.env
+
+# Firebase 서비스 계정 키 (절대 커밋하면 안됨!)
+serviceAccountKey.json
+*-firebase-adminsdk-*.json
+amf1-fanpage-*.json
+setAdmin.js
+
+# Node.js
+node_modules/
+
+# 로그
+*.log
+npm-debug.log*
+
+# OS 파일
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code 로컬 설정
+.claude/
+
+# 불필요한 파일
+nul
+
+# CORS 설정 (민감할 수 있음)
+cors.json
+
+# 빌드/캐시
+dist/
+build/
+.cache/

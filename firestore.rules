@@ -2,33 +2,72 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // ========================================
+    // 관리자 권한 확인 함수 (Custom Claims 사용)
+    // Firebase Admin SDK로 설정: admin.auth().setCustomUserClaims(uid, { admin: true })
+    // ========================================
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
     // 게시글 (posts)
     match /posts/{postId} {
       // 읽기: 누구나 가능
       allow read: if true;
 
-      // 생성: 로그인한 사용자만
-      allow create: if request.auth != null;
+      // 생성: 로그인한 사용자만 + 길이 제한 (DoS 방지)
+      // 🔒 보안 강화: 필수 필드 및 타입 검증 추가
+      allow create: if request.auth != null
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.authorId is string
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.content is string
+        && request.resource.data.content.size() <= 5000
+        && (
+          !('team' in request.resource.data)
+          || (
+            request.resource.data.team is string
+            && request.resource.data.team.size() >= 1
+            && request.resource.data.team.size() <= 30
+          )
+        );
 
-      // 수정: 작성자 본인이거나, 좋아요/댓글 수만 변경하는 경우
+      // 수정: 작성자 본인이거나, 좋아요/댓글 수만 ±1 변경하는 경우
+      // 🔒 보안: 길이 제한 추가 (DoS 방지)
       allow update: if request.auth != null &&
         (
-          // 작성자 본인
-          request.auth.uid == resource.data.authorId ||
-          // 관리자
-          request.auth.token.email == 'ranha.park@gmail.com' ||
-          // 좋아요 수 또는 댓글 수만 변경하는 경우 (다른 사용자가 좋아요/댓글 달 때)
+          // 작성자 본인 (길이 제한 적용)
+          (request.auth.uid == resource.data.authorId
+            && request.resource.data.title.size() <= 100
+            && request.resource.data.content.size() <= 5000) ||
+          // 관리자 (Custom Claims)
+          isAdmin() ||
+          // 좋아요 수만 ±1 변경하는 경우 (어뷰징 방지)
           (
-            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount']) ||
-            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount']) ||
-            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount', 'commentCount'])
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likeCount']) &&
+            request.resource.data.likeCount >= resource.data.likeCount - 1 &&
+            request.resource.data.likeCount <= resource.data.likeCount + 1 &&
+            request.resource.data.likeCount >= 0
+          ) ||
+          // 댓글 수만 ±1 변경하는 경우 (어뷰징 방지)
+          (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['commentCount']) &&
+            request.resource.data.commentCount >= resource.data.commentCount - 1 &&
+            request.resource.data.commentCount <= resource.data.commentCount + 1 &&
+            request.resource.data.commentCount >= 0
+          ) ||
+          // 조회수만 +1 변경하는 경우 (어뷰징 방지)
+          (
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['viewCount']) &&
+            request.resource.data.viewCount == resource.data.viewCount + 1
           )
         );
 
       // 삭제: 작성자 본인 또는 관리자만
       allow delete: if request.auth != null &&
-        (request.auth.uid == resource.data.authorId ||
-         request.auth.token.email == 'ranha.park@gmail.com');
+        (request.auth.uid == resource.data.authorId || isAdmin());
 
       // 댓글 (comments) - 게시글의 서브컬렉션
       match /comments/{commentId} {
@@ -36,27 +75,41 @@ service cloud.firestore {
         allow read: if true;
 
         // 생성: 로그인한 사용자만
-        allow create: if request.auth != null;
+        // 🔒 보안 강화: 필수 필드 및 타입 검증 추가
+        allow create: if request.auth != null
+          && request.resource.data.authorId == request.auth.uid
+          && request.resource.data.authorId is string
+          && request.resource.data.content is string
+          && request.resource.data.content.size() >= 1
+          && request.resource.data.content.size() <= 2000;
 
-        // 수정: 작성자 본인만
-        allow update: if request.auth != null &&
-          request.auth.uid == resource.data.authorId;
+        // 수정: 작성자 본인만 + 🔒 A-1: 길이 검증 추가 (DoS 방지)
+        allow update: if request.auth != null
+          && request.auth.uid == resource.data.authorId
+          && request.resource.data.content is string
+          && request.resource.data.content.size() >= 1
+          && request.resource.data.content.size() <= 2000;
 
         // 삭제: 작성자 본인 또는 관리자만
         allow delete: if request.auth != null &&
-          (request.auth.uid == resource.data.authorId ||
-           request.auth.token.email == 'ranha.park@gmail.com');
+          (request.auth.uid == resource.data.authorId || isAdmin());
       }
     }
 
     // 좋아요 (likes)
+    // 🔒 보안 강화: 문서 ID 형식 검증으로 중복 좋아요 방지
+    // 문서 ID는 "{postId}_{userId}" 형식이어야 함
     match /likes/{likeId} {
       // 읽기: 누구나 가능
       allow read: if true;
 
       // 생성: 로그인한 사용자가 자신의 좋아요만 생성 가능
-      allow create: if request.auth != null &&
-        request.auth.uid == request.resource.data.userId;
+      // 🔒 중복 좋아요 방지: likeId가 postId_userId 형식인지 검증
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.userId
+        && request.resource.data.userId is string
+        && request.resource.data.postId is string
+        && likeId == request.resource.data.postId + '_' + request.auth.uid;
 
       // 삭제: 자신의 좋아요만 삭제 가능
       allow delete: if request.auth != null &&
@@ -69,8 +122,315 @@ service cloud.firestore {
       allow create: if request.auth != null;
 
       // 읽기: 관리자만
-      allow read: if request.auth != null &&
-        request.auth.token.email == 'ranha.park@gmail.com';
+      allow read: if isAdmin();
     }
+
+    // users 컬렉션
+    match /users/{userId} {
+      // 읽기: 본인 데이터만
+      allow read: if request.auth != null && request.auth.uid == userId;
+
+      // 생성: 본인 계정 초기화만 (토큰 조작 방지 - 0으로 시작)
+      // 🔒 보안: 필수 필드 타입 검증 추가
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.tokens is int
+        && request.resource.data.tokens == 0
+        && request.resource.data.totalEarned is int
+        && request.resource.data.totalEarned == 0
+        && (
+          // 팀 선택 없이 생성
+          !('selectedTeam' in request.resource.data)
+          ||
+          // 팀 선택과 함께 생성
+          (
+            request.resource.data.selectedTeam is string
+            && request.resource.data.selectedTeam.size() >= 1
+            && request.resource.data.selectedTeam.size() <= 30
+            && request.resource.data.lastTeamChange == request.time
+          )
+        );
+
+      // 수정: 클라이언트에서 토큰 추가 금지 (서버 API만 가능)
+      // 토큰 어뷰징 방지 - 토큰 추가/totalEarned 변경은 Admin SDK로만 가능
+      // 🔒 보안 강화: tokens == 동일값도 거부 (< 로 변경), 반드시 차감만 허용
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && (
+          // 관리자는 제한 없음
+          isAdmin()
+          ||
+          // 일반 사용자: 토큰 차감만 허용 (동일 유지도 불가), 증가 및 totalEarned 변경 금지
+          // 🔒 타입 검증 추가
+          (
+            request.resource.data.tokens is int
+            && request.resource.data.tokens < resource.data.tokens
+            && request.resource.data.tokens >= 0
+            && request.resource.data.totalEarned == resource.data.totalEarned
+          )
+          ||
+          // 팀 선택/변경: selectedTeam + lastTeamChange만 변경 허용
+          (
+            request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['selectedTeam', 'lastTeamChange'])
+            && request.resource.data.selectedTeam is string
+            && request.resource.data.selectedTeam.size() >= 1
+            && request.resource.data.selectedTeam.size() <= 30
+            && request.resource.data.lastTeamChange == request.time
+            && (
+              // 첫 선택 (selectedTeam 없음) -> 쿨다운 면제
+              !('selectedTeam' in resource.data) || resource.data.selectedTeam == null
+              ||
+              // 다른 팀으로 변경 -> 7일 쿨다운 (같은 팀 재선택은 차단하여 쿨다운 리셋 악용 방지)
+              (
+                request.resource.data.selectedTeam != resource.data.selectedTeam
+                && request.time > resource.data.lastTeamChange + duration.value(7, 'd')
+              )
+            )
+          )
+          ||
+          // 정산 결과 알림 삭제: pendingSettlementResults만 제거 허용
+          (
+            request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['pendingSettlementResults'])
+            && !('pendingSettlementResults' in request.resource.data)
+          )
+        );
+
+      // 삭제: 본인 계정만
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // attendance 컬렉션
+    // ⚠️ 출석은 서버 API(/api/token/attendance)로만 처리 권장
+    // 클라이언트 직접 생성 시에도 서버에서 중복 체크함
+    match /attendance/{attendanceId} {
+      // 🔒 보안 강화: 본인 출석 데이터만 읽기 가능 (타인 출석 정보 열람 차단)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // 생성: 본인만 + 서버 시간 기준 24시간 경과 확인 (일 1회 제한)
+      // 🔒 보안 강화: 23시간 → 24시간 정확 검증 (자정 전후 2회 출석 방지)
+      allow create: if request.auth != null
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.userId is string
+        && (
+          // 첫 출석 (사용자 문서 없음)
+          !exists(/databases/$(database)/documents/users/$(request.auth.uid))
+          // 또는 lastAttendance가 null
+          || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.lastAttendance == null
+          // 또는 마지막 출석 후 24시간 경과 (정확한 일 1회 보장)
+          || request.time > get(/databases/$(database)/documents/users/$(request.auth.uid)).data.lastAttendance + duration.value(24, 'h')
+        );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // races 컬렉션 (베팅 시간 검증용 - 서버에서 관리)
+    match /races/{raceId} {
+      // 읽기: 누구나 가능
+      allow read: if true;
+      // 쓰기: 서버(Admin SDK)만 가능 - 클라이언트 쓰기 금지
+      allow write: if false;
+    }
+
+    // podiumBets 컬렉션
+    // ⚠️ 보안 강화: 생성/삭제는 서버 API(Admin SDK)로만 가능
+    match /podiumBets/{betId} {
+      // 읽기: 로그인한 사용자 (실시간 배당률 계산에 필요)
+      // ⚠️ 베팅 금액/배당률만 노출됨, userId는 클라이언트에서 본인 외에 표시하지 않음
+      // TODO: 배당률 계산을 서버 API로 이전 후, 읽기를 본인 데이터만으로 제한 검토
+      //       (resource.data.userId == request.auth.uid)
+      allow read: if request.auth != null;
+      // 생성: 관리자(Admin SDK)만 - 클라이언트 직접 생성 금지 (배당률 조작 방지)
+      allow create: if request.auth != null && isAdmin();
+      // 수정: 관리자만 (정산용)
+      allow update: if request.auth != null && isAdmin();
+      // 삭제: 관리자만 - 취소는 서버 API(/api/bet/podium/cancel)로만 가능
+      allow delete: if request.auth != null && isAdmin();
+    }
+
+    // headToHeadBets 컬렉션 (1:1 드라이버 베팅)
+    // ⚠️ 보안 강화: 생성/삭제는 서버 API(Admin SDK)로만 가능
+    match /headToHeadBets/{betId} {
+      // 읽기: 로그인한 사용자 (실시간 배당률 및 인기 매치업 계산에 필요)
+      // ⚠️ 베팅 금액/배당률만 노출됨, userId는 클라이언트에서 본인 외에 표시하지 않음
+      // TODO: 배당률 계산을 서버 API로 이전 후, 읽기를 본인 데이터만으로 제한 검토
+      //       (resource.data.userId == request.auth.uid)
+      allow read: if request.auth != null;
+      // 생성: 관리자(Admin SDK)만 - 클라이언트 직접 생성 금지 (배당률 조작 방지)
+      allow create: if request.auth != null && isAdmin();
+      // 수정: 관리자만 (정산용)
+      allow update: if request.auth != null && isAdmin();
+      // 삭제: 관리자만 - 취소는 서버 API(/api/bet/h2h/cancel)로만 가능
+      allow delete: if request.auth != null && isAdmin();
+    }
+
+    // matchupStats 컬렉션 (인기 매치업 통계)
+    // 어뷰징 방지: 클라이언트에서 직접 수정 금지, 서버 API로만 업데이트
+    match /matchupStats/{matchupId} {
+      // 읽기: 누구나 가능
+      allow read: if true;
+      // 생성/수정/삭제: 관리자만 (베팅 정산 시 서버에서 업데이트)
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // tokenHistory 컬렉션 (감사 추적용 - 서버에서만 생성 가능)
+    // ⚠️ 보안: 클라이언트에서 직접 생성 금지 (감사 로그 조작 방지)
+    match /tokenHistory/{historyId} {
+      // 읽기: 본인 기록만 (다른 사용자 내역 조회 차단)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // 생성/수정/삭제: 관리자(Admin SDK)만 가능 - 클라이언트 생성 금지
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // votes 컬렉션
+    match /votes/{voteId} {
+      allow read: if true;
+      // 생성: 로그인한 사용자 (본인 userId만)
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      // 수정: 투표 수만 변경 가능
+      allow update: if request.auth != null &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'votes']);
+      // 삭제: 관리자만
+      allow delete: if request.auth != null &&
+        isAdmin();
+    }
+
+    // comments 컬렉션 (순위 예측 페이지용)
+    match /comments/{raceId} {
+      allow read: if true;
+
+      // messages 서브컬렉션
+      match /messages/{messageId} {
+        allow read: if true;
+        // 🔒 보안 강화: userId 검증 추가 (타인 명의 메시지 작성 방지)
+        allow create: if request.auth != null
+          && request.resource.data.userId == request.auth.uid;
+        allow delete: if request.auth != null &&
+          (request.auth.uid == resource.data.userId ||
+           isAdmin());
+      }
+    }
+
+    // userVotes 컬렉션
+    match /userVotes/{userVoteId} {
+      // 🔒 B-4: 본인 투표 기록만 읽기 가능 (타인 투표 정보 열람 차단)
+      allow read: if request.auth != null
+        && resource.data.userId == request.auth.uid;
+      // 생성: 본인 userId만
+      allow create: if request.auth != null &&
+        request.resource.data.userId == request.auth.uid;
+      // 수정: 본인 기록만
+      allow update: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+      // 삭제: 본인 기록만
+      allow delete: if request.auth != null &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // userBettingStats 컬렉션 (리더보드용)
+    // TODO: 리더보드 데이터를 서버에서 캐싱 후 공개 엔드포인트로 제공하고,
+    //       개별 통계 읽기를 본인 데이터만으로 제한 검토
+    match /userBettingStats/{statsId} {
+      // 읽기: 로그인한 사용자만 (리더보드 표시에 필요)
+      allow read: if request.auth != null;
+      // 쓰기: 관리자만 (마이그레이션 및 정산용)
+      allow write: if request.auth != null && isAdmin();
+    }
+
+    // ========================================
+    // 리더보드 시스템 컬렉션
+    // ========================================
+
+    // leaderboards 컬렉션 (서버 캐시 - 클라이언트 조작 방지)
+    // 문서 ID 형식: {type}_{subType}_{period}_{periodKey}
+    match /leaderboards/{leaderboardId} {
+      // 읽기: 누구나 가능 (공개 랭킹)
+      allow read: if true;
+      // 쓰기: 관리자(Admin SDK)만 가능 - 서버 배치에서만 업데이트
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // leaderboardSnapshots 컬렉션 (주간/월간 아카이브)
+    match /leaderboardSnapshots/{snapshotId} {
+      // 읽기: 누구나 가능 (과거 랭킹 조회)
+      allow read: if true;
+      // 쓰기: 관리자(Admin SDK)만 가능
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // hallOfFame 컬렉션 (시즌 종료 명예의 전당)
+    match /hallOfFame/{hofId} {
+      // 읽기: 누구나 가능
+      allow read: if true;
+      // 쓰기: 관리자(Admin SDK)만 가능 - 시즌 종료 시에만 저장
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // settlementHistory 컬렉션 (정산 기록 - 중복 정산 방지)
+    // ⚠️ 보안: 서버(Admin SDK)에서만 생성/수정 가능
+    match /settlementHistory/{raceId} {
+      // 읽기: 관리자만 (정산 현황 확인용)
+      allow read: if request.auth != null && isAdmin();
+      // 쓰기: 관리자(Admin SDK)만 가능 - 클라이언트 생성 금지
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // fortunes 컬렉션 (운세 기록)
+    match /fortunes/{fortuneId} {
+      // 🔒 보안 강화: 본인 운세 데이터만 읽기 가능 (타인 운세 정보 열람 차단)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // ========================================
+    // 상점 시스템 컬렉션
+    // ========================================
+
+    // shopItems 컬렉션 (상점 아이템 목록 - 서버에서 관리)
+    match /shopItems/{itemId} {
+      // 읽기: 로그인한 사용자만 (상점 열람)
+      allow read: if request.auth != null;
+      // 쓰기: 관리자(Admin SDK)만 가능 - 클라이언트 쓰기 금지
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // userInventory 컬렉션 (사용자 보유 아이템)
+    // 문서 ID: {userId}_{itemId} 패턴으로 중복 구매 방지
+    match /userInventory/{inventoryId} {
+      // 읽기: 본인 데이터만 (타인 인벤토리 열람 차단)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // 쓰기: 서버(Admin SDK)만 가능 - 클라이언트 직접 구매/장착 금지
+      allow write: if false;
+    }
+
+    // userCosmetics 컬렉션 (장착 코스메틱 캐시)
+    // 게시판 렌더링에 필요하므로 공개 읽기, 쓰기는 Admin SDK만
+    match /userCosmetics/{userId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ========================================
+    // 칭호 시스템 컬렉션
+    // ========================================
+
+    // titles 컬렉션 (칭호 마스터 데이터 - 서버에서 관리)
+    match /titles/{titleId} {
+      // 읽기: 누구나 가능 (칭호 목록 표시)
+      allow read: if true;
+      // 쓰기: 관리자(Admin SDK)만 가능 - 클라이언트 쓰기 금지
+      allow create, update, delete: if request.auth != null && isAdmin();
+    }
+
+    // userTitles 컬렉션 (사용자 보유 칭호)
+    // 문서 ID: {userId}_{titleId} 패턴
+    match /userTitles/{userTitleId} {
+      // 읽기: 본인 데이터만 (타인 칭호 열람 차단)
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      // 쓰기: 서버(Admin SDK)만 가능 - 클라이언트 직접 부여/장착 금지
+      allow write: if false;
+    }
+
   }
 }
