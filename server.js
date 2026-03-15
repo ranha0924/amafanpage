@@ -4313,10 +4313,14 @@ async function calculateBettingAccuracyLeaderboard(subType, period) {
                 correctBets = h2h.correctBets || h2h.wonBets || 0;
             } else {
                 // 전체 (total)
-                const podium = data.podium || {};
-                const h2h = data.headToHead || {};
-                totalBets = (podium.totalBets || 0) + (h2h.totalBets || 0);
-                correctBets = (podium.wonBets || 0) + (h2h.wonBets || 0);
+                const podium = data.accuracyDetails?.podium || data.podium || {};
+                const h2h = data.accuracyDetails?.h2h || data.headToHead || {};
+                const podiumTotal = (podium.p1Bets || 0) + (podium.p2Bets || 0) + (podium.p3Bets || 0) || podium.totalBets || 0;
+                const podiumCorrect = (podium.p1Correct || 0) + (podium.p2Correct || 0) + (podium.p3Correct || 0) || podium.wonBets || 0;
+                const h2hTotal = h2h.totalBets || 0;
+                const h2hCorrect = h2h.correctBets || h2h.wonBets || 0;
+                totalBets = podiumTotal + h2hTotal;
+                correctBets = podiumCorrect + h2hCorrect;
             }
 
             // 최소 참여 조건 확인
@@ -4352,7 +4356,8 @@ async function calculateBettingAccuracyLeaderboard(subType, period) {
                 photoURL: photoURL || null,
                 accuracy: Math.round(accuracy * 10) / 10,
                 totalBets,
-                correctBets
+                correctBets,
+                currentStreak: data.combined?.currentWinStreak || 0
             });
         }
 
@@ -4826,14 +4831,22 @@ app.get('/api/leaderboard/:type/my-rank', verifyFirebaseToken, async (req, res) 
                 let correctBets = 0;
 
                 if (subType === 'podium') {
-                    totalBets = data.podium?.totalBets || 0;
-                    correctBets = data.podium?.wonBets || 0;
+                    const podium = data.accuracyDetails?.podium || data.podium || {};
+                    totalBets = (podium.p1Bets || 0) + (podium.p2Bets || 0) + (podium.p3Bets || 0) || podium.totalBets || 0;
+                    correctBets = (podium.p1Correct || 0) + (podium.p2Correct || 0) + (podium.p3Correct || 0) || podium.wonBets || 0;
                 } else if (subType === 'h2h') {
-                    totalBets = data.headToHead?.totalBets || 0;
-                    correctBets = data.headToHead?.wonBets || 0;
+                    const h2h = data.accuracyDetails?.h2h || data.headToHead || {};
+                    totalBets = h2h.totalBets || 0;
+                    correctBets = h2h.correctBets || h2h.wonBets || 0;
                 } else {
-                    totalBets = (data.podium?.totalBets || 0) + (data.headToHead?.totalBets || 0);
-                    correctBets = (data.podium?.wonBets || 0) + (data.headToHead?.wonBets || 0);
+                    const podium = data.accuracyDetails?.podium || data.podium || {};
+                    const h2h = data.accuracyDetails?.h2h || data.headToHead || {};
+                    const podiumTotal = (podium.p1Bets || 0) + (podium.p2Bets || 0) + (podium.p3Bets || 0) || podium.totalBets || 0;
+                    const podiumCorrect = (podium.p1Correct || 0) + (podium.p2Correct || 0) + (podium.p3Correct || 0) || podium.wonBets || 0;
+                    const h2hTotal = h2h.totalBets || 0;
+                    const h2hCorrect = h2h.correctBets || h2h.wonBets || 0;
+                    totalBets = podiumTotal + h2hTotal;
+                    correctBets = podiumCorrect + h2hCorrect;
                 }
 
                 const accuracy = totalBets > 0 ? (correctBets / totalBets * 100) : 0;
@@ -4844,7 +4857,8 @@ app.get('/api/leaderboard/:type/my-rank', verifyFirebaseToken, async (req, res) 
                     photoURL: userData.photoURL || null,
                     accuracy: Math.round(accuracy * 10) / 10,
                     totalBets,
-                    correctBets
+                    correctBets,
+                    currentStreak: data.combined?.currentWinStreak || 0
                 };
 
                 // 순위 추정 (내 적중률보다 높은 사용자 수 + 1)
@@ -4855,14 +4869,18 @@ app.get('/api/leaderboard/:type/my-rank', verifyFirebaseToken, async (req, res) 
                     const d = doc.data();
                     let tb = 0, cb = 0;
                     if (subType === 'podium') {
-                        tb = d.podium?.totalBets || 0;
-                        cb = d.podium?.wonBets || 0;
+                        const p = d.accuracyDetails?.podium || d.podium || {};
+                        tb = (p.p1Bets || 0) + (p.p2Bets || 0) + (p.p3Bets || 0) || p.totalBets || 0;
+                        cb = (p.p1Correct || 0) + (p.p2Correct || 0) + (p.p3Correct || 0) || p.wonBets || 0;
                     } else if (subType === 'h2h') {
-                        tb = d.headToHead?.totalBets || 0;
-                        cb = d.headToHead?.wonBets || 0;
+                        const h = d.accuracyDetails?.h2h || d.headToHead || {};
+                        tb = h.totalBets || 0;
+                        cb = h.correctBets || h.wonBets || 0;
                     } else {
-                        tb = (d.podium?.totalBets || 0) + (d.headToHead?.totalBets || 0);
-                        cb = (d.podium?.wonBets || 0) + (d.headToHead?.wonBets || 0);
+                        const p = d.accuracyDetails?.podium || d.podium || {};
+                        const h = d.accuracyDetails?.h2h || d.headToHead || {};
+                        tb = ((p.p1Bets || 0) + (p.p2Bets || 0) + (p.p3Bets || 0) || p.totalBets || 0) + (h.totalBets || 0);
+                        cb = ((p.p1Correct || 0) + (p.p2Correct || 0) + (p.p3Correct || 0) || p.wonBets || 0) + (h.correctBets || h.wonBets || 0);
                     }
                     if (tb >= 3) {
                         const acc = tb > 0 ? (cb / tb * 100) : 0;
