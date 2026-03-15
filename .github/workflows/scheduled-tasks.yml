@@ -1,0 +1,100 @@
+name: Scheduled Tasks
+
+on:
+  schedule:
+    # 매일 18:00 UTC (KST 03:00) - 뉴스 삭제 + 시즌 체크 + 렌탈 만료
+    - cron: '0 18 * * *'
+    # 매주 일요일 15:00 UTC (KST 월요일 00:00) - 주간 리셋
+    - cron: '0 15 * * 0'
+    # 매월 28-31일 14:55 UTC (KST 23:55) - 월간 리셋
+    - cron: '55 14 28-31 * *'
+  workflow_dispatch:
+    inputs:
+      task:
+        description: '실행할 작업'
+        required: true
+        type: choice
+        options:
+          - delete-old-news
+          - season-check
+          - process-rentals
+          - weekly-reset
+          - monthly-reset
+          - refresh-leaderboard
+          - refresh-driver-standings
+
+jobs:
+  run-tasks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      API_BASE_URL: ${{ secrets.API_BASE_URL }}
+      ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
+      INPUT_TASK: ${{ github.event.inputs.task }}
+    steps:
+      - name: Determine tasks to run
+        id: tasks
+        run: |
+          # workflow_dispatch에서 직접 지정한 경우
+          if [ -n "${INPUT_TASK}" ]; then
+            echo "tasks=${INPUT_TASK}" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          TASKS=""
+          HOUR=$(date -u +%H)
+          MINUTE=$(date -u +%M)
+          DOW=$(date -u +%u)        # 1=Mon, 7=Sun
+          DAY=$(date -u +%d)
+          TOMORROW_DAY=$(date -u -d "+1 day" +%d)
+
+          # 매일 18:00 UTC (KST 03:00)
+          if [ "$HOUR" -eq 18 ] && [ "$MINUTE" -lt 10 ]; then
+            TASKS="delete-old-news season-check process-rentals"
+          fi
+
+          # 매주 일요일 15:00 UTC (KST 월요일 00:00)
+          if [ "$DOW" -eq 7 ] && [ "$HOUR" -eq 15 ] && [ "$MINUTE" -lt 10 ]; then
+            TASKS="${TASKS} weekly-reset"
+          fi
+
+          # 매월 마지막 날 14:55 UTC (KST 23:55)
+          if [ "$DAY" -ge 28 ] && [ "$TOMORROW_DAY" -eq 01 ]; then
+            TASKS="${TASKS} monthly-reset"
+          fi
+
+          TASKS=$(echo "$TASKS" | xargs)  # trim
+          echo "tasks=${TASKS}" >> $GITHUB_OUTPUT
+          echo "Tasks to run: ${TASKS:-none}"
+
+      - name: Execute tasks
+        if: steps.tasks.outputs.tasks != ''
+        run: |
+          TASKS="${{ steps.tasks.outputs.tasks }}"
+          FAILED=0
+
+          for TASK in $TASKS; do
+            echo "=== Running: ${TASK} ==="
+
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "${API_BASE_URL}/api/cron/tasks" \
+              -H "Content-Type: application/json" \
+              -H "X-Admin-Key: ${ADMIN_KEY}" \
+              -d "{\"task\":\"${TASK}\"}" \
+              --max-time 120)
+
+            HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+            RESP_BODY=$(echo "$RESPONSE" | head -n -1)
+
+            echo "Status: ${HTTP_CODE}"
+            echo "Response: ${RESP_BODY}"
+
+            if [ "$HTTP_CODE" -ne 200 ]; then
+              echo "::error::${TASK} failed with ${HTTP_CODE}"
+              FAILED=$((FAILED + 1))
+            fi
+          done
+
+          if [ $FAILED -gt 0 ]; then
+            echo "::error::${FAILED} task(s) failed"
+            exit 1
+          fi

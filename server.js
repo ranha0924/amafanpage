@@ -2322,6 +2322,85 @@ app.post('/api/admin/settle', async (req, res) => {
     }
 });
 
+// GitHub Actions 등 외부 cron에서 호출하는 스케줄 작업 엔드포인트
+app.post('/api/cron/tasks', async (req, res) => {
+    if (!ADMIN_KEY) {
+        return res.status(503).json({ success: false, error: '관리자 API가 비활성화되어 있습니다.' });
+    }
+    const adminKey = req.headers['x-admin-key'];
+    if (!verifyAdminKey(adminKey)) {
+        return res.status(401).json({ success: false, error: '인증이 필요합니다.' });
+    }
+    if (!db) {
+        return res.status(503).json({ success: false, error: 'Firebase가 초기화되지 않았습니다.' });
+    }
+
+    const { task } = req.body;
+    const validTasks = ['weekly-reset', 'monthly-reset', 'season-check', 'delete-old-news', 'process-rentals', 'refresh-leaderboard', 'refresh-driver-standings'];
+
+    if (!task || !validTasks.includes(task)) {
+        return res.status(400).json({ success: false, error: `유효하지 않은 작업입니다. 가능: ${validTasks.join(', ')}` });
+    }
+
+    try {
+        console.log(`[CRON] 외부 트리거: ${task}`);
+
+        switch (task) {
+            case 'weekly-reset':
+                await weeklyReset();
+                break;
+            case 'monthly-reset':
+                await monthlyReset();
+                break;
+            case 'season-check':
+                await seasonEndHandler();
+                break;
+            case 'delete-old-news':
+                await deleteOldNews();
+                break;
+            case 'process-rentals':
+                await processExpiredRentals();
+                break;
+            case 'refresh-leaderboard':
+                await refreshLeaderboardCache();
+                break;
+            case 'refresh-driver-standings':
+                serverDriverStandingsCache.timestamp = 0;
+                await fetchServerDriverStandings();
+                break;
+        }
+
+        res.json({ success: true, message: `${task} 완료` });
+    } catch (error) {
+        console.error(`[CRON] ${task} 실패:`, error.message);
+        res.status(500).json({ success: false, error: `${task} 실패: ${error.message}` });
+    }
+});
+
+// 정산 윈도우 체크 API (GitHub Actions에서 경기 시간 기반 정산 트리거용)
+// 경기 종료 1시간 후 ~ 5시간 후 사이이면 inWindow: true 반환
+app.get('/api/race/settlement-window', (req, res) => {
+    const now = new Date();
+
+    for (let i = 0; i < RACE_SCHEDULE.length; i++) {
+        const raceTime = new Date(RACE_SCHEDULE[i].date);
+        const windowStart = new Date(raceTime.getTime() + 60 * 60 * 1000);       // +1시간
+        const windowEnd = new Date(raceTime.getTime() + 5 * 60 * 60 * 1000);     // +5시간
+
+        if (now >= windowStart && now <= windowEnd) {
+            return res.json({
+                inWindow: true,
+                round: i + 1,
+                race: RACE_SCHEDULE[i].name,
+                raceTime: RACE_SCHEDULE[i].date,
+                windowEnd: windowEnd.toISOString()
+            });
+        }
+    }
+
+    res.json({ inWindow: false });
+});
+
 // 사용자 프로필 마이그레이션 API (관리자 전용)
 app.post('/api/admin/migrate-user-profiles', async (req, res) => {
     if (!ADMIN_KEY) {
@@ -4775,6 +4854,22 @@ app.get('/api/leaderboard/:type', async (req, res) => {
     try {
         const result = await getLeaderboard(type, subType, period, Math.min(parseInt(limit) || 50, 100), sortBy);
 
+        // Lazy: Firestore 캐시 업데이트 (Vercel에서 res.json 후 비동기 작업이 종료될 수 있으므로 먼저 실행)
+        const docId = getCacheKey(type, subType, period);
+        try {
+            await db.collection('leaderboards').doc(docId).set({
+                type,
+                subType,
+                period,
+                periodKey: getPeriodKey(period),
+                rankings: result.rankings,
+                totalParticipants: result.totalParticipants,
+                lastUpdated: admin.firestore.FieldValue.serverTimestamp()
+            });
+        } catch (cacheErr) {
+            console.error('[Lazy 캐시] 리더보드 업데이트 실패:', cacheErr.message);
+        }
+
         res.json({
             success: true,
             type,
@@ -5368,6 +5463,9 @@ app.get('/api/shop/inventory', verifyFirebaseToken, async (req, res) => {
     const userId = req.user.uid;
 
     try {
+        // Lazy: 만료된 rental 아이템 자동 처리
+        await checkUserExpiredRentals(userId);
+
         const snapshot = await db.collection('userInventory')
             .where('userId', '==', userId)
             .orderBy('purchasedAt', 'desc')
@@ -5622,6 +5720,9 @@ app.post('/api/shop/equip', verifyFirebaseToken, async (req, res) => {
     }
 
     try {
+        // Lazy: 만료된 rental 아이템 자동 처리
+        await checkUserExpiredRentals(userId);
+
         const inventoryId = `${userId}_${itemId}`;
         const invRef = db.collection('userInventory').doc(inventoryId);
 
@@ -6676,7 +6777,39 @@ async function seasonEndHandler() {
 }
 
 /**
- * Rental 아이템 만료 처리
+ * Lazy rental 만료 체크: 특정 유저의 만료된 rental 아이템 처리
+ * 인벤토리/장착 API 호출 시 자동 실행
+ */
+async function checkUserExpiredRentals(userId) {
+    if (!db) return;
+
+    try {
+        const now = admin.firestore.Timestamp.now();
+        const snapshot = await db.collection('userInventory')
+            .where('userId', '==', userId)
+            .where('type', '==', 'rental')
+            .where('isExpired', '==', false)
+            .where('expiresAt', '<', now)
+            .get();
+
+        if (snapshot.empty) return;
+
+        const batch = db.batch();
+        snapshot.forEach(doc => {
+            batch.update(doc.ref, { isExpired: true, equipped: false });
+        });
+        await batch.commit();
+
+        // 코스메틱 캐시 갱신
+        await updateUserCosmetics(userId);
+        console.log(`[Lazy Rental] ${userId}: ${snapshot.size}개 만료 처리`);
+    } catch (error) {
+        console.error(`[Lazy Rental] ${userId} 처리 실패:`, error.message);
+    }
+}
+
+/**
+ * Rental 아이템 만료 처리 (전체 유저 대상 - cron용)
  */
 async function processExpiredRentals() {
     if (!db) return;
@@ -6784,29 +6917,37 @@ app.listen(PORT, '0.0.0.0', async () => {
     console.log(`  http://localhost:${PORT}`);
     console.log(`====================================`);
 
-    // 서버 시작 시 뉴스 미리 로드
-    fetchAllNews().catch(console.error);
-
-    // 서버 시작 시 드라이버 순위 캐시 초기화
-    fetchServerDriverStandings().catch(err => console.error('[시작] 순위 캐시 초기화 실패:', err.message));
-
-    // 30분마다 뉴스 자동 갱신 (클라이언트 접속 여부와 무관하게)
-    setInterval(() => {
-        console.log('[자동 갱신] 뉴스 캐시 초기화 및 새로 로드...');
-        newsCache = { data: null, timestamp: 0 };
-        fetchAllNews().catch(console.error);
-    }, CACHE_DURATION);
-
     // races 컬렉션 초기화 (베팅 시간 검증용)
     await initRacesCollection();
 
-    // 🔒 자동 정산 시스템 시작 (races 초기화 후 실행)
-    // Firestore에서 기존 정산 기록을 먼저 로드하므로 await 필요
-    await initAutoSettlement();
+    // Vercel Serverless에서는 cron/setTimeout/setInterval 작동 불가
+    // GitHub Actions가 외부에서 API를 호출하여 스케줄 작업 대체
+    if (!process.env.VERCEL) {
+        // === 로컬/전통 서버 환경 전용 ===
+        // 서버 시작 시 뉴스 미리 로드
+        fetchAllNews().catch(console.error);
 
-    // 리더보드 스케줄러 초기화
-    initSchedulers();
+        // 서버 시작 시 드라이버 순위 캐시 초기화
+        fetchServerDriverStandings().catch(err => console.error('[시작] 순위 캐시 초기화 실패:', err.message));
 
-    // 서버 시작 시 리더보드 캐시 즉시 갱신
-    refreshLeaderboardCache().catch(console.error);
+        // 30분마다 뉴스 자동 갱신
+        setInterval(() => {
+            console.log('[자동 갱신] 뉴스 캐시 초기화 및 새로 로드...');
+            newsCache = { data: null, timestamp: 0 };
+            fetchAllNews().catch(console.error);
+        }, CACHE_DURATION);
+
+        // 자동 정산 시스템 시작
+        await initAutoSettlement();
+
+        // 스케줄러 초기화 (node-cron)
+        initSchedulers();
+
+        // 리더보드 캐시 즉시 갱신
+        refreshLeaderboardCache().catch(console.error);
+
+        console.log('[환경] 로컬 모드: cron 스케줄러 활성화');
+    } else {
+        console.log('[환경] Vercel Serverless: cron 스킵 (GitHub Actions로 대체)');
+    }
 });

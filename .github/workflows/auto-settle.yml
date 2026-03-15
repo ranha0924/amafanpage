@@ -1,0 +1,78 @@
+name: Auto Settlement
+
+on:
+  schedule:
+    # 매일 04:00-16:00 UTC (KST 13:00-01:00) 10분 간격
+    # 경기 시간 +1h~+5h 윈도우 체크로 실제 정산 시점 제어
+    - cron: '*/10 4-16 * * *'
+  workflow_dispatch:
+    inputs:
+      round:
+        description: '정산할 라운드 번호 (비우면 최신)'
+        required: false
+      force:
+        description: '윈도우 체크 무시하고 강제 실행'
+        type: boolean
+        default: false
+
+jobs:
+  settle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check settlement window
+        id: window
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          INPUT_FORCE: ${{ github.event.inputs.force }}
+        run: |
+          # 수동 강제 실행
+          if [ "${INPUT_FORCE}" = "true" ]; then
+            echo "skip=false" >> $GITHUB_OUTPUT
+            echo "Force mode - skipping window check"
+            exit 0
+          fi
+
+          RESPONSE=$(curl -s --max-time 10 "${API_BASE_URL}/api/race/settlement-window")
+          IN_WINDOW=$(echo "$RESPONSE" | grep -o '"inWindow":true' || true)
+
+          if [ -n "$IN_WINDOW" ]; then
+            RACE=$(echo "$RESPONSE" | grep -o '"race":"[^"]*"' | head -1)
+            echo "In settlement window: ${RACE}"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          else
+            echo "Not in settlement window - skipping"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Call settlement API
+        if: steps.window.outputs.skip != 'true'
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
+          INPUT_ROUND: ${{ github.event.inputs.round }}
+        run: |
+          BODY='{}'
+          if [ -n "${INPUT_ROUND}" ]; then
+            BODY="{\"round\": ${INPUT_ROUND}}"
+          fi
+
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "${API_BASE_URL}/api/admin/settle" \
+            -H "Content-Type: application/json" \
+            -H "X-Admin-Key: ${ADMIN_KEY}" \
+            -d "${BODY}" \
+            --max-time 60)
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          RESP_BODY=$(echo "$RESPONSE" | head -n -1)
+
+          echo "Status: ${HTTP_CODE}"
+          echo "Response: ${RESP_BODY}"
+
+          # 404 = 결과 없음, 200 = 정산 완료/이미 완료
+          if [ "$HTTP_CODE" -eq 200 ] || [ "$HTTP_CODE" -eq 404 ]; then
+            echo "OK"
+          else
+            echo "::error::Settlement returned ${HTTP_CODE}"
+            exit 1
+          fi
