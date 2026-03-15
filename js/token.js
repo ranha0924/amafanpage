@@ -40,7 +40,9 @@ async function getUserTokens() {
                     totalEarned: data.totalEarned,
                     consecutiveDays: data.consecutiveDays,
                     lastAttendance: data.lastAttendance,
-                    createdAt: data.createdAt
+                    createdAt: data.createdAt,
+                    selectedTeam: data.selectedTeam,
+                    lastTeamChange: data.lastTeamChange
                 };
             }
         }

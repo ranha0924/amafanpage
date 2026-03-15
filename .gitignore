@@ -35,3 +35,5 @@ cors.json
 dist/
 build/
 .cache/
+
+.vercel

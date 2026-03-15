@@ -1191,7 +1191,9 @@ app.get('/api/token/balance', verifyFirebaseToken, async (req, res) => {
             totalEarned: userData.totalEarned || 0,
             consecutiveDays: userData.consecutiveDays || 0,
             lastAttendance: userData.lastAttendance,
-            createdAt: userData.createdAt
+            createdAt: userData.createdAt,
+            selectedTeam: userData.selectedTeam || null,
+            lastTeamChange: userData.lastTeamChange || null
         });
 
     } catch (error) {

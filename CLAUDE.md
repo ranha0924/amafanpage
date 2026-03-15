@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Language
+
+항상 한국어로 응답하세요.
+
 ## Project Overview
 
 Aston Martin F1 fan site (AMR FANS). Fans earn and spend virtual tokens (AMR coins) through race betting, community boards, attendance, and a shop system. Korean-language UI with auto-translated English news.
@@ -15,7 +19,19 @@ npm run dev     # Development server with nodemon auto-restart
 npm start       # Production server
 ```
 
+There is no test framework or linter configured.
+
 Required env vars are documented in `.env.example`. Firebase Admin SDK credentials and `ADMIN_KEY` (32+ chars) are mandatory.
+
+### Admin/Seed Scripts (`scripts/`)
+
+```bash
+node scripts/seed-shop-items.js      # Seed shop items to Firestore
+node scripts/seed-titles.js          # Seed title definitions
+node scripts/seed-betting-titles.js  # Seed betting-related titles
+node scripts/clear-firestore.js      # Clear Firestore collections (destructive)
+node setAdmin.js                     # Set admin custom claims on a user
+```
 
 ## Architecture
 
@@ -44,7 +60,7 @@ Browser (HTML/CSS/Vanilla JS + Firebase SDK CDN)
 
 ### Monolithic server.js
 
-`server.js` is a single ~6000-line file containing all API endpoints (40+), auto-settlement cron, news scraping/translation, and leaderboard aggregation. There is no file splitting.
+`server.js` is a single ~6800-line file containing all API endpoints (40+), auto-settlement cron, news scraping/translation, and leaderboard aggregation. There is no file splitting.
 
 ## JS Load Order (Dependency Chain)
 
@@ -75,8 +91,9 @@ window.TIME_MS = Object.freeze(TIME_MS);
 
 Each JS file wraps in IIFE to prevent global pollution, exposing only needed functions via `window.SomeModule`.
 
-### API Authentication
+### API Authentication (Two Patterns)
 
+**User APIs** use Firebase ID token via `verifyFirebaseToken` middleware:
 ```javascript
 // Client
 const token = await getFreshIdToken();
@@ -85,6 +102,14 @@ fetch('/api/...', { headers: { 'Authorization': `Bearer ${token}` } });
 // Server -- verifyFirebaseToken middleware
 const decoded = await admin.auth().verifyIdToken(idToken);
 req.user = decoded;  // req.user.uid identifies user
+```
+
+**Admin APIs** (`/api/admin/settle`, `/api/refresh`) use `X-Admin-Key` header:
+```javascript
+fetch('/api/admin/settle', {
+  method: 'POST',
+  headers: { 'X-Admin-Key': ADMIN_KEY }
+});
 ```
 
 ### smartFetch (utils.js)
@@ -179,9 +204,23 @@ Low odds abuse prevention: odds < 1.15x -> max 50 AMR bet
 - Retry: max 3 times, 2s delay
 - Dedup: `settlementHistory` collection
 
+### Scheduled Tasks (node-cron in server.js)
+
+| Schedule | Task | Notes |
+|---|---|---|
+| `*/5 * * * *` | Leaderboard cache refresh | Every 5 minutes |
+| `0 * * * *` | Expired rental items cleanup | Hourly |
+| `30 * * * *` | Driver standings cache refresh | Hourly (for odds calc) |
+| `0 0 * * 1` | Weekly leaderboard reset | Monday 00:00 KST |
+| `55 23 28-31 * *` | Monthly leaderboard reset | Last day of month, KST |
+| `0 0 * * *` | Season end check | Daily 00:00 KST |
+| `0 3 * * *` | Delete news older than 30 days | Daily 03:00 KST |
+
+Auto-settlement polls OpenF1 API every 5 minutes during active races.
+
 ## Deployment (Vercel)
 
-`vercel.json` routes `/api/*` to `server.js` (Serverless Function via `@vercel/node`), everything else served as static files.
+`vercel.json` routes `/api/*` to `server.js` (Serverless Function via `@vercel/node`), everything else served as static files. Unmatched routes fall through to `404.html`.
 
 ## Development Checklist
 
