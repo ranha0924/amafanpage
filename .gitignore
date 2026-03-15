@@ -35,4 +35,3 @@ cors.json
 dist/
 build/
 .cache/
-.worktrees/
