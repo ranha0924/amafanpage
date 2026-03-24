@@ -174,29 +174,46 @@ function initAuthListener() {
                     if (selectedTeam && typeof applyTeamTheme === 'function') {
                         // Firestore 값 우선: localStorage 덮어씀
                         applyTeamTheme(selectedTeam);
-                    } else if (typeof showTeamSelectModal === 'function') {
-                        // Firestore에 팀 없음 -> 테마 리셋 후 온보딩 모달
-                        if (typeof resetTeamTheme === 'function') {
-                            resetTeamTheme();
-                        }
+                    } else {
+                        // Firestore에 팀 없음 → localStorage 확인 (비로그인 시 선택한 팀 동기화)
+                        var localTeam = localStorage.getItem('selectedTeam');
                         var docExists = doc.exists;
-                        showTeamSelectModal({
-                            closable: false,
-                            currentTeam: localStorage.getItem('selectedTeam') || null,
-                            onSelect: function(teamId) {
-                                var ref = db.collection('users').doc(user.uid);
-                                var teamData = {
-                                    selectedTeam: teamId,
-                                    lastTeamChange: firebase.firestore.FieldValue.serverTimestamp()
-                                };
-                                var promise = docExists
-                                    ? ref.update(teamData)
-                                    : ref.set(Object.assign({ tokens: 0, totalEarned: 0 }, teamData));
-                                return promise.then(function() {
-                                    applyTeamThemeWithTransition(teamId);
-                                });
+                        if (localTeam && window.F1_TEAMS && window.F1_TEAMS[localTeam]) {
+                            // localStorage에 유효한 팀 → Firestore에 동기화
+                            var ref = db.collection('users').doc(user.uid);
+                            var teamData = {
+                                selectedTeam: localTeam,
+                                lastTeamChange: firebase.firestore.FieldValue.serverTimestamp()
+                            };
+                            var syncPromise = docExists
+                                ? ref.update(teamData)
+                                : ref.set(Object.assign({ tokens: 0, totalEarned: 0 }, teamData));
+                            syncPromise.catch(function(err) {
+                                logger.warn('localStorage 팀 Firestore 동기화 실패:', err);
+                            });
+                            applyTeamTheme(localTeam);
+                        } else if (typeof showTeamSelectModal === 'function') {
+                            // localStorage에도 팀 없음 → 온보딩 모달
+                            if (typeof resetTeamTheme === 'function') {
+                                resetTeamTheme();
                             }
-                        });
+                            showTeamSelectModal({
+                                closable: false,
+                                onSelect: function(teamId) {
+                                    var ref = db.collection('users').doc(user.uid);
+                                    var teamData = {
+                                        selectedTeam: teamId,
+                                        lastTeamChange: firebase.firestore.FieldValue.serverTimestamp()
+                                    };
+                                    var promise = docExists
+                                        ? ref.update(teamData)
+                                        : ref.set(Object.assign({ tokens: 0, totalEarned: 0 }, teamData));
+                                    return promise.then(function() {
+                                        applyTeamThemeWithTransition(teamId);
+                                    });
+                                }
+                            });
+                        }
                     }
                 }).then(() => {
                     // 네비게이션 코스메틱 적용
