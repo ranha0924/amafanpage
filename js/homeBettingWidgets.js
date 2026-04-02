@@ -72,7 +72,7 @@
         const top5 = (typeof F1_DRIVERS_2026 !== 'undefined' ? F1_DRIVERS_2026 : [])
             .map(d => ({
                 ...d,
-                odds: liveOdds[d.number] || (typeof getDriverOdds === 'function' ? getDriverOdds(d.number) : 99)
+                odds: liveOdds[d.number] ?? 99
             }))
             .sort((a, b) => a.odds - b.odds)
             .slice(0, 5);

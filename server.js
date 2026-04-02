@@ -5279,9 +5279,8 @@ app.get('/api/betting/home-preview', async (req, res) => {
         });
 
         // 실시간 배당률 계산: (총풀 × 0.9) / 드라이버풀
-        let liveOdds = null;
+        const liveOdds = {};
         if (totalBetAmount > 0 && Object.keys(driverPools).length > 0) {
-            liveOdds = {};
             for (const [num, pool] of Object.entries(driverPools)) {
                 if (pool > 0) {
                     let odds = Math.round(((totalBetAmount * 0.9) / pool) * 10) / 10;
@@ -5289,6 +5288,21 @@ app.get('/api/betting/home-preview', async (req, res) => {
                     liveOdds[num] = odds;
                 }
             }
+        }
+
+        // 베팅이 없는 드라이버에 대해 시즌 순위 기반 base odds 계산
+        const allDriverNumbers = F1_DRIVERS_2026_SERVER.map(d => d.number);
+        const missingDrivers = allDriverNumbers.filter(num => !liveOdds[num]);
+        if (missingDrivers.length > 0) {
+            const baseOddsEntries = await Promise.all(
+                missingDrivers.map(async (num) => {
+                    const rank = await getServerSeasonRank(num);
+                    return { num, odds: calculateServerOdds(rank) };
+                })
+            );
+            baseOddsEntries.forEach(({ num, odds }) => {
+                liveOdds[num] = odds;
+            });
         }
 
         // P1 예측 상위 3 드라이버
@@ -5358,7 +5372,7 @@ app.get('/api/betting/home-preview', async (req, res) => {
             success: true,
             raceId,
             raceName,
-            podium: { totalParticipants, totalBetAmount, topDrivers, ...(liveOdds && { liveOdds }) },
+            podium: { totalParticipants, totalBetAmount, topDrivers, liveOdds },
             matchups
         };
 
